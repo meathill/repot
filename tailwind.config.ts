@@ -25,6 +25,10 @@ const config: Config = {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))'
         },
+        'primary-800': {
+          DEFAULT: 'hsl(var(--primary-800))',
+          foreground: 'hsl(var(--primary-800-foreground))'
+        },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))'
@@ -55,7 +59,12 @@ const config: Config = {
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        sm: 'calc(var(--radius) - 4px)',
+        '2.5xl': '20px',
+      },
+      fontFamily: {
+        logo: "'Oleo Script', system-ui",
+        default: 'Nunito, system-ui, sans-serif',
       }
     }
   },
