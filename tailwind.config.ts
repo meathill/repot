@@ -46,6 +46,7 @@ const config: Config = {
           foreground: 'hsl(var(--destructive-foreground))',
         },
         gray: 'hsl(var(--gray))', // primary-40 in design
+        ivory: 'hsl(var(--ivory))', // primary-10 in design
         'main-purple': 'hsl(var(--main-purple))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
