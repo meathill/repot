@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
 }
 
 @layer base {
@@ -36,6 +36,8 @@ body {
 
     /* colors */
     --primary-800: 0 0 20;
+    --main-purple: 256 100 81;
+    --gray: 0 0 68;
   }
   .dark {
     --background: 0 0% 3.9%;
