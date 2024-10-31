@@ -48,6 +48,9 @@ const config: Config = {
         gray: 'hsl(var(--gray))', // primary-40 in design
         ivory: 'hsl(var(--ivory))', // primary-10 in design
         'main-purple': 'hsl(var(--main-purple))',
+        'main-green': 'hsl(var(--main-green))',
+        'dark-green': 'hsl(var(--dark-green))', // green-text in design
+        'lime-green': 'hsl(var(--lime-green))', // green-40 in design
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -68,7 +71,17 @@ const config: Config = {
       fontFamily: {
         logo: "'Oleo Script', system-ui",
         default: 'Nunito, system-ui, sans-serif',
+        title: '"NEXT Pan Book", system-ui, sans-serif',
       },
+      fontSize: {
+        '5.5xl': '3.375rem', // 54px
+      },
+      height: {
+        '50': '12.5rem', // 200px
+      },
+      // width: {
+      //   '100': '25rem', // 400px
+      // },
     },
   },
   plugins: [tailwindcssAnimate],

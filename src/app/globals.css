@@ -34,9 +34,12 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
 
-    /* colors */
+    /* design colors */
     --primary-800: 0 0 20;
     --main-purple: 256 100 81;
+    --main-green: 95 69 94;
+    --dark-green: 130 71 11;
+    --lime-green: 103 100 85;
     --gray: 0 0 68;
     --ivory: 0 0 98;
   }
