@@ -1,17 +1,61 @@
-import Image from "next/image";
+// import Image from "next/image";
+// import styles from './styles.module.css';
+import { ArrowRight, FileMinus, CircleArrowRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import ContractLayoutIcon from "@/components/icons/contract-layout-icon";
 
 export default function Landing() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
+    <div className="min-h-screen pt-20">
+      <main className="flex flex-col gap-8 mt-8">
+        <div className="hero-section relative">
+          <img src="/hero-bg.svg" alt="" className="w-full" />
+          <img
+            src="/hero-pic.svg"
+            alt=""
+            className="w-[30%] absolute right-14 bottom-12"
+          />
+          <div className="flex flex-col gap-8 absolute top-8 left-8 w-5/12">
+            <div className="font-title text-5.5xl text-dark-green leading-tight capitalize">
+              Build Smart Contract That Scale And Fast
+            </div>
+            <div className="text-base capitalize text-dark-green">
+              Fuel your vision with powerful, ready-to-launch smart contracts
+              across chains. We power your projects, you build your dreams
+            </div>
+            <Button className="w-fit font-bold">
+              Get Started
+              <ArrowRight className="w-3 h-3" />
+            </Button>
+          </div>
+
+          <div className="absolute bottom-0 left-0 flex flex-row gap-6 w-1/2 h-[35%]">
+            <div className="bg-main-purple p-6 border border-black rounded-2.5xl grow flex flex-1 flex-col justify-between">
+              <ContractLayoutIcon className="w-14 h-14" />
+              <div className="flex justify-between items-center">
+                <div className="text-dark-purple text-xl font-title">
+                  500+ Smart Contracts
+                </div>
+                <CircleArrowRight
+                  className="w-6 h-6 stroke-primary-800"
+                  stroke="#3E2D68"
+                />
+              </div>
+            </div>
+            <div className="bg-lime-green p-6 border border-black rounded-2.5xl grow flex flex-1 flex-col justify-between">
+              <FileMinus className="w-14 h-14" strokeWidth={1} />
+              <div className="flex justify-between items-center">
+                <div className="text-dark-green text-xl font-title">500+ Protocols</div>
+                <CircleArrowRight
+                  className="w-6 h-6 stroke-primary-800"
+                  stroke="#3E2D68"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/*
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}
@@ -47,9 +91,9 @@ export default function Landing() {
           >
             Read our docs
           </a>
-        </div>
+        </div> */}
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+      {/* <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
@@ -95,7 +139,7 @@ export default function Landing() {
           />
           Go to nextjs.org →
         </a>
-      </footer>
+      </footer> */}
     </div>
   );
 }
