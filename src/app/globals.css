@@ -24,7 +24,7 @@ body {
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
+    --border: 0 0% 94.12%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --chart-1: 12 76% 61%;
@@ -42,6 +42,7 @@ body {
     --dark-green: 130 71 11;
     --lime-green: 103 100 85;
     --gray: 0 0 68;
+    --dark-gray: 0 0 39;
     --ivory: 0 0 98;
   }
   .dark {

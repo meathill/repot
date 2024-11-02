@@ -1,6 +1,6 @@
 // import Image from "next/image";
 // import styles from './styles.module.css';
-import { ArrowRight, FileMinus, CircleArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, FileMinus, CircleArrowRight, Download, Star, User, Wallet, Layers, Lock} from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import ContractLayoutIcon from "@/components/icons/contract-layout-icon";
 
@@ -27,9 +27,58 @@ const CuttingEdgeCard = () => {
   );
 };
 
+const ContractCard = () => {
+  return (
+    <div className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4">
+      <div className="flex gap-4 items-center">
+        <img src="/ce.png" className="w-12 h-12 rounded-lg" />
+        <div className="font-bold text-lg text-primary-800">Cutting Edge</div>
+      </div>
+      <div className="text-primary-800 capitalize text-sm max-h-11 text-ellipsis overflow-hidden">
+        Discover the most innovative Web3 contracts, showcasing fresh ideas and
+        advanced techniques that keep you at the forefront of smart
+        contractdevelopment.
+      </div>
+      <div className="bg-zinc-50 h-12 border-y -ml-6 -mr-6 flex flex-row">
+        <div className="flex justify-center items-center w-1/2 gap-1.5 border-r">
+          <Download className="w-4 h-4" />
+          <span className="text-sm text-dark-gray">13123</span>
+        </div>
+        <div className="flex justify-center items-center w-1/2 gap-1.5">
+          <Star className="w-4 h-4" />
+          <span className="text-sm text-dark-gray">123</span>
+        </div>
+      </div>
+      <div className="flex flex-row flex-wrap gap-2">
+        <div className="border border-gray rounded-2xl px-2 py-1 inline-flex items-center gap-1">
+          <User className="w-3 h-3" />
+          <span className="text-xs text-primary-800">DAO</span>
+        </div>
+        <div className="border border-gray rounded-2xl px-2 py-1 inline-flex items-center gap-1">
+          <Wallet className="w-3 h-3" />
+          <span className="text-xs text-primary-800">Payment</span>
+        </div>
+        <div className="border border-gray rounded-2xl px-2 py-1 inline-flex items-center gap-1">
+          <Layers className="w-3 h-3" />
+          <span className="text-xs text-primary-800">ERC721</span>
+        </div>
+        <div className="border border-gray rounded-2xl px-2 py-1 inline-flex items-center gap-1">
+          <Lock className="w-3 h-3" />
+          <span className="text-xs text-primary-800">Staking</span>
+        </div>
+        <div className="border border-gray rounded-2xl px-2 py-1 inline-flex items-center gap-1">
+          <span className="text-xs text-primary-800">...</span>
+        </div>
+      </div>
+
+      <Button variant={'outline'} className='bg-ivory border-dark-gray rounded-lg font-bold text-base text-primary-800'>Go Contract</Button>
+    </div>
+  );
+};
+
 export default function Landing() {
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen pt-20 pb-8">
       <main className="flex flex-col gap-24 mt-8">
         <div className="hero-section relative">
           <img src="/hero-bg.svg" alt="" className="w-full" />
@@ -109,6 +158,34 @@ export default function Landing() {
             <CuttingEdgeCard />
             <CuttingEdgeCard />
             <CuttingEdgeCard />
+          </div>
+        </div>
+
+        {/* Contracts */}
+        <div className="contracts-section flex flex-col gap-8">
+          <div className="flex flex-row justify-between items-center">
+            <div className="font-title text-3xl text-dark-green">Contracts</div>
+            <div className="flex gap-4">
+              <Button
+                variant={'outline'}
+                size={'icon'}
+                className="w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000]"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </Button>
+              <Button
+                variant={'outline'}
+                size={'icon'}
+                className="w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000]"
+              >
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-6">
+            <ContractCard />
+            <ContractCard />
+            <ContractCard />
           </div>
         </div>
 
