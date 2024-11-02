@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 
 export default function HeaderNav() {
   return (
-    <nav className="container h-20 flex justify-between w-full px-10 py-3.5 rounded-b-2.5xl bg-background fixed top-0 border-primary-800 border-b border-l border-r">
+    <nav className="z-10 container h-20 flex justify-between w-full px-10 py-3.5 rounded-b-2.5xl bg-background fixed top-0 border-primary-800 border-b border-l border-r">
       <div className="inline-flex justify-between items-center gap-6">
         <Link
           href="/"
