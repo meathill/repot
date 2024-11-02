@@ -4,10 +4,33 @@ import { ArrowRight, FileMinus, CircleArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import ContractLayoutIcon from "@/components/icons/contract-layout-icon";
 
+const CuttingEdgeCard = () => {
+  return (
+    <div className="bg-white p-6 border border-primary-800 rounded-2.5xl shadow-[0_4px_0_0_#000]">
+      <div className="flex justify-between items-center mb-5">
+        <div className="flex gap-4 items-center">
+          <img src="/ce.png" className="w-12 h-12 rounded-lg" />
+          <div className="font-bold text-lg text-primary-800">Cutting Edge</div>
+        </div>
+        <CircleArrowRight
+          className="w-6 h-6 stroke-dark-green"
+          stroke="#08320F"
+          strokeWidth={1.3}
+        />
+      </div>
+      <div className='text-primary-800 capitalize text-sm'>
+        Discover the most innovative Web3 contracts, showcasing fresh ideas and
+        advanced techniquesthat keep you at the forefront of smart
+        contract development.
+      </div>
+    </div>
+  );
+};
+
 export default function Landing() {
   return (
     <div className="min-h-screen pt-20">
-      <main className="flex flex-col gap-8 mt-8">
+      <main className="flex flex-col gap-24 mt-8">
         <div className="hero-section relative">
           <img src="/hero-bg.svg" alt="" className="w-full" />
           <img
@@ -45,13 +68,47 @@ export default function Landing() {
             <div className="bg-lime-green p-6 border border-black rounded-2.5xl grow flex flex-1 flex-col justify-between">
               <FileMinus className="w-14 h-14" strokeWidth={1} />
               <div className="flex justify-between items-center">
-                <div className="text-dark-green text-xl font-title">500+ Protocols</div>
+                <div className="text-dark-green text-xl font-title">
+                  500+ Protocols
+                </div>
                 <CircleArrowRight
                   className="w-6 h-6 stroke-primary-800"
                   stroke="#3E2D68"
                 />
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* feature */}
+        <div className="feature-section flex flex-row gap-16 justify-between">
+          <img
+            src="/feature-contracts.png"
+            alt="Smart Contracts"
+            className="w-5/12"
+          />
+          <div className="w-1/2 flex flex-col gap-6">
+            <div className="font-title text-3xl capitalize text-dark-green">
+              Repot Featured
+            </div>
+            <div className="font-default text-base space-y-6 text-primary-800">
+              <p>
+                Compute Resource Optimization: efficient deployments across
+                multiple clusters and regions, with intelligent resource
+                provisioning.
+              </p>
+              <p>
+                Instant Scaling: Minimize latency and improve utilization with
+                rapid cold starts and flexible scaling.
+              </p>
+              <p>
+                Full Observability: Real-time monitoring and logging for
+                reliable AI operations.
+              </p>
+            </div>
+            <CuttingEdgeCard />
+            <CuttingEdgeCard />
+            <CuttingEdgeCard />
           </div>
         </div>
 

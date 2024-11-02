@@ -19,28 +19,28 @@ export default function ContractLayoutIcon(
         height="59"
         rx="6.5"
         stroke="#3E2D6B"
-        stroke-width="3"
+        strokeWidth="3"
       />
       <path
         d="M3 20H59.5"
         stroke="#3E2D6B"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M21 21L21 59.5"
         stroke="#3E2D6B"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M40 20V60"
         stroke="#3E2D6B"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
