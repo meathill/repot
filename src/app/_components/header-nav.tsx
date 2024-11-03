@@ -14,7 +14,7 @@ export default function HeaderNav() {
           href="/"
           className="font-logo font-bold text-primary-800 text-4xl"
         >
-          Repot
+          <img src='/logo-text.svg' alt="Repot Logo" className='h-9'/>
         </Link>
         <div className="inline-flex items-center gap-3 text-primary-800 font-default">
           <Link
