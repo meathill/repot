@@ -55,6 +55,7 @@ const config: Config = {
         'main-green': 'hsl(var(--main-green))',
         'dark-green': 'hsl(var(--dark-green))', // green-text in design
         'lime-green': 'hsl(var(--lime-green))', // green-40 in design
+        'light-green': 'hsl(var(--light-green))', // light green in design, #8dff6d
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
