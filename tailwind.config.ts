@@ -47,6 +47,7 @@ const config: Config = {
         },
         gray: 'hsl(var(--gray))', // primary-40 in design
         'dark-gray': 'hsl(var(--dark-gray))', // primary-60 in design. #636363
+        'lighter-gray': 'hsl(var(--lighter-gray))', // card-gray in design #f3f5f4
         'light-gray': 'hsl(var(--light-gray))', // primary-21 in design #f0f0f0
         ivory: 'hsl(var(--ivory))', // primary-10 in design
         'main-purple': 'hsl(var(--main-purple))',

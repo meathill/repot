@@ -4,29 +4,7 @@ import ContractLayoutIcon from "@/components/icons/contract-layout-icon";
 import Discord from '@/components/icons/discord-icon';
 import Hackquest from '@/components/icons/hackquest-icon';
 import Footer from '@/app/_components/footer';
-
-const CuttingEdgeCard = () => {
-  return (
-    <div className="bg-white p-6 border border-primary-800 rounded-2.5xl shadow-[0_4px_0_0_#000]">
-      <div className="flex justify-between items-center mb-5">
-        <div className="flex gap-4 items-center">
-          <img src="/ce.png" className="w-12 h-12 rounded-lg" />
-          <div className="font-bold text-lg text-primary-800">Cutting Edge</div>
-        </div>
-        <CircleArrowRight
-          className="w-6 h-6 stroke-dark-green"
-          stroke="#08320F"
-          strokeWidth={1.3}
-        />
-      </div>
-      <div className='text-primary-800 capitalize text-sm'>
-        Discover the most innovative Web3 contracts, showcasing fresh ideas and
-        advanced techniquesthat keep you at the forefront of smart
-        contract development.
-      </div>
-    </div>
-  );
-};
+import FeaturedList from '@/app/_components/featured-list';
 
 const ContractCard = () => {
   return (
@@ -156,9 +134,7 @@ export default function Landing() {
                 reliable AI operations.
               </p>
             </div>
-            <CuttingEdgeCard />
-            <CuttingEdgeCard />
-            <CuttingEdgeCard />
+            <FeaturedList />
           </div>
         </div>
 
