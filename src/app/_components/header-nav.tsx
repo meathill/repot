@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { Box, GitBranch, ArrowRight } from 'lucide-react';
 import ContractsIcon from '@/components/icons/contracts-icon';
 import SocialIcon from '@/components/icons/social-icon';
-import { InputSearch } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import SearchBox from './search-box';
 
 
 export default function HeaderNav() {
@@ -42,10 +42,7 @@ export default function HeaderNav() {
         </div>
       </div>
       <div className="inline-flex items-center justify-between gap-6">
-        <InputSearch
-          placeholder="Search Keywords or Contract Address"
-          className="border-gray w-80"
-        />
+        <SearchBox />
         <Button className="bg-main-purple rounded-lg border-black border text-primary-800 font-bold hover:bg-main-purple hover:shadow-[0_3px_0_0_#000]">
           Sign in
           <ArrowRight className="ml-1 w-4 h-4" />
