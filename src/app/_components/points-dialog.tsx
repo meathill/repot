@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -23,6 +22,7 @@ export default function PointsDialog() {
         </div>
       </DialogTrigger>
       <DialogContent
+        aria-describedby={undefined}
         className="w-2/5 sm:rounded-3xl p-0 border border-black"
         hasClose={false}
       >

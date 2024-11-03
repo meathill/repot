@@ -1,6 +1,6 @@
-import { ArrowRight, FileMinus, CircleArrowRight} from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import ContractLayoutIcon from "@/components/icons/contract-layout-icon";
+import { ArrowRight, FileMinus, CircleArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import ContractLayoutIcon from '@/components/icons/contract-layout-icon';
 import Discord from '@/components/icons/discord-icon';
 import Hackquest from '@/components/icons/hackquest-icon';
 import Footer from '@/app/_components/footer';
@@ -127,12 +127,6 @@ export default function Landing() {
                   </div>
                   <CircleArrowRight className="w-6 h-6 stroke-dark-green ml-auto" />
                 </div>
-                {/* <div className="h-50 w-2/3 bg-white rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
-                  <div className="font-title text-2xl text-dark-green">
-                    How to Earn Repot points?
-                  </div>
-                  <CircleArrowRight className="w-6 h-6 stroke-dark-green ml-auto" />
-                </div> */}
                 <PointsDialog />
               </div>
             </div>

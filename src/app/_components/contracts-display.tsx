@@ -1,11 +1,6 @@
-import {
-  FolderOpen,
-  Star,
-  User,
-  Wallet,
-  Layers,
-  Lock,
-} from 'lucide-react';
+'use client';
+import { useState } from 'react';
+import { FolderOpen, Star, User, Wallet, Layers, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -14,8 +9,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import LoginDialog from '@/app/_components/login-dialog';
 
-const ContractCard = () => {
+const ContractCard = ({onClick}: {onClick?: () => void}) => {
   return (
     <div className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4">
       <div className="flex gap-4 items-center">
@@ -32,7 +28,9 @@ const ContractCard = () => {
           <FolderOpen className="w-4 h-4" />
           <span className="text-sm text-dark-gray">Open</span>
         </div>
-        <div className="flex justify-center items-center w-1/2 gap-1.5 cursor-pointer hover:bg-lime-green transition-colors">
+        <div
+          onClick={onClick}
+          className="flex justify-center items-center w-1/2 gap-1.5 cursor-pointer hover:bg-lime-green transition-colors">
           <Star className="w-4 h-4" />
           <span className="text-sm text-dark-gray">123</span>
         </div>
@@ -69,25 +67,28 @@ const ContractCard = () => {
   );
 };
 
-
 export default function ContractsDisplay() {
+  const [loginOpen, setLoginOpen] = useState(false);
   return (
-    <Carousel opts={{ align: 'start' }} className="w-full">
-      <div className="flex flex-row justify-between items-center mb-8">
-        <div className="font-title text-3xl text-dark-green">Contracts</div>
-        <div className="flex gap-4">
-          <CarouselPrevious className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green hover:shadow-[0_8px_0_0_#000]" />
-          <CarouselNext className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green hover:shadow-[0_8px_0_0_#000]" />
+    <>
+      <Carousel opts={{ align: 'start' }} className="w-full">
+        <div className="flex flex-row justify-between items-center mb-8">
+          <div className="font-title text-3xl text-dark-green">Contracts</div>
+          <div className="flex gap-4">
+            <CarouselPrevious className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green hover:shadow-[0_8px_0_0_#000]" />
+            <CarouselNext className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green hover:shadow-[0_8px_0_0_#000]" />
+          </div>
         </div>
-      </div>
 
-      <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-            <ContractCard />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-    </Carousel>
+        <CarouselContent>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+              <ContractCard onClick={() => setLoginOpen(true)} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+      <LoginDialog open={loginOpen} setOpen={setLoginOpen} />
+    </>
   );
 }
