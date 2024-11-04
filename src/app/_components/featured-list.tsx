@@ -30,7 +30,7 @@ const FeatureItem = ({ name, description, icon}: Item) => {
           strokeWidth={1.3}
         />
       </div>
-      <div className="text-primary-800 capitalize text-sm">{description}</div>
+      <div className="text-primary-800 capitalize text-sm h-10 overflow-hidden text-ellipsis">{description}</div>
     </div>
   );
 }
@@ -43,7 +43,7 @@ export default function FeaturedList({
   return (
     <div
       className={cn(
-        'relative flex w-full h-[540px] flex-col p-6 overflow-hidden',
+        'relative flex w-full sm:h-[540px] flex-col sm:p-6 overflow-hidden',
         className
       )}
     >

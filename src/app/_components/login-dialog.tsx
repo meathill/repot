@@ -13,10 +13,10 @@ export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen:
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         aria-describedby={undefined}
-        className="w-2/5 sm:rounded-3xl p-0 border border-black outline-none"
+        className="w-[90%] sm:w-2/5 rounded-3xl sm:rounded-3xl p-0 border border-black outline-none"
         hasClose={false}
       >
-        <DialogHeader className="relative bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl">
+        <DialogHeader className="relative bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl sm:rounded-t-3xl">
           <div className="w-24 h-24 bg-white rounded-full flex justify-center items-center relative">
             <img src="/repot.svg" alt="Repot" className="h-3" />
             <img
@@ -28,7 +28,11 @@ export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen:
           <DialogTitle className="font-bold text-2xl text-dark-green">
             Log in with GitHub
           </DialogTitle>
-          <DialogClose asChild className="absolute top-0 -right-20" style={{marginTop: 0}}>
+          <DialogClose
+            asChild
+            className="absolute right-0 -top-16 sm:top-0 sm:-right-20"
+            style={{ marginTop: 0 }}
+          >
             <Button
               type="button"
               variant="outline"

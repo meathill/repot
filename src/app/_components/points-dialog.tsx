@@ -14,7 +14,7 @@ export default function PointsDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="h-50 w-2/3 bg-white rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
+        <div className="h-50 w-full sm:w-2/3 bg-white rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
           <div className="font-title text-2xl text-dark-green">
             How to Earn Repot points?
           </div>
@@ -23,7 +23,7 @@ export default function PointsDialog() {
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
-        className="w-2/5 sm:rounded-3xl p-0 border border-black"
+        className="w-[90%] sm:w-2/5 rounded-3xl p-0 border border-black"
         hasClose={false}
       >
         <DialogHeader className="bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl">
@@ -46,13 +46,13 @@ export default function PointsDialog() {
               ChainIDE, and VS Code.
             </li>
             <li className="list-outside">
-              Although we don&apos;t have a direct use for these points yet, we&apos;re
-              working on rewarding our most active users with exclusive perks
-              and benefits. Stay tuned for exciting updates!
+              Although we don&apos;t have a direct use for these points yet,
+              we&apos;re working on rewarding our most active users with
+              exclusive perks and benefits. Stay tuned for exciting updates!
             </li>
           </ul>
         </div>
-        <DialogFooter className="pb-8 sm:justify-center sm:items-center sm:flex-row">
+        <DialogFooter className="pb-8 sm:justify-center items-center sm:flex-row">
           <DialogClose asChild>
             <Button
               type="button"

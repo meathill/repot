@@ -10,31 +10,36 @@ import PointsDialog from '@/app/_components/points-dialog';
 
 export default function Landing() {
   return (
-    <div className="min-h-screen pt-20 pb-8">
-      <main className="flex flex-col gap-24 mt-8">
-        <div className="hero-section relative">
-          <img src="/hero-bg.svg" alt="" className="w-full" />
+    <div className="min-h-screen pt-[69px] sm:pt-20 pb-8">
+      <main className="flex flex-col gap-8 sm:gap-24 sm:mt-8 pt-6 px-8 sm:px-0">
+        <div className="hero-section sm:relative flex flex-col gap-6 sm:gap-0 sm:block">
+          <img src="/hero-bg.svg" alt="" className="hidden sm:block w-full" />
           <img
             src="/hero-pic.svg"
             alt=""
-            className="w-[30%] absolute right-14 bottom-12"
+            className="hidden sm:block w-[30%] absolute right-14 bottom-12"
           />
-          <div className="flex flex-col gap-8 absolute top-8 left-8 w-5/12">
-            <div className="font-title text-5.5xl text-dark-green leading-tight capitalize">
+          <div className="flex flex-col items-center sm:items-start p-6 sm:p-0 gap-8 bg-main-green sm:bg-none rounded-2.5xl sm:rounded-none border border-black shadow-[0_8px_0_0_#000] sm:shadow-none sm:border-none sm:absolute sm:top-8 sm:left-8 sm:w-5/12">
+            <div className="font-title text-2xl sm:text-5.5xl text-dark-green leading-tight capitalize">
               Build Smart Contract That Scale And Fast
             </div>
-            <div className="text-base capitalize text-dark-green">
+            <div className="text-sm sm:text-base capitalize text-dark-green">
               Fuel your vision with powerful, ready-to-launch smart contracts
               across chains. We power your projects, you build your dreams
             </div>
+            <img
+              src="/hero-pic.svg"
+              alt=""
+              className="sm:hidden block w-full"
+            />
             <Button className="w-fit font-bold">
               Get Started
               <ArrowRight className="w-3 h-3" />
             </Button>
           </div>
 
-          <div className="absolute bottom-0 left-0 flex flex-row gap-6 w-1/2 h-[35%]">
-            <div className="bg-main-purple p-6 border border-black rounded-2.5xl grow flex flex-1 flex-col justify-between">
+          <div className="sm:absolute sm:bottom-0 sm:left-0 flex flex-col sm:flex-row gap-6 sm:w-1/2 sm:h-[35%]">
+            <div className="bg-main-purple p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto">
               <ContractLayoutIcon className="w-14 h-14" />
               <div className="flex justify-between items-center">
                 <div className="text-dark-purple text-xl font-title">
@@ -46,7 +51,7 @@ export default function Landing() {
                 />
               </div>
             </div>
-            <div className="bg-lime-green p-6 border border-black rounded-2.5xl grow flex flex-1 flex-col justify-between">
+            <div className="bg-lime-green p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto">
               <FileMinus className="w-14 h-14" strokeWidth={1} />
               <div className="flex justify-between items-center">
                 <div className="text-dark-green text-xl font-title">
@@ -62,17 +67,17 @@ export default function Landing() {
         </div>
 
         {/* feature */}
-        <div className="feature-section flex flex-row gap-16 justify-between">
+        <div className="feature-section flex flex-col sm:flex-row gap-8 sm:gap-16 justify-between">
           <img
             src="/feature-contracts.png"
             alt="Smart Contracts"
-            className="w-5/12"
+            className="w-full sm:w-5/12"
           />
-          <div className="w-1/2 flex flex-col gap-6">
+          <div className="w-full sm:w-1/2 flex flex-col gap-6">
             <div className="font-title text-3xl capitalize text-dark-green">
               Repot Featured
             </div>
-            <div className="font-default text-base space-y-6 text-primary-800">
+            <div className="hidden sm:block font-default text-base space-y-6 text-primary-800">
               <p>
                 Compute Resource Optimization: efficient deployments across
                 multiple clusters and regions, with intelligent resource
@@ -87,7 +92,7 @@ export default function Landing() {
                 reliable AI operations.
               </p>
             </div>
-            <FeaturedList />
+            <FeaturedList className="p-0 h-[512px]" />
           </div>
         </div>
 
@@ -96,16 +101,18 @@ export default function Landing() {
 
         {/* footer */}
         <Footer>
-          <div className="flex flex-row justify-between mb-16">
-            <div className="font-title text-5.5xl w-1/5">Freedom To Build</div>
-            <div className="w-2/3 flex flex-col gap-8">
-              <div className="flex flex-row gap-8">
-                <div className="h-50 w-2/3 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
+          <div className="flex flex-row justify-between mb-12 sm:mb-16">
+            <div className="hidden sm:block font-title text-5.5xl w-1/5">
+              Freedom To Build
+            </div>
+            <div className="w-full sm:w-2/3 flex flex-col gap-6 sm:gap-8">
+              <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
+                <div className="h-50 sm:w-2/3 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
                   <div className="font-title text-2xl text-dark-green inline-flex items-center gap-2">
                     <Hackquest className="w-6 h-6" />
                     Hackquest Learning
                   </div>
-                  <div className="text-dark-green text-sm capitalize">
+                  <div className="hidden sm:block text-dark-green text-sm capitalize">
                     Discover the most innovative Web3 contracts,showcasing fresh
                     ideas and advanced techniquesthat keep you at the forefront
                     of smart contractdevelopment.
@@ -119,7 +126,7 @@ export default function Landing() {
                   <CircleArrowRight className="w-6 h-6 stroke-dark-purple ml-auto" />
                 </div>
               </div>
-              <div className="flex flex-row gap-8">
+              <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
                 <div className="grow h-50 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
                   <div className="font-title text-2xl text-dark-green inline-flex items-center gap-2">
                     <Discord className="w-8 h-6" fill="#5865f2" />
