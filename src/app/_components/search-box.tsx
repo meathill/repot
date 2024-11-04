@@ -29,7 +29,7 @@ export default function SearchBox() {
       <PopoverTrigger>
         <InputSearch
           placeholder="Search Keywords or Contract Address"
-          className="border-gray w-80"
+          className="border-gray w-full sm:w-80"
           role="combobox"
           aria-expanded={open}
           onInput={() => {

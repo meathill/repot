@@ -46,7 +46,7 @@ export default function PointsDialog() {
               ChainIDE, and VS Code.
             </li>
             <li className="list-outside">
-              Although we don't have a direct use for these points yet, we're
+              Although we don&apos;t have a direct use for these points yet, we&apos;re
               working on rewarding our most active users with exclusive perks
               and benefits. Stay tuned for exciting updates!
             </li>
