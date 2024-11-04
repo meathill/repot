@@ -17,7 +17,7 @@ const SocialArrow = ({ name }: { name: string }) => {
 
 export default function SocialMedia() {
   return (
-    <div className="min-h-screen pt-20 px-8 sm:px-0">
+    <div className="min-h-screen pt-20 px-8 sm:px-0 pb-8">
       <Footer>
         <div className="flex flex-col sm:flex-row justify-between mb-16">
           <div className="font-title text-2xl sm:text-5.5xl w-full sm:max-w-52 mb-6">
