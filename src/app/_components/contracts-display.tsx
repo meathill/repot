@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/carousel';
 import LoginDialog from '@/app/_components/login-dialog';
 
-const ContractCard = ({onClick}: {onClick?: () => void}) => {
+const ContractCard = ({ onClick }: {onClick?: () => void}) => {
   return (
     <div className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4">
       <div className="flex gap-4 items-center">

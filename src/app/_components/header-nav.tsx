@@ -53,7 +53,7 @@ export default function HeaderNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <>
-      <nav className="z-10 container h-auto sm:h-20 flex flex-col sm:flex-row justify-center sm:justify-between w-full px-4 sm:px-10 py-4 sm:py-3.5 sm:rounded-b-2.5xl bg-background fixed top-0 border-b-neutral-300 sm:border-primary-800 border-b sm:border-l sm:border-r">
+      <nav className="z-10 container h-auto sm:h-20 flex flex-col sm:flex-row justify-center sm:justify-between w-full px-4 sm:px-10 py-4 sm:py-3.5 sm:rounded-b-2.5xl bg-background sticky top-0 border-b-neutral-300 sm:border-primary-800 border-b sm:border-l sm:border-r">
         <div className="flex justify-center sm:justify-between items-center sm:gap-6 relative">
           <Link href="/">
             <img src="/logo-text.svg" alt="Repot Logo" className="h-9" />

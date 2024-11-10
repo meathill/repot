@@ -7,8 +7,8 @@ import Footer from '@/app/_components/footer';
 import FeaturedList from '@/app/_components/featured-list';
 import ContractsDisplay from '@/app/_components/contracts-display';
 import PointsDialog from '@/app/_components/points-dialog';
-import { getLatestContracts, getProtocolCount } from "@/services";
-import Link from "next/link";
+import { getLatestContracts, getProtocolCount } from '@/services';
+import Link from 'next/link';
 
 export default async function Landing() {
   // fetch count of contracts, protocols

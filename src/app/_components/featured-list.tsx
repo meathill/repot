@@ -2,7 +2,7 @@
 import { CircleArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatedList } from '@/components/ui/animated-list';
-import Link from "next/link";
+import Link from 'next/link';
 
 interface Item {
   name: string;
@@ -17,7 +17,7 @@ const features: Item[] = Array.from({ length: 20 }, () => ({
   icon: '/ce.png',
 }));
 
-const FeatureItem = ({ name, description, icon}: Item) => {
+const FeatureItem = ({ name, description, icon }: Item) => {
   return (
     <Link
       className="block bg-white hover:bg-lighter-gray p-6 border border-primary-800 rounded-2.5xl shadow-[0_4px_0_0_#000] raised-button"

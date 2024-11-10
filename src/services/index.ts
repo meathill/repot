@@ -1,4 +1,4 @@
-import {Contract, Protocol, StrapiResponse} from "@/types";
+import { Contract, Protocol, StrapiResponse } from '@/types';
 
 export async function getProtocolCount() {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);

@@ -87,9 +87,14 @@ const config: Config = {
       height: {
         '50': '12.5rem', // 200px
       },
-      // width: {
-      //   '100': '25rem', // 400px
-      // },
+      lineHeight: {
+        12: '3rem',
+      },
+      spacing: {
+        18: '4.5rem',
+        27: '6.75rem',
+        54: '13.5rem',
+      },
     },
   },
   plugins: [tailwindcssAnimate],
