@@ -1,12 +1,15 @@
 import Link from 'next/link';
+import { clsx } from 'clsx';
 
 export default function Footer({
   children,
+  className,
 }: Readonly<{
   children?: React.ReactNode;
+  className?: string;
 }>) {
   return (
-    <div className="flex flex-col mt-8 p-6 sm:p-14 border border-primary-800 bg-main-green rounded-2.5xl shadow-[0_8px_0_0_#000]">
+    <div className={clsx('flex flex-col mt-8 p-6 sm:p-14 border border-primary-800 bg-main-green rounded-2.5xl shadow-[0_8px_0_0_#000]', className)}>
       {children}
       <div className="flex flex-col sm:flex-row justify-between">
         <div className="font-logo font-bold text-4xl text-primary-800 mb-12 sm:mb-0">
