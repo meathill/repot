@@ -75,8 +75,8 @@ export default function ContractsDisplay() {
         <div className="flex flex-row justify-between items-center mb-6 sm:mb-8">
           <div className="font-title text-3xl text-dark-green">Contracts</div>
           <div className="flex gap-4">
-            <CarouselPrevious className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green hover:shadow-[0_8px_0_0_#000]" />
-            <CarouselNext className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green hover:shadow-[0_8px_0_0_#000]" />
+            <CarouselPrevious className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green" />
+            <CarouselNext className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green" />
           </div>
         </div>
 

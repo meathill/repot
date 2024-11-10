@@ -7,8 +7,16 @@ import Footer from '@/app/_components/footer';
 import FeaturedList from '@/app/_components/featured-list';
 import ContractsDisplay from '@/app/_components/contracts-display';
 import PointsDialog from '@/app/_components/points-dialog';
+import { getLatestContracts, getProtocolCount } from "@/services";
+import Link from "next/link";
 
-export default function Landing() {
+export default async function Landing() {
+  // fetch count of contracts, protocols
+  const protocolCount = await getProtocolCount();
+  // fetch latest contracts
+  const contracts = await getLatestContracts(9);
+  const contractCount = contracts.meta.pagination.total;
+
   return (
     <div className="min-h-screen pt-[69px] sm:pt-20 pb-8">
       <main className="flex flex-col gap-8 sm:gap-24 sm:mt-8 pt-6 px-8 sm:px-0">
@@ -39,30 +47,36 @@ export default function Landing() {
           </div>
 
           <div className="sm:absolute sm:bottom-0 sm:left-0 flex flex-col sm:flex-row gap-6 sm:w-1/2 sm:h-[35%]">
-            <div className="bg-main-purple p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto">
+            <Link
+              className="bg-main-purple p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto raised-button"
+              href="/contracts"
+            >
               <ContractLayoutIcon className="w-14 h-14" />
               <div className="flex justify-between items-center">
                 <div className="text-dark-purple text-xl font-title">
-                  500+ Smart Contracts
+                  {contractCount > 500 ? contractCount + '+' : contractCount} Smart Contracts
                 </div>
                 <CircleArrowRight
                   className="w-6 h-6 stroke-primary-800"
                   stroke="#3E2D68"
                 />
               </div>
-            </div>
-            <div className="bg-lime-green p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto">
+            </Link>
+            <Link
+              className="bg-lime-green p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto raised-button"
+              href="/protocols"
+            >
               <FileMinus className="w-14 h-14" strokeWidth={1} />
               <div className="flex justify-between items-center">
                 <div className="text-dark-green text-xl font-title">
-                  500+ Protocols
+                  {protocolCount > 500 ? protocolCount + '+' : protocolCount} Protocols
                 </div>
                 <CircleArrowRight
                   className="w-6 h-6 stroke-primary-800"
                   stroke="#3E2D68"
                 />
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -107,7 +121,11 @@ export default function Landing() {
             </div>
             <div className="w-full sm:w-2/3 flex flex-col gap-6 sm:gap-8">
               <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
-                <div className="h-50 sm:w-2/3 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
+                <Link
+                  className="h-50 sm:w-2/3 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer raised-button inline-flex flex-col justify-between"
+                  href="https://hackquest.io"
+                  target="_blank"
+                >
                   <div className="font-title text-2xl text-dark-green inline-flex items-center gap-2">
                     <Hackquest className="w-6 h-6" />
                     Hackquest Learning
@@ -118,16 +136,19 @@ export default function Landing() {
                     of smart contractdevelopment.
                   </div>
                   <CircleArrowRight className="w-6 h-6 stroke-dark-green ml-auto" />
-                </div>
-                <div className="grow h-50 bg-main-purple rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
+                </Link>
+                <Link
+                  className="grow h-50 bg-main-purple rounded-2.5xl border border-dark-green p-6 relative cursor-pointer inline-flex flex-col justify-between raised-button"
+                  href="/contact-us"
+                >
                   <div className="font-title text-2xl text-dark-purple">
                     Contact Us
                   </div>
                   <CircleArrowRight className="w-6 h-6 stroke-dark-purple ml-auto" />
-                </div>
+                </Link>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
-                <div className="grow h-50 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
+                <div className="grow h-50 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer inline-flex flex-col justify-between raised-button">
                   <div className="font-title text-2xl text-dark-green inline-flex items-center gap-2">
                     <Discord className="w-8 h-6" fill="#5865f2" />
                     Discord

@@ -84,3 +84,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.raised-button {
+  --shadow-size: 4px;
+
+  @apply transition-all hover:shadow-raised hover:-translate-y-1 active:shadow-none active:translate-y-0;
+}

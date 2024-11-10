@@ -2,6 +2,7 @@
 import { CircleArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatedList } from '@/components/ui/animated-list';
+import Link from "next/link";
 
 interface Item {
   name: string;
@@ -18,7 +19,11 @@ const features: Item[] = Array.from({ length: 20 }, () => ({
 
 const FeatureItem = ({ name, description, icon}: Item) => {
   return (
-    <div className="bg-white transition-all hover:bg-lighter-gray p-6 border border-primary-800 rounded-2.5xl shadow-[0_4px_0_0_#000] hover:shadow-[0_8px_0_0_#000]">
+    <Link
+      className="block bg-white hover:bg-lighter-gray p-6 border border-primary-800 rounded-2.5xl shadow-[0_4px_0_0_#000] raised-button"
+      href={`/contracts/${name}`}
+      style={{ '--shadow-size': '8px' }}
+    >
       <div className="flex justify-between items-center mb-5">
         <div className="flex gap-4 items-center">
           <img src={icon} className="w-12 h-12 rounded-lg" />
@@ -31,7 +36,7 @@ const FeatureItem = ({ name, description, icon}: Item) => {
         />
       </div>
       <div className="text-primary-800 capitalize text-sm h-10 overflow-hidden text-ellipsis">{description}</div>
-    </div>
+    </Link>
   );
 }
 

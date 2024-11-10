@@ -73,6 +73,9 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
         '2.5xl': '20px',
       },
+      boxShadow: {
+        'raised': '0 var(--shadow-size) 0 0 #000',
+      },
       fontFamily: {
         logo: "'Oleo Script', system-ui",
         default: 'Nunito, system-ui, sans-serif',

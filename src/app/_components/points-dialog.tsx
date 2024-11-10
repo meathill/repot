@@ -14,7 +14,7 @@ export default function PointsDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="h-50 w-full sm:w-2/3 bg-white rounded-2.5xl border border-dark-green p-6 relative cursor-pointer transition-all hover:shadow-[0_4px_0_0_#000] inline-flex flex-col justify-between">
+        <div className="h-50 w-full sm:w-2/3 bg-white rounded-2.5xl border border-dark-green p-6 relative cursor-pointer inline-flex flex-col justify-between raised-button">
           <div className="font-title text-2xl text-dark-green">
             How to Earn Repot points?
           </div>
@@ -57,7 +57,9 @@ export default function PointsDialog() {
             <Button
               type="button"
               variant="outline"
-              className="bg-lime-green rounded-lg border border-black px-6 font-bold text-base text-dark-green hover:bg-lime-green hover:shadow-[0_4px_0_0_#000]"
+              effect="raised"
+              className="bg-lime-green rounded-lg border border-black px-6 font-bold text-base text-dark-green hover:bg-lime-green"
+              style={{ '--shadow-size': '3px' }}
             >
               Got It
             </Button>

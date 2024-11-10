@@ -66,7 +66,8 @@ export default function HeaderNav() {
           <SearchBox />
           <Button
             onClick={() => setLoginOpen(true)}
-            className="bg-main-purple rounded-lg border-black border text-primary-800 font-bold hover:bg-main-purple hover:shadow-[0_3px_0_0_#000]"
+            className="bg-main-purple rounded-lg border-black border text-primary-800 font-bold hover:bg-main-purple"
+            effect="raised"
           >
             Sign in
             <ArrowRight className="ml-1 w-4 h-4" />
