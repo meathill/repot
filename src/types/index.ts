@@ -10,6 +10,16 @@ export type StrapiResponse<T> = {
   };
 }
 
+export type Chain = {
+  id: number;
+  name: string;
+  slug: string;
+  logo?: {
+    url: string;
+  };
+  logo_url?: string;
+}
+
 export type Protocol = {
   id: number;
 }

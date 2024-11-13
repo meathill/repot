@@ -1,7 +1,7 @@
-import * as React from 'react';
+import { JSX, SVGProps } from 'react';
 
 export default function MediumIcon(
-  props: React.SVGProps<SVGSVGElement>
+  props: SVGProps<SVGSVGElement>
 ): JSX.Element {
   return (
     <svg
