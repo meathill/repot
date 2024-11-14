@@ -17,28 +17,28 @@ const NavLinks = () => {
   return (
     <>
       <Link
-        href="/contracts"
+        href="/search?category=contracts"
         className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
       >
         <ContractsIcon className="w-4 h-4" />
         Contracts
       </Link>
       <Link
-        href="/chains"
+        href="/search?category=chains"
         className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
       >
         <Box className="w-4 h-4" />
         Chains
       </Link>
       <Link
-        href="/protocols"
+        href="/search?category=protocols"
         className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
       >
         <GitBranch className="w-4 h-4" />
         Protocols
       </Link>
       <Link
-        href="/social"
+        href="/search?category=social"
         className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
       >
         <SocialIcon className="w-4 h-4" />

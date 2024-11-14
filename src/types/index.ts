@@ -13,7 +13,6 @@ export type StrapiResponse<T> = {
 export type Chain = {
   id: number;
   name: string;
-  slug: string;
   logo?: {
     url: string;
   };

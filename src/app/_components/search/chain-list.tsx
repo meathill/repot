@@ -17,7 +17,7 @@ export default function ChainList({
       {items.map((item) => (
         <Button
           key={item.id}
-          className="h-12 bg-white"
+          className="h-12 bg-white text-lg rounded-lg"
           variant="outline"
         >
           {item.logo && <img src={item.logo.url} alt={item.name} className="w-6 h-6" />}
