@@ -35,3 +35,9 @@ export async function getChains() {
   const json = await fetchFromStrapi<StrapiResponse<Chain[]>>(url);
   return json.data;
 }
+
+export async function getChainDetail(chainId: string) {
+  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/chains/${chainId}`);
+  const json = await fetchFromStrapi<StrapiResponse<Chain>>(url);
+  return json.data;
+}
