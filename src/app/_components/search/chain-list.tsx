@@ -20,7 +20,7 @@ export default function ChainList({
       {items.map((item) => (
         <Button
           asChild
-          className={clsx('h-12 text-lg rounded-lg text-primary-800', item.name === currentChain ? 'bg-light-green border-black' : 'bg-white border-gray')}
+          className={clsx('h-12 text-lg rounded-lg text-primary-800 hover:bg-main-green active:bg-light-green ', item.name === currentChain ? 'bg-light-green border-black' : 'bg-white border-gray')}
           key={item.id}
           variant="outline"
         >

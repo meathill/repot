@@ -19,6 +19,14 @@ export type Chain = {
   };
   logo_url?: string;
   overview: string;
+  website: string;
+  developer_docs: string;
+  whitepaper: string;
+  explorer: string;
+  chain_language: string;
+  consensus: string;
+  network_layer: string;
+  network_type: string;
 }
 
 export type Protocol = {
