@@ -3,25 +3,28 @@ import { CircleArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatedList } from '@/components/ui/animated-list';
 import Link from 'next/link';
+import slugify from 'slugify';
 
 interface Item {
+  id: number;
   name: string;
   description: string;
   icon: string;
 }
 
 const features: Item[] = Array.from({ length: 20 }, () => ({
+  id: 0,
   name: 'Cutting Edge',
   description:
     'Discover the most innovative Web3 contracts, showcasing fresh ideas and advanced techniquesthat keep you at the forefront of smart contract development.',
   icon: '/ce.png',
 }));
 
-const FeatureItem = ({ name, description, icon }: Item) => {
+const FeatureItem = ({ id, name, description, icon }: Item) => {
   return (
     <Link
       className="block bg-white hover:bg-lighter-gray p-6 border border-primary-800 rounded-2.5xl shadow-[0_4px_0_0_#000] raised-button"
-      href={`/contracts/${name}`}
+      href={`/contract/${id}-${slugify(name)}`}
       style={{ '--shadow-size': '8px' }}
     >
       <div className="flex justify-between items-center mb-5">

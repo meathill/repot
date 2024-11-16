@@ -1,23 +1,41 @@
 import { FolderOpen, Layers, Lock, Star, User, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Contract } from '@/types';
+import Link from 'next/link';
+import slugify from 'slugify';
 
-export default function ContractCard({ onClick }: {onClick?: () => void}) {
+interface ContractCardProps {
+  data: Contract;
+  onClick?: () => void;
+}
+
+export default function ContractCard({
+  data,
+  onClick,
+}: ContractCardProps) {
+  const logo = data.logo?.url || data.logo_url || '';
+
   return (
     <div className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4">
       <div className="flex gap-4 items-center">
-        <img src="/ce.png" className="w-12 h-12 rounded-lg" />
-        <div className="font-bold text-lg text-primary-800">Cutting Edge</div>
+        {logo && <img
+          alt={data.name}
+          className="w-12 h-12 rounded-lg"
+          src={logo}
+        />}
+        <div className="font-bold text-lg text-primary-800">{data.name}</div>
       </div>
-      <div className="text-primary-800 capitalize text-sm max-h-11 text-ellipsis overflow-hidden">
-        Discover the most innovative Web3 contracts, showcasing fresh ideas and
-        advanced techniques that keep you at the forefront of smart
-        contractdevelopment.
-      </div>
+      <p className="text-primary-800 capitalize text-sm h-10 max-h-10 line-clamp-2">
+        {data.overview}
+      </p>
       <div className="bg-zinc-50 h-12 border-y -ml-6 -mr-6 flex flex-row">
-        <div className="flex justify-center items-center w-1/2 gap-1.5 border-r cursor-pointer hover:bg-lime-green transition-colors">
+        <Link
+          className="flex justify-center items-center w-1/2 gap-1.5 border-r cursor-pointer hover:bg-lime-green transition-colors"
+          href={`/contract/${data.id}-${slugify(data.name)}`}
+        >
           <FolderOpen className="w-4 h-4" />
           <span className="text-sm text-dark-gray">Open</span>
-        </div>
+        </Link>
         <div
           onClick={onClick}
           className="flex justify-center items-center w-1/2 gap-1.5 cursor-pointer hover:bg-lime-green transition-colors">
@@ -48,10 +66,13 @@ export default function ContractCard({ onClick }: {onClick?: () => void}) {
       </div>
 
       <Button
+        asChild
         variant={'outline'}
-        className="bg-ivory border-dark-gray hover:bg-light-green rounded-lg font-bold text-base text-primary-800"
+        className="h-10 bg-ivory border-dark-gray hover:bg-main-green active:bg-light-green rounded-lg font-bold text-primary-800"
       >
-        Go Contract
+        <Link href={`/contract/${data.id}-${slugify(data.name)}`}>
+          Go Contract
+        </Link>
       </Button>
     </div>
   );

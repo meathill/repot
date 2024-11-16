@@ -49,5 +49,12 @@ export type Contract = {
   id: number;
   documentId: string;
   name: string;
-  protocols: Protocol[];
+  overview: string;
+  logo?: {
+    url: string;
+  };
+  logo_url?: string;
+  document_links: string;
+  description: string;
+  protocols?: Protocol[];
 }

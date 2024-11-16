@@ -59,7 +59,21 @@ export async function getProtocols(withChains = false, chainId?: number) {
   if (chainId) {
     url.searchParams.set('filters[chains][$contains]', chainId.toString());
   }
-  console.log('xxx', url);
   const json = await fetchFromStrapi<StrapiResponse<Protocol[]>>(url);
+  return json.data;
+}
+
+export async function getContracts(protocolId?: number) {
+  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts`);
+  url.searchParams.set('pagination[pageSize]', '30');
+  url.searchParams.set('sort', 'id:desc');
+  url.searchParams.set('fields[0]', 'name');
+  url.searchParams.set('fields[1]', 'overview');
+  url.searchParams.set('fields[2]', 'logo_url');
+  url.searchParams.set('populate', 'logo');
+  if (protocolId) {
+    url.searchParams.set('filters[protocols][$contains]', protocolId.toString());
+  }
+  const json = await fetchFromStrapi<StrapiResponse<Contract[]>>(url);
   return json.data;
 }

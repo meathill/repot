@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Avatar from '@/components/ui/avatar';
+import slugify from 'slugify';
 
 interface ProtocolCardProps {
   className?: string;
@@ -25,7 +26,7 @@ export default function ProtocolCard({
         { 'hover:bg-main-green ': !hasDetails },
         className,
       )}
-      href={`/protocol/${protocol.name}`}
+      href={`/protocol/${protocol.id}-${slugify(protocol.name)}`}
     >
       <div className="flex items-center gap-4 h-12">
         {logo && <img
@@ -59,7 +60,7 @@ export default function ProtocolCard({
           size="lg"
           variant="outline"
         >
-          <Link href={`/protocol/${protocol.name}`}>
+          <Link href={`/protocol/${protocol.id}-${slugify(protocol.name)}`}>
             Go to Protocol
           </Link>
         </Button>

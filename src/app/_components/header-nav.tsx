@@ -38,7 +38,7 @@ const NavLinks = () => {
         Protocols
       </Link>
       <Link
-        href="/search?category=social"
+        href="/social"
         className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
       >
         <SocialIcon className="w-4 h-4" />
