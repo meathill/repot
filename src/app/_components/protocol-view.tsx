@@ -3,15 +3,20 @@
 import { CircleCheckBig, CircleStop, Copy, Download, Github, Image, Star, User } from 'lucide-react';
 import { useState } from 'react';
 import { clsx } from 'clsx';
-import { Contract } from '@/types';
+import { Protocol } from '@/types';
+import { Button } from '@/components/ui/button';
+import Avatar from '@/components/ui/avatar';
 
-interface ContractViewProps {
-  data: Contract;
+interface ProtocolViewProps {
+  data: Protocol;
 }
 
-export default function ContractView({
+const TabItems = ['Info', 'Docs', 'Source'];
+
+
+export default function ProtocolView({
   data,
-}: ContractViewProps) {
+}: ProtocolViewProps) {
   const [tab, setTab] = useState('Source');
   const logo = data.logo?.url || data.logo_url || '';
 
@@ -31,9 +36,15 @@ export default function ContractView({
                 <Star size={16} color="#636363"/>
                 1323
               </div>
-              <div className="flex items-center gap-2 text-xs">
-                <Download size={16} color="#636363"/>
-                1323
+              <div className="flex items-center gap-1.5">
+                {data.chains?.map(chain => (
+                  <Avatar
+                    className="w-4 h-4"
+                    key={chain.id}
+                    name={chain.name}
+                    src={chain.logo?.url || chain.logo_url || ''}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -57,18 +68,19 @@ export default function ContractView({
           </div>
         </div>
         <div className="sm:ms-auto flex flex-none items-center">
-          <button
-            className={clsx('flex-1 sm:w-27 h-12 border border-black rounded-l-lg flex justify-center items-center text-sm font-bold', tab === 'Docs' ? 'bg-neutral-800 text-white' : 'bg-stone-100')}
-            type="button"
-            onClick={() => setTab('Docs')}
-          >Docs</button>
-          <button
-            className={clsx('flex-1 sm:w-27 h-12 border border-black rounded-r-lg flex justify-center items-center text-sm font-bold', tab === 'Source' ? 'bg-neutral-800 text-white' : 'bg-stone-100')}
-            type="button"
-            onClick={() => setTab('Source')}
-          >Source</button>
+          {TabItems.map(item => (
+            <Button
+              className={clsx('flex-1 sm:w-27 h-12 border border-r-0 border-black rounded-none first:rounded-l-lg last:rounded-r-lg last:border-r flex justify-center items-center text-sm font-bold', tab === item ? 'bg-primary-800 text-white' : 'bg-lighter-gray text-primary-800')}
+              key={item}
+              type="button"
+              onClick={() => setTab(item)}
+            >{item}</Button>
+          ))}
         </div>
       </header>
+      <div className={clsx('bg-white p-6 border-gray', { hidden: tab !== 'Info' })}>
+
+      </div>
       <div className={clsx('flex min-h-96 gap-6', { hidden: tab === 'Source' })}>
         <aside className="w-54 flex-none py-3 px-5 bg-white border border-black rounded-lg">
 

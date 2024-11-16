@@ -45,6 +45,14 @@ export async function getChainDetail(chainId: string, withProtocols = false) {
   return json.data;
 }
 
+export async function getProtocolDetail(protocolId: string) {
+  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols/${protocolId}`);
+  url.searchParams.set('populate[0]', 'logo');
+  url.searchParams.set('populate[1]', 'chains');
+  const json = await fetchFromStrapi<StrapiResponse<Protocol>>(url);
+  return json.data;
+}
+
 export async function getProtocols(withChains = false, chainId?: number) {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
   url.searchParams.set('pagination[pageSize]', '30');
@@ -75,5 +83,12 @@ export async function getContracts(protocolId?: number) {
     url.searchParams.set('filters[protocols][$contains]', protocolId.toString());
   }
   const json = await fetchFromStrapi<StrapiResponse<Contract[]>>(url);
+  return json.data;
+}
+
+export async function getContractDetail(contractId: string) {
+  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts/${contractId}`);
+  url.searchParams.set('populate', 'logo');
+  const json = await fetchFromStrapi<StrapiResponse<Contract>>(url);
   return json.data;
 }

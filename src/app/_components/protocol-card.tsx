@@ -26,7 +26,7 @@ export default function ProtocolCard({
         { 'hover:bg-main-green ': !hasDetails },
         className,
       )}
-      href={`/protocol/${protocol.id}-${slugify(protocol.name)}`}
+      href={`/protocol/${protocol.documentId}-${slugify(protocol.name)}`}
     >
       <div className="flex items-center gap-4 h-12">
         {logo && <img
@@ -60,7 +60,7 @@ export default function ProtocolCard({
           size="lg"
           variant="outline"
         >
-          <Link href={`/protocol/${protocol.id}-${slugify(protocol.name)}`}>
+          <Link href={`/protocol/${protocol.documentId}-${slugify(protocol.name)}`}>
             Go to Protocol
           </Link>
         </Button>

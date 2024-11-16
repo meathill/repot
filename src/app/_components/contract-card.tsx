@@ -31,7 +31,7 @@ export default function ContractCard({
       <div className="bg-zinc-50 h-12 border-y -ml-6 -mr-6 flex flex-row">
         <Link
           className="flex justify-center items-center w-1/2 gap-1.5 border-r cursor-pointer hover:bg-lime-green transition-colors"
-          href={`/contract/${data.id}-${slugify(data.name)}`}
+          href={`/contract/${data.documentId}-${slugify(data.name)}`}
         >
           <FolderOpen className="w-4 h-4" />
           <span className="text-sm text-dark-gray">Open</span>
@@ -70,7 +70,7 @@ export default function ContractCard({
         variant={'outline'}
         className="h-10 bg-ivory border-dark-gray hover:bg-main-green active:bg-light-green rounded-lg font-bold text-primary-800"
       >
-        <Link href={`/contract/${data.id}-${slugify(data.name)}`}>
+        <Link href={`/contract/${data.documentId}-${slugify(data.name)}`}>
           Go Contract
         </Link>
       </Button>

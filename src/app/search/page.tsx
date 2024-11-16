@@ -6,6 +6,7 @@ import { getChainDetail, getChains, getContracts, getProtocols } from '@/service
 import ProtocolList from '@/app/_components/search/protocol-list';
 import KeywordsFilter from '@/app/_components/search/keywords-filter';
 import ContractList from '@/app/_components/search/contract-list';
+import Footer from '@/app/_components/footer';
 
 interface SearchProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -17,7 +18,9 @@ export default async function Search({
   const params = await searchParams;
   const { category, chain, protocol } = params;
   const chains: Chain[] = await getChains();
-  const chainDocId = chains.find((c) => c.name === chain)?.documentId;
+  const chainDocId = chain
+    ? chains.find((c) => c.name === chain)?.documentId
+    : chains[ 0 ]?.documentId;
   const isChain = category === 'chains';
   const isProtocol = category === 'protocols';
   let chainData: Chain | null = null;
@@ -40,22 +43,24 @@ export default async function Search({
 
   return <>
     <SearchType className="py-8" current={category as string} />
-    {isChain || isProtocol && <ChainList
+    {(isChain || isProtocol) && <ChainList
       currentChain={chain as string}
       items={chains}
       params={params}
     />}
-    {isChain && <ChainDetail
+    {isChain && chainDocId && <ChainDetail
       chainId={chainDocId as string}
       chainData={chainData}
     />}
 
-    <KeywordsFilter params={params} />
+    {!isChain && <KeywordsFilter params={params} />}
 
     {isProtocol && <>
       <ProtocolList items={protocols} />
     </>}
 
     {!isChain && !isProtocol && <ContractList items={contracts} />}
+
+    <Footer className="mx-6 mb-6 sm:mx-auto"/>
   </>;
 }
