@@ -111,7 +111,7 @@ export default async function Landing() {
         </div>
 
         {/* Contracts */}
-        <ContractsDisplay />
+        <ContractsDisplay items={contracts.data} />
 
         {/* footer */}
         <Footer>
