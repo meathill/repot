@@ -44,3 +44,22 @@ export async function getChainDetail(chainId: string, withProtocols = false) {
   const json = await fetchFromStrapi<StrapiResponse<Chain>>(url);
   return json.data;
 }
+
+export async function getProtocols(withChains = false, chainId?: number) {
+  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
+  url.searchParams.set('pagination[pageSize]', '30');
+  url.searchParams.set('sort', 'id:desc');
+  url.searchParams.set('populate[0]', 'logo');
+  url.searchParams.set('fields[0]', 'name');
+  url.searchParams.set('fields[1]', 'logo_url');
+  url.searchParams.set('fields[2]', 'overview');
+  if (withChains) {
+    url.searchParams.set('populate[1]', 'chains');
+  }
+  if (chainId) {
+    url.searchParams.set('filters[chains][$contains]', chainId.toString());
+  }
+  console.log('xxx', url);
+  const json = await fetchFromStrapi<StrapiResponse<Protocol[]>>(url);
+  return json.data;
+}

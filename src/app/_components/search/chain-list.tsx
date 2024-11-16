@@ -6,13 +6,25 @@ interface ChainListProps {
   className?: string;
   currentChain?: string;
   items: Chain[];
+  params: { [key: string]: string | string[] | undefined };
 }
 
 export default function ChainList({
   className = '',
   currentChain = '',
   items,
+  params,
 }: ChainListProps) {
+  function getParams(chain: string) {
+    const newParams = new URLSearchParams();
+    for (const key in params) {
+      if (params[ key ]) {
+        newParams.set(key, params[ key ] as string);
+      }
+    }
+    newParams.set('chain', chain);
+    return `?${newParams.toString()}`;
+  }
 
   return <>
     <h2 className="text-sm font-bold mb-4 text-dark-gray">By Chain</h2>
@@ -24,7 +36,7 @@ export default function ChainList({
           key={item.id}
           variant="outline"
         >
-          <a href={`?category=chains&chain=${item.name}`}>
+          <a href={getParams(item.name)}>
             {item.logo && <img src={item.logo.url} alt={item.name} className="w-6 h-6" />}
             {item.logo_url && <img src={item.logo_url} alt={item.name} className="w-6 h-6" />}
             {item.name}

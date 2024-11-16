@@ -2,11 +2,35 @@ import { clsx } from 'clsx';
 import { Button } from '@/components/ui/button';
 import { Box, Code, GitBranch } from 'lucide-react';
 import FileNetwork from '@/components/icons/file-network';
+import Link from 'next/link';
 
 interface SearchTypeProps {
   className?: string;
   current: string;
 }
+
+const TabItems = [
+  {
+    name: 'chains',
+    label: 'Chains',
+    icon: Box,
+  },
+  {
+    name: 'protocols',
+    label: 'Protocols',
+    icon: GitBranch,
+  },
+  {
+    name: 'contracts',
+    label: 'Contracts',
+    icon: FileNetwork,
+  },
+  {
+    name: 'code',
+    label: 'Code Search',
+    icon: Code,
+  },
+];
 
 export default function SearchType({
   className = '',
@@ -17,46 +41,22 @@ export default function SearchType({
       className={clsx('flex gap-6 items-center', className)}
       style={{ '--shadow-size': '4px' }}
     >
-      <Button
-        className="text-lg gap-2 font-bold"
-        effect={current === 'chains' ? 'active' : 'none'}
-        size="xl"
-        type="button"
-        variant="ghost"
-      >
-        <Box size={24} strokeWidth={2} />
-        Chains
-      </Button>
-      <Button
-        className="text-lg gap-2 font-bold"
-        effect={current === 'protocols' ? 'active' : 'none'}
-        size="xl"
-        type="button"
-        variant="ghost"
-      >
-        <GitBranch size={24} strokeWidth={2} />
-        Protocols
-      </Button>
-      <Button
-        className="text-lg gap-2 font-bold"
-        effect={current === 'contracts' ? 'active' : 'none'}
-        size="xl"
-        type="button"
-        variant="ghost"
-      >
-        <FileNetwork />
-        Contracts
-      </Button>
-      <Button
-        className="text-lg gap-2 font-bold"
-        effect={current === 'code' ? 'active' : 'none'}
-        size="xl"
-        type="button"
-        variant="ghost"
-      >
-        <Code size={24} strokeWidth={2} />
-        Code Search
-      </Button>
+      {TabItems.map(item => (
+        <Button
+          asChild
+          className="text-lg gap-2 font-bold hover:bg-main-green"
+          effect={current === item.name ? 'active' : 'none'}
+          key={item.name}
+          size="xl"
+          type="button"
+          variant="ghost"
+        >
+          <Link href={`?category=${item.name}`}>
+            <item.icon size={24} strokeWidth={2} />
+            {item.label}
+          </Link>
+        </Button>
+      ))}
     </div>
   );
 }

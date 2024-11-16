@@ -28,17 +28,21 @@ export default function ProtocolsDisplay({
         opts={{ align: 'start' }}
         className={clsx('w-full', className)}
       >
-        <div className="flex flex-row justify-between items-center mb-6 sm:mb-8">
+        <div className="flex justify-between items-center mb-4">
           <h3 className="font-bold">{name} Projects</h3>
           <div className="flex gap-4">
             <CarouselPrevious
-              className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green"/>
+              className="static transform-none w-6 h-6 rounded-md border-black hover:bg-light-green"
+              size="xs"
+            />
             <CarouselNext
-              className="static transform-none w-12 h-12 rounded-xl border-black shadow-[0_4px_0_0_#000] hover:bg-light-green"/>
+              className="static transform-none w-6 h-6 rounded-md border-black hover:bg-light-green"
+              size="xs"
+            />
           </div>
         </div>
 
-        <CarouselContent>
+        <CarouselContent className="-ml-6">
           {items.map((item) => (
             <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
               <ProtocolCard protocol={item} />

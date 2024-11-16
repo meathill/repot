@@ -42,6 +42,7 @@ export type Protocol = {
     url: string;
   };
   logo_url?: string;
+  chains?: Chain[];
 }
 
 export type Contract = {
