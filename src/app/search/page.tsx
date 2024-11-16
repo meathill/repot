@@ -16,11 +16,11 @@ export default async function Search({
   const chainId = chains.find((c) => c.name === chain)?.documentId;
   let chainData: Chain | null = null;
   if (chainId) {
-    chainData = await getChainDetail(chainId);
+    chainData = await getChainDetail(chainId, true);
   }
 
   return <>
-    <SearchType className="py-8" />
+    <SearchType className="py-8" current={category as string} />
     <ChainList
       items={chains}
       currentChain={chain as string}

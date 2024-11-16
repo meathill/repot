@@ -5,10 +5,12 @@ import FileNetwork from '@/components/icons/file-network';
 
 interface SearchTypeProps {
   className?: string;
+  current: string;
 }
 
 export default function SearchType({
   className = '',
+  current,
 }: SearchTypeProps) {
   return (
     <div
@@ -17,7 +19,7 @@ export default function SearchType({
     >
       <Button
         className="text-lg gap-2 font-bold"
-        effect="active"
+        effect={current === 'chains' ? 'active' : 'none'}
         size="xl"
         type="button"
         variant="ghost"
@@ -27,6 +29,7 @@ export default function SearchType({
       </Button>
       <Button
         className="text-lg gap-2 font-bold"
+        effect={current === 'protocols' ? 'active' : 'none'}
         size="xl"
         type="button"
         variant="ghost"
@@ -36,6 +39,7 @@ export default function SearchType({
       </Button>
       <Button
         className="text-lg gap-2 font-bold"
+        effect={current === 'contracts' ? 'active' : 'none'}
         size="xl"
         type="button"
         variant="ghost"
@@ -45,6 +49,7 @@ export default function SearchType({
       </Button>
       <Button
         className="text-lg gap-2 font-bold"
+        effect={current === 'code' ? 'active' : 'none'}
         size="xl"
         type="button"
         variant="ghost"

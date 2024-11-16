@@ -27,11 +27,21 @@ export type Chain = {
   consensus: string;
   network_layer: string;
   network_type: string;
+  protocols?: Protocol[];
 }
 
 export type Protocol = {
   id: number;
   documentId: string;
+  name: string;
+  overview: string;
+  info: string;
+  description: string;
+  document_link: string;
+  logo?: {
+    url: string;
+  };
+  logo_url?: string;
 }
 
 export type Contract = {

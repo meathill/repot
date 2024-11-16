@@ -6,6 +6,7 @@ import { Database, Droplets, Link2, Star, Wallet } from 'lucide-react';
 import RadioGroup from '@/components/ui/radio-group';
 import { useState } from 'react';
 import Link from 'next/link';
+import ProtocolsDisplay from '@/app/_components/protocols-display';
 
 interface ChainDetailProps {
   chainId: string;
@@ -90,13 +91,12 @@ export default function ChainDetail({
             variant="outline"
           >
             <Link
-            className="font-bold hover:bg-main-green"
-            href={chainData.developer_docs}
-            target="_blank"
-          >
-            <Database size={16} color="currentColor active:bg-light-green" />
-            Documentation
-          </Link>
+              href={chainData.developer_docs}
+              target="_blank"
+            >
+              <Database size={16} color="currentColor" />
+              Documentation
+            </Link>
           </Button>
         )}
         {chainData.whitepaper && (
@@ -107,13 +107,12 @@ export default function ChainDetail({
             variant="outline"
           >
             <Link
-            className="font-bold hover:bg-main-green active:bg-light-green"
-            href={chainData.whitepaper}
-            target="_blank"
-          >
-            <Droplets size={16} color="currentColor" />
-            White paper
-          </Link>
+              href={chainData.whitepaper}
+              target="_blank"
+            >
+              <Droplets size={16} color="currentColor" />
+              White paper
+            </Link>
           </Button>
         )}
         {chainData.explorer && (
@@ -122,14 +121,15 @@ export default function ChainDetail({
             className="h-12 font-bold hover:bg-main-green active:bg-light-green"
             size="xl"
             variant="outline"
-          ><Link
-            className="font-bold hover:bg-main-green"
-            href={chainData.explorer}
-            target="_blank"
           >
-            <Wallet size={16} color="currentColor" />
-            Explorer
-          </Link></Button>
+            <Link
+              href={chainData.explorer}
+              target="_blank"
+            >
+              <Wallet size={16} color="currentColor" />
+              Explorer
+            </Link>
+          </Button>
         )}
       </div>
       <h3 className="font-bold mb-4">Chain Details</h3>
@@ -151,11 +151,7 @@ export default function ChainDetail({
           <p className="text-sm w-1/3 mx-auto">{chainData.network_type}</p>
         </div>
       </div>
-      <header className="flex items-center mb-4">
-        <h3 className="font-bold">{chainData.name} Projects</h3>
-      </header>
-
-
+      {chainData.protocols && <ProtocolsDisplay items={chainData.protocols} name={chainData.name}/>}
     </div>
   );
 }
