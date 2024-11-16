@@ -1,6 +1,6 @@
 'use client';
 
-import { CircleCheckBig, CircleStop, Copy, Download, Github, Image, Star, User } from 'lucide-react';
+import { CircleCheckBig, CircleStop, Copy, Github, Image, Star, User } from 'lucide-react';
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { Protocol } from '@/types';
@@ -70,7 +70,7 @@ export default function ProtocolView({
         <div className="sm:ms-auto flex flex-none items-center">
           {TabItems.map(item => (
             <Button
-              className={clsx('flex-1 sm:w-27 h-12 border border-r-0 border-black rounded-none first:rounded-l-lg last:rounded-r-lg last:border-r flex justify-center items-center text-sm font-bold', tab === item ? 'bg-primary-800 text-white' : 'bg-lighter-gray text-primary-800')}
+              className={clsx('flex-1 sm:w-27 h-12 border border-r-0 border-black rounded-none first:rounded-l-lg last:rounded-r-lg last:border-r flex justify-center items-center text-sm font-bold', tab === item ? 'bg-primary-800 text-white' : 'bg-lighter-gray text-primary-800 hover:bg-main-green')}
               key={item}
               type="button"
               onClick={() => setTab(item)}
@@ -78,10 +78,10 @@ export default function ProtocolView({
           ))}
         </div>
       </header>
-      <div className={clsx('bg-white p-6 border-gray', { hidden: tab !== 'Info' })}>
+      <div className={clsx('bg-white p-6 border border-gray rounded-lg', { hidden: tab !== 'Info' })}>
 
       </div>
-      <div className={clsx('flex min-h-96 gap-6', { hidden: tab === 'Source' })}>
+      <div className={clsx('flex min-h-96 gap-6', { hidden: tab !== 'Source' })}>
         <aside className="w-54 flex-none py-3 px-5 bg-white border border-black rounded-lg">
 
         </aside>
@@ -118,7 +118,7 @@ export default function ProtocolView({
           </div>
         </div>
       </div>
-      <div className={clsx('mt-6', { hidden: tab === 'Docs' })}>
+      <div className={clsx('mt-6', { hidden: tab !== 'Docs' })}>
         {data.description}
         <h2 className="text-center text-lg sm:text-2xl font-regular mb-6">Simple ERC20 Token</h2>
         <article className="text-center text-lg mb-6">

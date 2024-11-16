@@ -69,7 +69,7 @@ export default function ContractView({
           >Source</button>
         </div>
       </header>
-      <div className={clsx('flex min-h-96 gap-6', { hidden: tab === 'Source' })}>
+      <div className={clsx('flex min-h-96 gap-6', { hidden: tab !== 'Source' })}>
         <aside className="w-54 flex-none py-3 px-5 bg-white border border-black rounded-lg">
 
         </aside>
@@ -106,7 +106,7 @@ export default function ContractView({
           </div>
         </div>
       </div>
-      <div className={clsx('mt-6', { hidden: tab === 'Docs' })}>
+      <div className={clsx('mt-6', { hidden: tab !== 'Docs' })}>
         {data.description}
         <h2 className="text-center text-lg sm:text-2xl font-regular mb-6">Simple ERC20 Token</h2>
         <article className="text-center text-lg mb-6">
