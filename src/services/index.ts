@@ -38,8 +38,9 @@ export async function getChains() {
 
 export async function getChainDetail(chainId: string, withProtocols = false) {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/chains/${chainId}`);
+  url.searchParams.set('populate[0]', 'logo');
   if (withProtocols) {
-    url.searchParams.set('populate', 'protocols');
+    url.searchParams.set('populate[1]', 'protocols');
   }
   const json = await fetchFromStrapi<StrapiResponse<Chain>>(url);
   return json.data;

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Database, Droplets, Link2, Star, Wallet } from 'lucide-react';
 import RadioGroup from '@/components/ui/radio-group';
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import ProtocolsDisplay from '@/app/_components/protocols-display';
 
@@ -44,7 +45,13 @@ export default function ChainDetail({
   return (
     <div className="border border-gray rounded-2.5xl bg-white p-6">
       <header className="flex items-center pb-6 border-b mb-6 border-gray">
-        {logo && <img src={logo} alt={chainData.name} className="w-15 h-15 block me-6" />}
+        {logo && <Image
+          src={logo}
+          alt={chainData.name}
+          className="w-15 h-15 block me-6"
+          width={60}
+          height={60}
+        />}
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
         <Button
           className="aspect-square"

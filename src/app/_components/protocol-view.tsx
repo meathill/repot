@@ -107,7 +107,7 @@ export default function ProtocolView({
       </header>
       <article
         className={clsx('prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words', { hidden: tab !== 'Info' })}
-        dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+        dangerouslySetInnerHTML={{ __html: infoHtml }}
       />
       <div className={clsx('flex min-h-96 gap-6', { hidden: tab !== 'Source' })}>
         <aside className="w-54 flex-none py-3 px-5 bg-white border border-black rounded-lg">
