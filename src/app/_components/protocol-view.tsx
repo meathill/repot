@@ -1,23 +1,51 @@
 'use client';
 
 import { CircleCheckBig, CircleStop, Copy, Github, Image, Star, User } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-import { Protocol } from '@/types';
+import { Protocol, S3FolderList } from '@/types';
 import { Button } from '@/components/ui/button';
 import Avatar from '@/components/ui/avatar';
+import { marked } from 'marked';
+import { removeS3Prefix, trimPrefix } from '@/utils';
+import FileTreeView from '@/components/ui/file-tree';
+import { readFile } from '@/services/s3';
 
 interface ProtocolViewProps {
   data: Protocol;
+  sources: S3FolderList;
 }
 
 const TabItems = ['Info', 'Docs', 'Source'];
 
 export default function ProtocolView({
   data,
+  sources,
 }: ProtocolViewProps) {
-  const [tab, setTab] = useState('Source');
+  const [tab, setTab] = useState(TabItems[ 0 ]);
+  const [selectedFile, setSelectedFile] = useState<string>('');
+  const [fileContent, setFileContent] = useState<string>('');
   const logo = data.logo?.url || data.logo_url || '';
+  const descriptionHtml = marked(data.description || '');
+  const infoHtml = marked(data.info || '');
+
+  function doDownloadFile() {
+
+  }
+  function doOpenCode() {
+
+  }
+  function doInspectAudit() {
+
+  }
+  async function loadSelectedFile(file: string) {
+    const content = await readFile(file);
+    setFileContent(content);
+  }
+
+  useEffect(() => {
+    loadSelectedFile(selectedFile);
+  }, [selectedFile]);
 
   return (
     <main className="mt-6 sm:mt-8 mb-6 px-6 sm:px-0">
@@ -77,57 +105,88 @@ export default function ProtocolView({
           ))}
         </div>
       </header>
-      <div className={clsx('bg-white p-6 border border-gray rounded-lg', { hidden: tab !== 'Info' })}>
-
-      </div>
+      <article
+        className={clsx('prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words', { hidden: tab !== 'Info' })}
+        dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+      />
       <div className={clsx('flex min-h-96 gap-6', { hidden: tab !== 'Source' })}>
         <aside className="w-54 flex-none py-3 px-5 bg-white border border-black rounded-lg">
-
+          <FileTreeView
+            folderList={sources}
+            onSelectFile={file => setSelectedFile(file)}
+            prefix={removeS3Prefix(data.document_link)}
+            selectedFile={selectedFile}
+          />
         </aside>
         <div className="flex-1 flex flex-col">
           <div className="flex items-center gap-6 mb-6 flex-none">
-            <div
-              className="w-54 h-12 border border-black flex justify-center items-center bg-main-purple rounded-lg text-sm font-bold">
+            <Button
+              className="w-54 h-12 border border-black flex justify-center items-center bg-main-purple rounded-lg text-sm font-bold"
+              disabled={!selectedFile}
+              onClick={doDownloadFile}
+              variant="outline"
+            >
               Download Code
-            </div>
-            <div
-              className="w-54 h-12 border border-black flex justify-center items-center bg-lime-green rounded-lg text-sm font-bold">
+            </Button>
+            <Button
+              className="w-54 h-12 border border-black flex justify-center items-center bg-lime-green rounded-lg text-sm text-dark-green font-bold"
+              disabled={!selectedFile}
+              onClick={doOpenCode}
+              variant="outline"
+            >
               Open Code
-            </div>
-            <div
+            </Button>
+            <Button
               className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
+              disabled={!selectedFile}
+              onClick={doInspectAudit}
+              variant="outline"
             >
               <Github size={16} />
               Inspect Audit
-            </div>
+            </Button>
+            <Button
+              className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
+              disabled={!selectedFile}
+              onClick={doInspectAudit}
+              variant="outline"
+            >
+              <Github size={16} />
+              View Repo
+            </Button>
           </div>
           <div className="flex items-center gap-4 mb-2 flex-none">
-            <h2 className="text-sm text-dark-gray">simple-token.sol</h2>
-            <div className="flex items-center ms-auto h-5 gap-0.5 text-sm font-bold">
+            <h2
+              className="text-sm text-dark-gray font-mono"
+            >{trimPrefix(selectedFile, removeS3Prefix(data.document_link))}</h2>
+            <Button
+              className="flex items-center ms-auto h-5 gap-0.5 text-sm font-bold px-0"
+              disabled={!selectedFile}
+              variant="ghost"
+            >
               ABI:
               <Copy size={16}/>
-            </div>
-            <div className="flex items-center h-5 gap-0.5 text-sm font-bold">
+            </Button>
+            <Button
+              className="flex items-center h-5 gap-0.5 text-sm font-bold px-0"
+              disabled={!selectedFile}
+              variant="ghost"
+            >
               Bytecode:
               <Copy size={16}/>
-            </div>
+            </Button>
           </div>
-          <div className="border border-black rounded-lg bg-lighter-gray flex-1">
-
+          <div
+            className="border border-black rounded-lg bg-lighter-gray flex-1 font-mono whitespace-pre-wrap p-6 max-h-[50dvh] overflow-auto">
+            {fileContent}
           </div>
         </div>
       </div>
       <div className={clsx('mt-6', { hidden: tab !== 'Docs' })}>
-        {data.description}
-        <h2 className="text-center text-lg sm:text-2xl font-regular mb-6">Simple ERC20 Token</h2>
-        <article className="text-center text-lg mb-6">
-          <p className="text-sm sm:text-base">ERC20 token with the following features:<br />
-            -Premint your total supply.<br/>
-            -No minting function. This allows users to comfortably know the future supply of the token.</p>
-        </article>
-        <article className="prose-xl border border-gray rounded-lg p-6 bg-white">
-
-        </article>
+        <article
+          className="prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words"
+          dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+        />
       </div>
     </main>
   );

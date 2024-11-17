@@ -122,14 +122,14 @@ export default function ContractView({
             >
               Open Code
             </Button>
-            <button
+            <Button
               className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
               disabled={!selectedFile}
               onClick={doInspectAudit}
             >
               <Github size={16} />
               Inspect Audit
-            </button>
+            </Button>
           </div>
           <div className="flex items-center gap-4 mb-2 flex-none">
             <h2 className="text-sm text-dark-gray font-mono">{trimPrefix(selectedFile, removeS3Prefix(data.document_links))}</h2>
