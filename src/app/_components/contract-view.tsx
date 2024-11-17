@@ -1,8 +1,9 @@
 'use client';
 
-import { CircleCheckBig, CircleStop, Copy, Download, Github, Image, Star, User } from 'lucide-react';
-import { useState } from 'react';
 import { clsx } from 'clsx';
+import { CircleCheckBig, CircleStop, Copy, Download, Github, Image, Star, User } from 'lucide-react';
+import { marked } from 'marked';
+import { useState } from 'react';
 import { Contract } from '@/types';
 
 interface ContractViewProps {
@@ -14,6 +15,7 @@ export default function ContractView({
 }: ContractViewProps) {
   const [tab, setTab] = useState('Source');
   const logo = data.logo?.url || data.logo_url || '';
+  const descriptionHtml = marked(data.description || '');
 
   return (
     <main className="mt-6 sm:mt-8 mb-6 px-6 sm:px-0">
@@ -107,16 +109,10 @@ export default function ContractView({
         </div>
       </div>
       <div className={clsx('mt-6', { hidden: tab !== 'Docs' })}>
-        {data.description}
-        <h2 className="text-center text-lg sm:text-2xl font-regular mb-6">Simple ERC20 Token</h2>
-        <article className="text-center text-lg mb-6">
-          <p className="text-sm sm:text-base">ERC20 token with the following features:<br />
-            -Premint your total supply.<br/>
-            -No minting function. This allows users to comfortably know the future supply of the token.</p>
-        </article>
-        <article className="prose-xl border border-gray rounded-lg p-6 bg-white">
-
-        </article>
+        <article
+          className="prose-xl border border-gray rounded-lg p-6 bg-white"
+          dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+        />
       </div>
     </main>
   );

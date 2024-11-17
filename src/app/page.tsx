@@ -8,7 +8,10 @@ import FeaturedList from '@/app/_components/featured-list';
 import ContractsDisplay from '@/app/_components/contracts-display';
 import PointsDialog from '@/app/_components/points-dialog';
 import { getLatestContracts, getProtocolCount } from '@/services';
+import Image from 'next/image';
 import Link from 'next/link';
+import HeroBg from '@/assets/images/hero-bg.svg';
+import HeroPic from '@/assets/images/hero-pic.svg';
 
 export default async function Landing() {
   // fetch count of contracts, protocols
@@ -21,11 +24,25 @@ export default async function Landing() {
     <div className="min-h-screen pt-[69px] sm:pt-20 pb-8">
       <main className="flex flex-col gap-8 sm:gap-24 sm:mt-8 pt-6 px-8 sm:px-0">
         <div className="hero-section sm:relative flex flex-col gap-6 sm:gap-0 sm:block">
-          <img src="/hero-bg.svg" alt="" className="hidden sm:block w-full" />
-          <img
-            src="/hero-pic.svg"
-            alt=""
-            className="hidden sm:block w-[30%] absolute right-14 bottom-12"
+          <Image
+            src={HeroBg}
+            alt="Repot hero background"
+            className="hidden sm:block w-full"
+          />
+          <Image
+            src={HeroPic}
+            alt="Repot hero pic"
+            className="hidden sm:block w-[30%] absolute right-14 bottom-12 aspect-[376/519]"
+          />
+          <video
+            autoPlay
+            className="hidden sm:block w-[30%] absolute right-14 bottom-12 aspect-[376/519]"
+            loop
+            muted
+            playsInline
+            src="https://assets.repot.dev/hero-pic.mp4"
+            width={376}
+            height={519}
           />
           <div className="flex flex-col items-center sm:items-start p-6 sm:p-0 gap-8 bg-main-green sm:bg-none rounded-2.5xl sm:rounded-none border border-black shadow-[0_8px_0_0_#000] sm:shadow-none sm:border-none sm:absolute sm:top-8 sm:left-8 sm:w-5/12">
             <div className="font-title text-2xl sm:text-5.5xl text-dark-green leading-tight capitalize">
@@ -35,10 +52,10 @@ export default async function Landing() {
               Fuel your vision with powerful, ready-to-launch smart contracts
               across chains. We power your projects, you build your dreams
             </div>
-            <img
-              src="/hero-pic.svg"
-              alt=""
-              className="sm:hidden block w-full"
+            <Image
+              src={HeroPic}
+              alt="Repot hero pic"
+              className="sm:hidden block w-full aspect-[376/519]"
             />
             <Button className="w-fit font-bold">
               Get Started
@@ -49,7 +66,7 @@ export default async function Landing() {
           <div className="sm:absolute sm:bottom-0 sm:left-0 flex flex-col sm:flex-row gap-6 sm:w-1/2 sm:h-[35%]">
             <Link
               className="bg-main-purple p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto raised-button"
-              href="/contracts"
+              href="/search?category=contracts"
             >
               <ContractLayoutIcon className="w-14 h-14" />
               <div className="flex justify-between items-center">
@@ -64,7 +81,7 @@ export default async function Landing() {
             </Link>
             <Link
               className="bg-lime-green p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto raised-button"
-              href="/protocols"
+              href="/search?category=protocols"
             >
               <FileMinus className="w-14 h-14" strokeWidth={1} />
               <div className="flex justify-between items-center">
@@ -82,10 +99,15 @@ export default async function Landing() {
 
         {/* feature */}
         <div className="feature-section flex flex-col sm:flex-row gap-8 sm:gap-16 justify-between">
-          <img
-            src="/feature-contracts.png"
-            alt="Smart Contracts"
-            className="w-full sm:w-5/12"
+          <video
+            autoPlay
+            className="w-full sm:w-5/12 aspect-[1148/1650]"
+            loop
+            muted
+            playsInline
+            src="https://assets.repot.dev/feature-contracts.mp4"
+            width={1148}
+            height={1650}
           />
           <div className="w-full sm:w-1/2 flex flex-col gap-6">
             <div className="font-title text-3xl capitalize text-dark-green">

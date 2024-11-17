@@ -1,4 +1,5 @@
 import { X, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -7,6 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import GitHub from '@/assets/images/github.svg';
+import Logo from '@/assets/images/repot.svg'
 
 export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
   return (
@@ -18,9 +21,9 @@ export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen:
       >
         <DialogHeader className="relative bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl sm:rounded-t-3xl">
           <div className="w-24 h-24 bg-white rounded-full flex justify-center items-center relative">
-            <img src="/repot.svg" alt="Repot" className="h-3" />
-            <img
-              src="/github.png"
+            <Image src={Logo} alt="Repot" className="h-3" />
+            <Image
+              src={GitHub}
               alt="GitHub"
               className="w-6 h-6 absolute bottom-0 right-0"
             />

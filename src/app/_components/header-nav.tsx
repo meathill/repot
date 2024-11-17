@@ -1,5 +1,7 @@
 'use client';
+
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Box, GitBranch, ArrowRight, AlignJustify } from 'lucide-react';
 import ContractsIcon from '@/components/icons/contracts-icon';
@@ -12,6 +14,7 @@ import {
 } from '@/components/ui/collapsible';
 import SearchBox from '@/app/_components/search-box';
 import LoginDialog from '@/app/_components/login-dialog';
+import Logo from '@/assets/images/logo-text.svg';
 
 const NavLinks = () => {
   return (
@@ -56,7 +59,7 @@ export default function HeaderNav() {
       <nav className="z-10 container h-auto sm:h-20 flex flex-col sm:flex-row justify-center sm:justify-between w-full px-4 sm:px-10 py-4 sm:py-3.5 sm:rounded-b-2.5xl bg-background sticky top-0 border-b-neutral-300 sm:border-primary-800 border-b sm:border-l sm:border-r">
         <div className="flex justify-center sm:justify-between items-center sm:gap-6 relative">
           <Link href="/">
-            <img src="/logo-text.svg" alt="Repot Logo" className="h-9" />
+            <Image src={Logo} alt="Repot Logo" className="h-9" />
           </Link>
           <div className="hidden sm:inline-flex sm:items-center gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal">
             <NavLinks />
