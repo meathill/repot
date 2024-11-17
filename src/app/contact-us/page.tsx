@@ -1,7 +1,6 @@
 export const metadata = {
   title: 'Contact us',
   description: 'Contact us page',
-  lang: 'en',
 }
 
 export default function ContactUs() {

@@ -60,7 +60,5 @@ export default async function Search({
     </>}
 
     {!isChain && !isProtocol && <ContractList items={contracts} />}
-
-    <Footer className="mx-6 mb-6 sm:mx-auto"/>
   </>;
 }

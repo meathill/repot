@@ -30,8 +30,5 @@ export default async function Contracts({
     ? await readDir(protocolData.document_link)
     : { folders: [], files: [] };
 
-  return <>
-    <ProtocolView data={protocolData} sources={sources} />
-    <Footer className="mx-6 mb-6 sm:mx-auto"/>
-  </>;
+  return <ProtocolView data={protocolData} sources={sources} />;
 }

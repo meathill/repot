@@ -30,8 +30,5 @@ export default async function Contracts({
     ? await readDir(contractData.document_links)
     : { folders: [], files: [] };
 
-  return <>
-    <ContractView data={contractData} sources={sources} />
-    <Footer className="mx-6 mb-6 sm:mx-auto"/>
-  </>;
+  return <ContractView data={contractData} sources={sources} />;
 }
