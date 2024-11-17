@@ -13,7 +13,6 @@ interface ProtocolViewProps {
 
 const TabItems = ['Info', 'Docs', 'Source'];
 
-
 export default function ProtocolView({
   data,
 }: ProtocolViewProps) {

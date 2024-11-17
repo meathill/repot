@@ -9,10 +9,10 @@ export const config = {
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const key = url.searchParams.get('key') || '';
-  const fileKey = key.replace(new RegExp(`^s3://${process.env.AWS_BUCKET_NAME}/`), '');
+  const fileKey = key.replace(new RegExp(`^s3://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), '');
 
   const listCommand = new GetObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME || '',
+    Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
     Key: fileKey,
   });
   const response = await s3Client.send(listCommand);

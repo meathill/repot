@@ -10,6 +10,11 @@ export type StrapiResponse<T> = {
   };
 }
 
+export type ApiResponse<T> = {
+  code: number;
+  data: T,
+}
+
 export type Chain = {
   id: number;
   documentId: string;
@@ -57,4 +62,15 @@ export type Contract = {
   document_links: string;
   description: string;
   protocols?: Protocol[];
+}
+
+export type S3File = {
+  Key: string;
+}
+export type S3Folder = {
+  Prefix: string;
+}
+export type S3FolderList = {
+  files: S3File[];
+  folders: S3Folder[];
 }

@@ -90,3 +90,11 @@ body {
 
   @apply transition-all hover:shadow-raised hover:-translate-y-1 active:shadow-none active:translate-y-0;
 }
+
+.prose pre {
+  @apply whitespace-pre-wrap;
+}
+
+.file-tree button[data-state="open"] > .chevron-right {
+  @apply rotate-90;
+}

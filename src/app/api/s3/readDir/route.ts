@@ -8,10 +8,11 @@ export const config = {
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const key = url.searchParams.get('key') || '';
-  const Prefix = key.replace(new RegExp(`^s3://${process.env.AWS_BUCKET_NAME}/`), '');
+  const Prefix = key.replace(new RegExp(`^s3://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), '');
 
   const listCommand = new ListObjectsV2Command({
-    Bucket: process.env.AWS_BUCKET_NAME || '',
+    Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
+    Delimiter: '/',
     Prefix,
   });
   const response = await s3Client.send(listCommand);
@@ -19,7 +20,8 @@ export async function GET(request: Request) {
   return Response.json({
     code: 0,
     data: {
-      contents: response.Contents,
+      files: response.Contents,
+      folders: response.CommonPrefixes,
     },
   });
 }
