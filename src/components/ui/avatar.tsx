@@ -20,7 +20,6 @@ export default function Avatar({
         className="size-full rounded-[inherit] object-cover"
         src={src}
         alt={name}
-        unoptimized
       />
       <Fallback
         className="leading-1 flex size-full items-center justify-center bg-white font-medium"
