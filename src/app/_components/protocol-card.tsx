@@ -36,6 +36,7 @@ export default function ProtocolCard({
           className="w-12 h-12 rounded-lg block"
           width={48}
           height={48}
+          unoptimized
         />}
         <h4 className="font-bold text-primary-800">{protocol.name}</h4>
       </div>

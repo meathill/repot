@@ -55,6 +55,7 @@ export default function ContractView({
           src={logo}
           width={72}
           height={72}
+          unoptimized
         />}
         <div className="flex-1 flex flex-col gap-4">
           <div className="flex sm:items-center gap-4 flex-col sm:flex-row">

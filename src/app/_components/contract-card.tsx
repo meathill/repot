@@ -25,6 +25,7 @@ export default function ContractCard({
           src={logo}
           width={48}
           height={48}
+          unoptimized
         />}
         <div className="font-bold text-lg text-primary-800">{data.name}</div>
       </div>

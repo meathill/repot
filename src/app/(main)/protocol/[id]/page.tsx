@@ -1,5 +1,4 @@
 import { getProtocolDetail } from '@/services';
-import Footer from '@/app/_components/footer';
 import ProtocolView from '@/app/_components/protocol-view';
 import { readDir } from '@/services/s3';
 

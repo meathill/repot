@@ -6,7 +6,6 @@ import { getChainDetail, getChains, getContracts, getProtocols } from '@/service
 import ProtocolList from '@/app/_components/search/protocol-list';
 import KeywordsFilter from '@/app/_components/search/keywords-filter';
 import ContractList from '@/app/_components/search/contract-list';
-import Footer from '@/app/_components/footer';
 
 interface SearchProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

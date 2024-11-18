@@ -51,6 +51,7 @@ export default function ChainDetail({
           className="w-15 h-15 block me-6"
           width={60}
           height={60}
+          unoptimized
         />}
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
         <Button

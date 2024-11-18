@@ -37,6 +37,7 @@ const FeatureItem = ({ documentId, name, description, icon }: Item) => {
             className="w-12 h-12 rounded-lg"
             width={48}
             height={48}
+            unoptimized
           />
           <div className="font-bold text-lg text-primary-800">{name}</div>
         </div>

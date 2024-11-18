@@ -1,4 +1,3 @@
-import Footer from '@/app/_components/footer';
 import ContractView from '@/app/_components/contract-view';
 import { getContractDetail } from '@/services';
 import { readDir } from '@/services/s3';

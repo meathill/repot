@@ -45,6 +45,7 @@ export default function ChainList({
               className="w-6 h-6"
               width={24}
               height={24}
+              unoptimized
             />}
             {item.name}
           </a>
