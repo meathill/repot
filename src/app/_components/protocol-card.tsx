@@ -1,5 +1,6 @@
 import { Protocol } from '@/types';
 import { clsx } from 'clsx';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,10 +30,12 @@ export default function ProtocolCard({
       href={`/protocol/${protocol.documentId}-${slugify(protocol.name)}`}
     >
       <div className="flex items-center gap-4 h-12">
-        {logo && <img
+        {logo && <Image
           src={logo}
           alt={protocol.name}
           className="w-12 h-12 rounded-lg block"
+          width={48}
+          height={48}
         />}
         <h4 className="font-bold text-primary-800">{protocol.name}</h4>
       </div>

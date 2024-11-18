@@ -1,8 +1,9 @@
 'use client';
 
-import { CircleCheckBig, CircleStop, Copy, Github, Image, Star, User } from 'lucide-react';
+import { CircleCheckBig, CircleStop, Copy, Github, ImageIcon, Star, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
+import Image from 'next/image';
 import { Protocol, S3FolderList } from '@/types';
 import { Button } from '@/components/ui/button';
 import Avatar from '@/components/ui/avatar';
@@ -50,10 +51,12 @@ export default function ProtocolView({
   return (
     <main className="mt-6 sm:mt-8 mb-6 px-6 sm:px-0">
       <header className="flex flex-col sm:flex-row gap-6 mb-6 pb-6 border-b border-neutral-800">
-        {logo && <img
+        {logo && <Image
           alt={data.name}
           className="block w-18 h-18 rounded-lg"
           src={logo}
+          width={72}
+          height={72}
         />}
         <div className="flex-1 flex flex-col gap-4">
           <div className="flex sm:items-center gap-4 flex-col sm:flex-row">
@@ -81,7 +84,7 @@ export default function ProtocolView({
               Token
             </div>
             <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <Image size={16} />
+              <ImageIcon size={16} />
               NFT
             </div>
             <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">

@@ -1,7 +1,9 @@
 'use client';
+
 import { CircleArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatedList } from '@/components/ui/animated-list';
+import Image from 'next/image';
 import Link from 'next/link';
 import slugify from 'slugify';
 
@@ -29,7 +31,13 @@ const FeatureItem = ({ documentId, name, description, icon }: Item) => {
     >
       <div className="flex justify-between items-center mb-5">
         <div className="flex gap-4 items-center">
-          <img src={icon} className="w-12 h-12 rounded-lg" />
+          <Image
+            alt={name}
+            src={icon}
+            className="w-12 h-12 rounded-lg"
+            width={48}
+            height={48}
+          />
           <div className="font-bold text-lg text-primary-800">{name}</div>
         </div>
         <CircleArrowRight

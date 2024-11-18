@@ -1,4 +1,5 @@
 import { CircleArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -9,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import Logo from '@/assets/images/logo.svg';
 
 export default function PointsDialog() {
   return (
@@ -31,7 +33,13 @@ export default function PointsDialog() {
             What are points?
           </DialogTitle>
           <div className="w-24 h-24 bg-white rounded-full flex justify-center items-center">
-            <img src="/logo.svg" alt="Repot Logo" className="w-8 h-8" />
+            <Image
+              src={Logo}
+              alt="Repot Logo"
+              className="w-8 h-8"
+              width={32}
+              height={32}
+            />
           </div>
         </DialogHeader>
         <div className="py-2 pl-12 px-8 text-sm text-primary-800 leading-6 capitalize">

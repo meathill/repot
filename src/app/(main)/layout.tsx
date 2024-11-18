@@ -1,11 +1,11 @@
 import { ReactNode, Suspense } from 'react';
-import Footer from "@/app/_components/footer";
+import Footer from '@/app/_components/footer';
 
-interface PageLayoutProps {
+interface MainLayoutProps {
   children: ReactNode
 }
 
-export default function PageLayout({ children }: PageLayoutProps) {
+export default function MainLayout({ children }: MainLayoutProps) {
   return <Suspense>
     <main className="container mx-auto">
       {children}

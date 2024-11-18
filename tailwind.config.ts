@@ -96,6 +96,7 @@ const config: Config = {
         18: '4.5rem',
         27: '6.75rem',
         54: '13.5rem',
+        '50dvh': '50dvh',
       },
     },
   },

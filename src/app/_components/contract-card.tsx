@@ -1,6 +1,7 @@
 import { FolderOpen, Layers, Lock, Star, User, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Contract } from '@/types';
+import Image from 'next/image';
 import Link from 'next/link';
 import slugify from 'slugify';
 
@@ -18,10 +19,12 @@ export default function ContractCard({
   return (
     <div className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4">
       <div className="flex gap-4 items-center">
-        {logo && <img
+        {logo && <Image
           alt={data.name}
           className="w-12 h-12 rounded-lg"
           src={logo}
+          width={48}
+          height={48}
         />}
         <div className="font-bold text-lg text-primary-800">{data.name}</div>
       </div>
