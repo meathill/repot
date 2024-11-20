@@ -40,6 +40,11 @@ export default function ProtocolView({
 
   }
   async function loadSelectedFile(file: string) {
+    if (!file) {
+      setFileContent('');
+      return;
+    }
+
     const content = await readFile(file);
     setFileContent(content);
   }
