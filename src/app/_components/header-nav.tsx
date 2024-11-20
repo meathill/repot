@@ -21,28 +21,28 @@ const NavLinks = () => {
     <>
       <Link
         href="/search?category=contracts"
-        className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
+        className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <ContractsIcon className="w-4 h-4" />
         Contracts
       </Link>
       <Link
         href="/search?category=chains"
-        className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
+        className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <Box className="w-4 h-4" />
         Chains
       </Link>
       <Link
         href="/search?category=protocols"
-        className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
+        className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <GitBranch className="w-4 h-4" />
         Protocols
       </Link>
       <Link
         href="/social"
-        className="py-2 sm:py-0 sm:px-4 inline-flex items-center gap-2"
+        className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <SocialIcon className="w-4 h-4" />
         Social Media

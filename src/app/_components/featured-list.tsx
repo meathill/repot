@@ -6,23 +6,21 @@ import { AnimatedList } from '@/components/ui/animated-list';
 import Image from 'next/image';
 import Link from 'next/link';
 import slugify from 'slugify';
+import { Protocol } from '@/types';
 
-interface Item {
-  documentId: string;
-  name: string;
-  description: string;
-  icon: string;
+interface FeaturedListProps {
+  className?: string;
+  items: Protocol[];
 }
 
-const features: Item[] = Array.from({ length: 20 }, () => ({
-  documentId: '',
-  name: 'Cutting Edge',
-  description:
-    'Discover the most innovative Web3 contracts, showcasing fresh ideas and advanced techniquesthat keep you at the forefront of smart contract development.',
-  icon: '/ce.png',
-}));
-
-const FeatureItem = ({ documentId, name, description, icon }: Item) => {
+const FeatureItem = ({
+  documentId,
+  name,
+  overview,
+  logo,
+  logo_url,
+}: Protocol) => {
+  const icon = logo?.url || logo_url || '';
   return (
     <Link
       className="block bg-white hover:bg-lighter-gray p-6 border border-primary-800 rounded-2.5xl shadow-[0_4px_0_0_#000] raised-button"
@@ -31,14 +29,14 @@ const FeatureItem = ({ documentId, name, description, icon }: Item) => {
     >
       <div className="flex justify-between items-center mb-5">
         <div className="flex gap-4 items-center">
-          <Image
+          {icon && <Image
             alt={name}
             src={icon}
             className="w-12 h-12 rounded-lg"
             width={48}
             height={48}
             unoptimized
-          />
+          />}
           <div className="font-bold text-lg text-primary-800">{name}</div>
         </div>
         <CircleArrowRight
@@ -47,16 +45,15 @@ const FeatureItem = ({ documentId, name, description, icon }: Item) => {
           strokeWidth={1.3}
         />
       </div>
-      <div className="text-primary-800 capitalize text-sm h-10 overflow-hidden text-ellipsis">{description}</div>
+      <p className="text-primary-800 capitalize text-sm h-10 line-clamp-2">{overview}</p>
     </Link>
   );
 }
 
 export default function FeaturedList({
   className,
-}: {
-  className?: string;
-  }) {
+  items,
+}: FeaturedListProps) {
   return (
     <div
       className={cn(
@@ -65,7 +62,7 @@ export default function FeaturedList({
       )}
     >
       <AnimatedList delay={2000}>
-        {features.map((item, idx) => (
+        {items.map((item, idx) => (
           <FeatureItem {...item} key={idx} />
         ))}
       </AnimatedList>

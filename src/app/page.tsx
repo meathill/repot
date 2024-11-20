@@ -7,7 +7,7 @@ import Footer from '@/app/_components/footer';
 import FeaturedList from '@/app/_components/featured-list';
 import ContractsDisplay from '@/app/_components/contracts-display';
 import PointsDialog from '@/app/_components/points-dialog';
-import { getLatestContracts, getProtocolCount } from '@/services';
+import { getLatestContracts, getLatestFeaturedProtocol, getProtocolCount } from '@/services';
 import Image from 'next/image';
 import Link from 'next/link';
 import HeroBg from '@/assets/images/hero-bg.svg';
@@ -16,6 +16,7 @@ import HeroPic from '@/assets/images/hero-pic.svg';
 export default async function Landing() {
   // fetch count of contracts, protocols
   const protocolCount = await getProtocolCount();
+  const protocols = await getLatestFeaturedProtocol();
   // fetch latest contracts
   const contracts = await getLatestContracts(9);
   const contractCount = contracts.meta.pagination.total;
@@ -128,7 +129,7 @@ export default async function Landing() {
                 reliable AI operations.
               </p>
             </div>
-            <FeaturedList className="p-0 h-[512px]" />
+            <FeaturedList className="p-0 h-[512px]" items={protocols} />
           </div>
         </div>
 

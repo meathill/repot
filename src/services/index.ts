@@ -19,6 +19,19 @@ export async function getProtocolCount() {
   return json.meta.pagination.total;
 }
 
+export async function getLatestFeaturedProtocol() {
+  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
+  url.searchParams.set('pagination[pageSize]', '6');
+  url.searchParams.set('sort', 'id:desc');
+  url.searchParams.set('fields[0]', 'name');
+  url.searchParams.set('fields[1]', 'logo_url');
+  url.searchParams.set('fields[2]', 'overview');
+  url.searchParams.set('filters[is_featured][$eq]', 'true');
+  url.searchParams.set('populate', 'logo');
+  const json = await fetchFromStrapi<StrapiResponse<Protocol[]>>(url);
+  return json.data;
+}
+
 export async function getLatestContracts(count: number) {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts`);
   url.searchParams.set('pagination[pageSize]', count.toString());
