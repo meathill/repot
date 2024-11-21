@@ -4,15 +4,47 @@ import './globals.css';
 import HeaderNav from './_components/header-nav';
 import { Suspense } from 'react';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
+const NextBookFont = localFont({
+  display: 'swap',
+  preload: true,
+  src: [
+    {
+      path: './fonts/NEXT/NEXT-Book-Thin.otf',
+      weight: '100',
+      style: 'normal',
+    },
+    {
+      path: './fonts/NEXT/NEXT-Book-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/NEXT/NEXT-Book-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-next-book',
 });
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
+const NextPosterFont = localFont({
+  src: [
+    {
+      path: './fonts/NEXT/NEXT-Poster-Thin.otf',
+      weight: '100',
+      style: 'normal',
+    },
+    {
+      path: './fonts/NEXT/NEXT-Poster-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/NEXT/NEXT-Poster-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-next-poster',
 });
 
 export const metadata: Metadata = {
@@ -27,14 +59,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-ivory`}
-      >
-        <HeaderNav />
-        <Suspense>
-          {children}
-        </Suspense>
-      </body>
+    <head>
+      <link rel="preconnect" href="https://fonts.googleapis.com"/>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+            rel="stylesheet"/>
+    </head>
+    <body
+      className={`${NextBookFont.variable} ${NextPosterFont.variable} antialiased bg-ivory`}
+    >
+    <HeaderNav/>
+    <Suspense>
+      {children}
+    </Suspense>
+    </body>
     </html>
   );
 }

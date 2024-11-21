@@ -80,7 +80,7 @@ const config: Config = {
       fontFamily: {
         logo: "'Oleo Script', system-ui",
         default: 'Nunito, system-ui, sans-serif',
-        title: '"NEXT Pan Book", system-ui, sans-serif',
+        title: 'NextBookFont, "NEXT Pan Book", system-ui, sans-serif',
       },
       fontSize: {
         '5.5xl': '3.375rem', // 54px
