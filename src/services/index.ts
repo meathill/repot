@@ -77,6 +77,7 @@ export async function getProtocols(withChains = false, chainId?: number) {
   url.searchParams.set('fields[2]', 'overview');
   if (withChains) {
     url.searchParams.set('populate[1]', 'chains');
+    url.searchParams.set('populate[chains][populate]', 'logo');
   }
   if (chainId) {
     url.searchParams.set('filters[chains][$contains]', chainId.toString());

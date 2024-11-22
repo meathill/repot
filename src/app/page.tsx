@@ -52,14 +52,26 @@ export default async function Landing() {
             Fuel your vision with powerful, ready-to-launch smart contracts
             across chains. We power your projects, you build your dreams
           </div>
-          <Image
-            src={HeroPic}
-            alt="Repot hero pic"
-            className="sm:hidden block w-full aspect-[376/519]"
-          />
+          <div className="sm:hidden relative w-full aspect-[376/519]">
+            <Image
+              src={HeroPic}
+              alt="Repot hero pic"
+              className="sm:hidden block w-full h-full"
+            />
+            <video
+              autoPlay
+              className="w-full h-full absolute top-0 left-0"
+              loop
+              muted
+              playsInline
+              src="https://assets.repot.dev/hero-pic.mp4"
+              width={376}
+              height={519}
+            />
+          </div>
           <Button className="w-fit font-bold">
             Get Started
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-3 h-3"/>
           </Button>
         </div>
 
