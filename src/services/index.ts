@@ -54,6 +54,7 @@ export async function getChainDetail(chainId: string, withProtocols = false) {
   url.searchParams.set('populate[0]', 'logo');
   if (withProtocols) {
     url.searchParams.set('populate[1]', 'protocols');
+    url.searchParams.set('populate[protocols][populate]', 'logo');
   }
   const json = await fetchFromStrapi<StrapiResponse<Chain>>(url);
   return json.data;
@@ -63,6 +64,7 @@ export async function getProtocolDetail(protocolId: string) {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols/${protocolId}`);
   url.searchParams.set('populate[0]', 'logo');
   url.searchParams.set('populate[1]', 'chains');
+  url.searchParams.set('populate[chains][populate]', 'logo');
   const json = await fetchFromStrapi<StrapiResponse<Protocol>>(url);
   return json.data;
 }

@@ -43,6 +43,7 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "15.0.1",
     "postcss": "^8.4.49",
+    "shiki": "^1.23.1",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3"
   }

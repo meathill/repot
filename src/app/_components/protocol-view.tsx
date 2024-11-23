@@ -1,16 +1,17 @@
 'use client';
 
-import { CircleCheckBig, CircleStop, Copy, Github, ImageIcon, Star, User } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { CircleCheckBig, CircleStop, ImageIcon, Star, User } from 'lucide-react';
+import { useState } from 'react';
 import { clsx } from 'clsx';
 import Image from 'next/image';
 import { Protocol, S3FolderList } from '@/types';
 import { Button } from '@/components/ui/button';
 import Avatar from '@/components/ui/avatar';
 import { marked } from 'marked';
-import { removeS3Prefix, trimPrefix } from '@/utils';
+import { removeS3Prefix } from '@/utils';
 import FileTreeView from '@/components/ui/file-tree';
-import { readFile } from '@/services/s3';
+import GitHub from '@/assets/images/github.svg';
+import CodeViewer from '@/components/ui/codeViewer';
 
 interface ProtocolViewProps {
   data: Protocol;
@@ -25,7 +26,6 @@ export default function ProtocolView({
 }: ProtocolViewProps) {
   const [tab, setTab] = useState(TabItems[ 0 ]);
   const [selectedFile, setSelectedFile] = useState<string>('');
-  const [fileContent, setFileContent] = useState<string>('');
   const logo = data.logo?.url || data.logo_url || '';
   const descriptionHtml = marked(data.description || '');
   const infoHtml = marked(data.info || '');
@@ -39,19 +39,6 @@ export default function ProtocolView({
   function doInspectAudit() {
 
   }
-  async function loadSelectedFile(file: string) {
-    if (!file) {
-      setFileContent('');
-      return;
-    }
-
-    const content = await readFile(file);
-    setFileContent(content);
-  }
-
-  useEffect(() => {
-    loadSelectedFile(selectedFile);
-  }, [selectedFile]);
 
   return (
     <main className="mt-6 sm:mt-8 mb-6 px-6 sm:px-0">
@@ -151,7 +138,13 @@ export default function ProtocolView({
               onClick={doInspectAudit}
               variant="outline"
             >
-              <Github size={16} />
+              <Image
+                alt="GitHub logo"
+                className="w-4 h-4"
+                src={GitHub}
+                width={16}
+                height={16}
+              />
               Inspect Audit
             </Button>
             <Button
@@ -160,35 +153,17 @@ export default function ProtocolView({
               onClick={doInspectAudit}
               variant="outline"
             >
-              <Github size={16} />
+              <Image
+                alt="GitHub logo"
+                className="w-4 h-4"
+                src={GitHub}
+                width={16}
+                height={16}
+              />
               View Repo
             </Button>
           </div>
-          <div className="flex items-center gap-4 mb-2 flex-none">
-            <h2
-              className="text-sm text-dark-gray font-mono"
-            >{trimPrefix(selectedFile, removeS3Prefix(data.document_link))}</h2>
-            <Button
-              className="flex items-center ms-auto h-5 gap-0.5 text-sm font-bold px-0"
-              disabled={!selectedFile}
-              variant="ghost"
-            >
-              ABI:
-              <Copy size={16}/>
-            </Button>
-            <Button
-              className="flex items-center h-5 gap-0.5 text-sm font-bold px-0"
-              disabled={!selectedFile}
-              variant="ghost"
-            >
-              Bytecode:
-              <Copy size={16}/>
-            </Button>
-          </div>
-          <div
-            className="border border-black rounded-lg bg-lighter-gray flex-1 font-mono whitespace-pre-wrap p-6 max-h-[50dvh] overflow-auto">
-            {fileContent}
-          </div>
+          <CodeViewer prefix={data.document_link} selectedFile={selectedFile} />
         </div>
       </div>
       <div className={clsx('mt-6', { hidden: tab !== 'Docs' })}>
