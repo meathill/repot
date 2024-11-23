@@ -1,15 +1,14 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { CircleCheckBig, CircleStop, Copy, Download, Github, ImageIcon, Star, User } from 'lucide-react';
+import { CircleCheckBig, CircleStop, Download, Github, ImageIcon, Star, User } from 'lucide-react';
 import Image from 'next/image';
 import { marked } from 'marked';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Contract, S3FolderList } from '@/types';
 import { Button } from '@/components/ui/button';
 import FileTreeView from '@/components/ui/file-tree';
-import { removeS3Prefix, trimPrefix } from '@/utils';
-import { readFile } from '@/services/s3';
+import { removeS3Prefix } from '@/utils';
 import CodeViewer from '@/components/ui/codeViewer';
 
 interface ContractViewProps {

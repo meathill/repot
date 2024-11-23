@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+
+import { FormEvent, useState } from 'react';
 
 import {
   Code,
@@ -20,33 +21,49 @@ import {
   CommandSeparator,
 } from '@/components/ui/command';
 import ContractsIcon from '@/components/icons/contracts-icon';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function SearchBox() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+
+  function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    setOpen(false);
+    router.push(`/search?q=${query}`);
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger>
-        <InputSearch
-          placeholder="Search Keywords or Contract Address"
-          className="border-gray w-full sm:w-80"
-          role="combobox"
-          aria-expanded={open}
-          onInput={() => {
-            console.log('input');
-            setOpen(true);
-          }}
-        />
+        <form onSubmit={onSubmit}>
+          <InputSearch
+            placeholder="Search Keywords or Contract Address"
+            className="border-gray w-full sm:w-80"
+            role="combobox"
+            aria-expanded={open}
+            onInput={(event) => {
+              console.log('input');
+              setOpen(true);
+              setQuery(event.currentTarget.value);
+            }}
+            value={query}
+          />
+        </form>
       </PopoverTrigger>
       <PopoverContent asChild onOpenAutoFocus={(e) => e.preventDefault()}>
         <Command className="border border-black p-0 w-80">
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
-            <CommandItem className="bg-main-green">
-              <ContractsIcon className="w-4 h-4" />
-              <span className="font-bold text-sm">
-                Search for all contracts
-              </span>
+            <CommandItem asChild className="bg-main-green">
+              <Link href={`/search?q=${query}`}>
+                <ContractsIcon className="w-4 h-4" />
+                <span className="font-bold text-sm">
+                  Search for all contracts
+                </span>
+              </Link>
             </CommandItem>
             <CommandItem>
               <Code className="w-4 h-4" />
