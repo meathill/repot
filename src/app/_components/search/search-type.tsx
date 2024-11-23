@@ -11,19 +11,28 @@ interface SearchTypeProps {
 
 const TabItems = [
   {
+    name: 'chains',
+    label: 'Chains',
+    icon: Box,
+    href: `?category=chains`,
+  },
+  {
     name: 'protocols',
     label: 'Protocols',
     icon: GitBranch,
+    href: `?category=protocols&page=1`,
   },
   {
     name: 'contracts',
     label: 'Contracts',
     icon: FileNetwork,
+    href: `?category=contracts&page=1`,
   },
   {
     name: 'code',
     label: 'Code Search',
     icon: Code,
+    href: `?category=code`,
   },
 ];
 if (!process.env.FIXED_CHAIN_ID) {
@@ -53,7 +62,7 @@ export default function SearchType({
           type="button"
           variant="ghost"
         >
-          <Link href={`?category=${item.name}`}>
+          <Link href={item.href}>
             <item.icon size={24} strokeWidth={2} />
             {item.label}
           </Link>

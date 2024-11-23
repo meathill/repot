@@ -69,14 +69,14 @@ export async function getProtocolDetail(protocolId: string) {
   return json.data;
 }
 
-export async function getProtocols({
-  chainId = 0,
-  pageSize = 30,
-  query = '',
-  withChains = false,
-} = {}) {
-  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocols`);
-  url.searchParams.set('pagination[pageSize]', pageSize.toString());
+export async function getProtocols(withChains = false, chainId?: number, params: { page: string | number } = {
+  page: 1
+}) {
+  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
+  if (params && params.page) {
+    url.searchParams.set('pagination[page]', params.page.toString());
+  }
+  url.searchParams.set('pagination[pageSize]', '30');
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('populate[0]', 'logo');
   url.searchParams.set('fields[0]', 'name');
@@ -98,13 +98,13 @@ export async function getProtocols({
   return json.data;
 }
 
-export async function getContracts({
-  pageSize = 30,
-  protocolId = 0,
-  query = '',
-} = {}) {
-  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contracts`);
-  url.searchParams.set('pagination[pageSize]', pageSize.toString());
+export async function getContracts(protocolId?: number, query?: string) {
+  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts`);
+  
+  if (params && params.page) {
+    url.searchParams.set('pagination[page]', params.page.toString());
+  }
+  url.searchParams.set('pagination[pageSize]', '30');
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('fields[0]', 'name');
   url.searchParams.set('fields[1]', 'overview');

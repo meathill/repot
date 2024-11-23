@@ -30,7 +30,7 @@ const NavLinks = ({
   return (
     <div className={clsx('gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal', className, { 'sm:hidden': q })}>
       <Link
-        href="/search?category=contracts"
+        href="/search?category=contracts&page=1"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <ContractsIcon className="w-4 h-4"/>
@@ -44,7 +44,7 @@ const NavLinks = ({
         Chains
       </Link>}
       <Link
-        href="/search?category=protocols"
+        href="/search?category=protocols&page=1"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <GitBranch className="w-4 h-4"/>

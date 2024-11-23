@@ -31,7 +31,9 @@ export default async function Search({
   let protocols: Protocol[] = [];
   if (!isChain && chainDocId) {
     const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
-    protocols = await getProtocols({ withChains: true, chainId });
+    protocols = await getProtocols(true, chainId, {
+      page,
+    });
   }
 
   let contracts: Contract[] = [];
@@ -40,7 +42,6 @@ export default async function Search({
       ? protocols.find((p) => p.name === protocol)?.id : 0;
     contracts = await getContracts({ protocolId, query: q as string });
   }
-
   return <>
     <SearchType
       className="py-8"
@@ -60,7 +61,7 @@ export default async function Search({
 
     {isProtocol && <>
       <ProtocolList items={protocols} />
-    </>}
+      </>}
 
     {!isChain && !isProtocol && <ContractList items={contracts} />}
   </>;
