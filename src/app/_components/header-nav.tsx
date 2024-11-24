@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Box, GitBranch, ArrowRight, AlignJustify } from 'lucide-react';
@@ -18,44 +18,47 @@ import Logo from '@/assets/images/logo-text.svg';
 import { useSearchParams } from 'next/navigation';
 import { clsx } from 'clsx';
 
-const NavLinks = () => {
+const NavLinks = ({
+  className = '',
+}: { className?: string }) => {
+  const searchParams = useSearchParams();
+  const q = searchParams?.get('q') || '';
+
   return (
-    <>
+    <div className={clsx('gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal', className, { 'sm:hidden': q })}>
       <Link
         href="/search?category=contracts"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
-        <ContractsIcon className="w-4 h-4" />
+        <ContractsIcon className="w-4 h-4"/>
         Contracts
       </Link>
       <Link
         href="/search?category=chains"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
-        <Box className="w-4 h-4" />
+        <Box className="w-4 h-4"/>
         Chains
       </Link>
       <Link
         href="/search?category=protocols"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
-        <GitBranch className="w-4 h-4" />
+        <GitBranch className="w-4 h-4"/>
         Protocols
       </Link>
       <Link
         href="/social"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
-        <SocialIcon className="w-4 h-4" />
+        <SocialIcon className="w-4 h-4"/>
         Social Media
       </Link>
-    </>
+    </div>
   );
 };
 
 export default function HeaderNav() {
-  const searchParams = useSearchParams();
-  const q = searchParams?.get('q');
   const [loginOpen, setLoginOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
@@ -79,8 +82,10 @@ export default function HeaderNav() {
           </CollapsibleTrigger>
           <CollapsibleContent className="fixed top-17 border-t left-0 right-0 bottom-0 bg-white pt-6 px-9">
             <div className="flex flex-col sm:items-center gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal">
-              <SearchBox />
-              <NavLinks />
+              <Suspense>
+                <SearchBox />
+                <NavLinks className="flex flex-col" />
+              </Suspense>
             </div>
           </CollapsibleContent>
         </Collapsible>
@@ -88,10 +93,10 @@ export default function HeaderNav() {
         <Link href="/">
           <Image src={Logo} alt="Repot Logo" className="h-9" priority />
         </Link>
-        {!q && <div className="hidden sm:flex sm:items-center gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal me-auto">
-          <NavLinks />
-        </div>}
-        <SearchBox className={clsx('hidden sm:flex', q ? 'sm:w-125 me-auto' : 'sm:w-80')} />
+        <Suspense>
+          <NavLinks className="hidden sm:flex sm:items-center me-auto" />
+          <SearchBox className="hidden sm:flex" />
+        </Suspense>
         <Button
           onClick={() => setLoginOpen(true)}
           className={clsx('bg-main-purple rounded-lg aspect-square p-0 border-black border text-primary-800 font-bold ms-auto sm:ms-0 sm:px-6 hover:bg-main-purple')}
