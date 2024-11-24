@@ -38,7 +38,7 @@ export default function SearchType({
 }: SearchTypeProps) {
   return (
     <div
-      className={clsx('flex gap-6 items-center', className)}
+      className={clsx('flex gap-6 items-center max-w-full overflow-auto', className)}
       style={{ '--shadow-size': '4px' }}
     >
       {TabItems.map(item => (

@@ -62,10 +62,10 @@ export default function SearchBox({
     quickSearch(query);
   }, [query]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <div className="relative">
+  return <div className={clsx('relative', className)}>
     <InputSearch
       aria-expanded={open}
-      className={clsx('border-gray w-full', className)}
+      className="border-gray"
       isLoading={isLoading}
       onBlur={onBlur}
       onFocus={() => setOpen(true)}

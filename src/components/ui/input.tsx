@@ -45,7 +45,7 @@ const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
 
     return (
       <form
-        className="input-search-wrapper relative mb-0"
+        className="input-search-wrapper w-full relative mb-0"
         onSubmit={doSubmit}
       >
         <div className="absolute left-3 top-1/2 -translate-y-1/2">
