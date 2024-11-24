@@ -15,6 +15,8 @@ import {
 import SearchBox from '@/app/_components/search-box';
 import LoginDialog from '@/app/_components/login-dialog';
 import Logo from '@/assets/images/logo-text.svg';
+import { useSearchParams } from 'next/navigation';
+import { clsx } from 'clsx';
 
 const NavLinks = () => {
   return (
@@ -52,24 +54,26 @@ const NavLinks = () => {
 };
 
 export default function HeaderNav() {
+  const searchParams = useSearchParams();
+  const q = searchParams?.get('q');
   const [loginOpen, setLoginOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <>
-      <nav className="z-10 container mx-auto h-auto sm:h-20 flex flex-col sm:flex-row justify-center sm:justify-between w-full px-4 sm:px-10 py-4 sm:py-3.5 sm:rounded-b-2.5xl bg-background sticky top-0 border-b-neutral-300 sm:border-primary-800 border-b sm:border-l sm:border-r">
+      <nav className="z-10 container mx-auto h-auto sm:h-20 flex flex-col sm:flex-row w-full px-4 sm:px-10 py-4 sm:py-3.5 sm:rounded-b-2.5xl bg-background sticky top-0 border-b-neutral-300 sm:border-primary-800 border-b sm:border-l sm:border-r sm:gap-6">
         <div className="flex justify-center sm:justify-between items-center sm:gap-6 relative">
           <Link href="/">
-            <Image src={Logo} alt="Repot Logo" className="h-9" />
+            <Image src={Logo} alt="Repot Logo" className="h-9" priority />
           </Link>
-          <div className="hidden sm:inline-flex sm:items-center gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal">
+          {!q && <div className="hidden sm:inline-flex sm:items-center gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal">
             <NavLinks />
-          </div>
+          </div>}
         </div>
-        <div className="hidden sm:inline-flex items-center justify-between gap-6">
-          <SearchBox />
+        <div className={clsx('hidden sm:flex items-center gap-6', q ? 'flex-1': 'ms-auto')}>
+          <SearchBox className={q ? 'sm:w-125' : 'sm:w-80'} />
           <Button
             onClick={() => setLoginOpen(true)}
-            className="bg-main-purple rounded-lg border-black border text-primary-800 font-bold hover:bg-main-purple"
+            className={clsx('bg-main-purple rounded-lg border-black border text-primary-800 font-bold hover:bg-main-purple', q ? 'ml-auto' : '')}
             effect="raised"
           >
             Sign in

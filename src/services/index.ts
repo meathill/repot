@@ -69,9 +69,14 @@ export async function getProtocolDetail(protocolId: string) {
   return json.data;
 }
 
-export async function getProtocols(withChains = false, chainId?: number) {
+export async function getProtocols({
+  chainId = 0,
+  pageSize = 30,
+  query = '',
+  withChains = false,
+} = {}) {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
-  url.searchParams.set('pagination[pageSize]', '30');
+  url.searchParams.set('pagination[pageSize]', pageSize.toString());
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('populate[0]', 'logo');
   url.searchParams.set('fields[0]', 'name');
@@ -81,6 +86,9 @@ export async function getProtocols(withChains = false, chainId?: number) {
     url.searchParams.set('populate[1]', 'chains');
     url.searchParams.set('populate[chains][populate]', 'logo');
   }
+  if (query) {
+    url.searchParams.set('filters[name][$containsi]', query);
+  }
   if (chainId) {
     url.searchParams.set('filters[chains][$contains]', chainId.toString());
   }
@@ -88,9 +96,13 @@ export async function getProtocols(withChains = false, chainId?: number) {
   return json.data;
 }
 
-export async function getContracts(protocolId?: number, query?: string) {
+export async function getContracts({
+  pageSize = 30,
+  protocolId = 0,
+  query = '',
+} = {}) {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts`);
-  url.searchParams.set('pagination[pageSize]', '30');
+  url.searchParams.set('pagination[pageSize]', pageSize.toString());
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('fields[0]', 'name');
   url.searchParams.set('fields[1]', 'overview');

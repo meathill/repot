@@ -30,14 +30,14 @@ export default async function Search({
   let protocols: Protocol[] = [];
   if (!isChain && chainDocId) {
     const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
-    protocols = await getProtocols(true, chainId);
+    protocols = await getProtocols({ withChains: true, chainId });
   }
 
   let contracts: Contract[] = [];
   if (!isChain && !isProtocol) {
     const protocolId = protocol
       ? protocols.find((p) => p.name === protocol)?.id : 0;
-    contracts = await getContracts(protocolId, q as string);
+    contracts = await getContracts({ protocolId, query: q as string });
   }
 
   return <>

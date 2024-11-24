@@ -1,121 +1,152 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-
+import { FocusEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import {
   Code,
 } from 'lucide-react';
 import { InputSearch } from '@/components/ui/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandGroupLabel,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from '@/components/ui/command';
 import ContractsIcon from '@/components/icons/contracts-icon';
+import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
+import { ApiResponse, Contract, Protocol } from '@/types';
+import { clsx } from 'clsx';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import debounce from 'lodash-es/debounce';
 
-export default function SearchBox() {
-  const router = useRouter();
+type SearchBoxProps = {
+  className?: string;
+}
+
+export default function SearchBox({
+  className = '',
+}: SearchBoxProps) {
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(searchParams?.get('q') || '');
+  const [protocolResult, setProtocolResult] = useState<Protocol[]>([]);
+  const [contractResult, setContractResult] = useState<Contract[]>([]);
+  const menu = useRef<HTMLDivElement>(null);
 
-  function onSubmit(event: FormEvent) {
-    event.preventDefault();
+  function onBlur(event: FocusEvent) {
+    if (menu.current?.contains(event.relatedTarget as Element)) return;
+
     setOpen(false);
-    router.push(`/search?q=${query}`);
   }
+  const quickSearch = useCallback( // eslint-disable-line react-hooks/exhaustive-deps
+    debounce(async function (query: string) {
+      query = query.trim();
+      if (!query) return;
 
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger>
-        <form onSubmit={onSubmit}>
-          <InputSearch
-            placeholder="Search Keywords or Contract Address"
-            className="border-gray w-full sm:w-80"
-            role="combobox"
-            aria-expanded={open}
-            onInput={(event) => {
-              console.log('input');
-              setOpen(true);
-              setQuery(event.currentTarget.value);
-            }}
-            value={query}
-          />
-        </form>
-      </PopoverTrigger>
-      <PopoverContent asChild onOpenAutoFocus={(e) => e.preventDefault()}>
-        <Command className="border border-black p-0 w-80">
-          <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
-            <CommandItem asChild className="bg-main-green">
-              <Link href={`/search?q=${query}`}>
-                <ContractsIcon className="w-4 h-4" />
-                <span className="font-bold text-sm">
-                  Search for all contracts
-                </span>
-              </Link>
-            </CommandItem>
-            <CommandItem>
-              <Code className="w-4 h-4" />
-              <span className="font-bold text-sm">
-                Search for code snippets
-              </span>
-            </CommandItem>
-            <CommandSeparator />
-            <CommandGroupLabel className="text-[#8561eb]">
-              Contracts
-            </CommandGroupLabel>
-            <CommandGroup className="p-0">
-              <CommandItem>
-                <img src="/token-icon.png" className="w-5 h-5" />
-                <span className="font-bold text-sm">Simple ERC20 Token 1</span>
-              </CommandItem>
-              <CommandItem>
-                <img src="/token-icon.png" className="w-5 h-5" />
-                <span className="font-bold text-sm">Simple ERC20 Token 2</span>
-              </CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroupLabel className="text-[#3ebd1a]">
-              Protocols
-            </CommandGroupLabel>
-            <CommandGroup className="p-0">
-              <CommandItem>
-                <img src="/token-icon.png" className="w-5 h-5" />
-                <span className="font-bold text-sm">Simple ERC20 Token 3</span>
-              </CommandItem>
-              <CommandItem>
-                <img src="/token-icon.png" className="w-5 h-5" />
-                <span className="font-bold text-sm">Simple ERC20 Token 4</span>
-              </CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroupLabel className="text-[#eb5f35]">
-              Learning
-            </CommandGroupLabel>
-            <CommandGroup className="p-0">
-              <CommandItem>
-                <img src="/token-icon.png" className="w-5 h-5" />
-                <span className="font-bold text-sm">Simple ERC20 Token 5</span>
-              </CommandItem>
-              <CommandItem>
-                <img src="/token-icon.png" className="w-5 h-5" />
-                <span className="font-bold text-sm">Simple ERC20 Token 6</span>
-              </CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+      setIsLoading(true);
+
+      const url = new URL('/api/quick-search', window.location.origin);
+      url.searchParams.set('query', query);
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const { data } = (await response.json()) as ApiResponse<{
+        protocols: Protocol[];
+        contracts: Contract[];
+      }>;
+      setProtocolResult(data.protocols);
+      setContractResult(data.contracts);
+      setIsLoading(false);
+    }, 1000),
+    [],
   );
+
+  useEffect(() => {
+    quickSearch(query);
+  }, [query]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return <div className="relative">
+    <InputSearch
+      aria-expanded={open}
+      className={clsx('border-gray w-full', className)}
+      isLoading={isLoading}
+      onBlur={onBlur}
+      onFocus={() => setOpen(true)}
+      onInput={(event: FormEvent<HTMLInputElement>) => {
+        setOpen(true);
+        setQuery(event.currentTarget.value);
+      }}
+      placeholder="Search Keywords or Contract Address"
+      role="combobox"
+      value={query}
+    />
+    <div
+      className={clsx('absolute top-10 left-0 w-full max-h-80 overflow-y-auto rounded-md bg-popover text-popover-foreground border border-black p-0', { hidden: !open })}
+      ref={menu}
+    >
+      <Link
+        className={clsx('flex cursor-pointer gap-2 select-none items-center rounded-sm p-3 text-sm outline-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0', query ? 'hover:bg-main-green' : 'pointer-events-none opacity-50')}
+        href={`/search?q=${query}`}
+      >
+        <ContractsIcon className="w-4 h-4" />
+        <span className="font-bold text-sm">
+          Search for all contracts
+        </span>
+      </Link>
+      <Link
+        className="flex cursor-pointer gap-2 select-none items-center rounded-sm p-3 text-sm outline-none pointer-events-none opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+        href={`/search-code?q=${query}`}
+      >
+        <Code className="w-4 h-4" />
+        <span className="font-bold text-sm">
+          Search for code snippets
+        </span>
+      </Link>
+      <div className="-mx-1 h-px bg-border" />
+      <div className="px-3 py-1.5 font-bold text-xs text-[#8561eb]">
+        Contracts
+      </div>
+      {contractResult.map(contract => {
+        const logo = contract.logo?.url || contract.logo_url || '';
+        return (
+          <Link
+            className="flex cursor-pointer gap-2 select-none items-center rounded-sm p-3 text-sm outline-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-main-green"
+            key={contract.id}
+            href={`/contract/${contract.id}`}
+          >
+            {logo && <Image
+              alt={`${contract.name} logo`}
+              className="w-5 h-5"
+              src={logo}
+              width={20}
+              height={20}
+              unoptimized
+            />}
+            <span className="font-bold text-sm">{contract.name}</span>
+          </Link>
+        );
+      })}
+      <div className="-mx-1 h-px bg-border" />
+      <div className="px-3 py-1.5 font-bold text-xs text-[#3ebd1a]">
+        Protocols
+      </div>
+      {protocolResult.map(protocol => {
+        const logo = protocol.logo?.url || protocol.logo_url || '';
+        return (
+          <Link
+            className="flex cursor-pointer gap-2 select-none items-center rounded-sm p-3 text-sm outline-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-main-gree"
+            key={protocol.id}
+            href={`/protocol/${protocol.id}`}
+          >
+            {logo && <Image
+              alt={`${protocol.name} logo`}
+              className="w-5 h-5"
+              src={logo}
+              width={20}
+              height={20}
+              unoptimized
+            />}
+            <span className="font-bold text-sm">{protocol.name}</span>
+          </Link>
+        );
+      })}
+    </div>
+  </div>;
 }
