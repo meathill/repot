@@ -20,7 +20,7 @@ const NavLinks = () => {
   return (
     <>
       <Link
-        href="/search?category=contracts&page=1"
+        href="/search?category=contracts"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <ContractsIcon className="w-4 h-4" />
@@ -34,7 +34,7 @@ const NavLinks = () => {
         Chains
       </Link>
       <Link
-        href="/search?category=protocols&page=1"
+        href="/search?category=protocols"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <GitBranch className="w-4 h-4" />
