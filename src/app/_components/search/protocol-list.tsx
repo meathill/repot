@@ -6,13 +6,13 @@ import Pagination from '@/components/ui/pagination';
 interface ProtocolListProps {
   className?: string;
   items: Protocol[];
-  page: string | undefined;
+  page?: number;
 }
 
 export default function ProtocolList({
   className = '',
   items,
-  page,
+  page = 1,
 }: ProtocolListProps) {
 
   return (

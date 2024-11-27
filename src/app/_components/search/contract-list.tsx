@@ -6,13 +6,13 @@ import Pagination from '@/components/ui/pagination';
 interface ContractListProps {
   className?: string;
   items: Contract[];
-  page: string | undefined;
+  page?: number;
 }
 
 export default function ContractList({
   className = '',
   items,
-  page,
+  page = 1,
 }: ContractListProps) {
 
   return <>
