@@ -6,10 +6,14 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-  return <Suspense>
-    <main className="container mx-auto">
-      {children}
+  return <>
+    <main className="container mx-auto px-6 sm:px-0">
+      <Suspense>
+        {children}
+      </Suspense>
     </main>
-    <Footer className="container mx-6 sm:mx-auto my-8"/>
-  </Suspense>
+    <div className="p-6 sm:px-0">
+      <Footer className="container sm:mx-auto"/>
+    </div>
+  </>;
 }

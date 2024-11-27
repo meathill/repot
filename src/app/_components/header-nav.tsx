@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Box, GitBranch, ArrowRight, AlignJustify } from 'lucide-react';
@@ -15,39 +15,46 @@ import {
 import SearchBox from '@/app/_components/search-box';
 import LoginDialog from '@/app/_components/login-dialog';
 import Logo from '@/assets/images/logo-text.svg';
+import { useSearchParams } from 'next/navigation';
+import { clsx } from 'clsx';
 
-const NavLinks = () => {
+const NavLinks = ({
+  className = '',
+}: { className?: string }) => {
+  const searchParams = useSearchParams();
+  const q = searchParams?.get('q') || '';
+
   return (
-    <>
+    <div className={clsx('gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal', className, { 'sm:hidden': q })}>
       <Link
         href="/search?category=contracts"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
-        <ContractsIcon className="w-4 h-4" />
+        <ContractsIcon className="w-4 h-4"/>
         Contracts
       </Link>
       <Link
         href="/search?category=chains"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
-        <Box className="w-4 h-4" />
+        <Box className="w-4 h-4"/>
         Chains
       </Link>
       <Link
         href="/search?category=protocols"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
-        <GitBranch className="w-4 h-4" />
+        <GitBranch className="w-4 h-4"/>
         Protocols
       </Link>
       <Link
         href="/social"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
-        <SocialIcon className="w-4 h-4" />
+        <SocialIcon className="w-4 h-4"/>
         Social Media
       </Link>
-    </>
+    </div>
   );
 };
 
@@ -56,36 +63,16 @@ export default function HeaderNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <>
-      <nav className="z-10 container mx-auto h-auto sm:h-20 flex flex-col sm:flex-row justify-center sm:justify-between w-full px-4 sm:px-10 py-4 sm:py-3.5 sm:rounded-b-2.5xl bg-background sticky top-0 border-b-neutral-300 sm:border-primary-800 border-b sm:border-l sm:border-r">
-        <div className="flex justify-center sm:justify-between items-center sm:gap-6 relative">
-          <Link href="/">
-            <Image src={Logo} alt="Repot Logo" className="h-9" />
-          </Link>
-          <div className="hidden sm:inline-flex sm:items-center gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal">
-            <NavLinks />
-          </div>
-        </div>
-        <div className="hidden sm:inline-flex items-center justify-between gap-6">
-          <SearchBox />
-          <Button
-            onClick={() => setLoginOpen(true)}
-            className="bg-main-purple rounded-lg border-black border text-primary-800 font-bold hover:bg-main-purple"
-            effect="raised"
-          >
-            Sign in
-            <ArrowRight className="ml-1 w-4 h-4" />
-          </Button>
-        </div>
-
+      <nav className="z-10 container mx-auto h-auto sm:h-20 flex sm:items-center sm:flex-row w-full px-4 sm:px-10 py-4 sm:py-3.5 sm:rounded-b-2.5xl bg-background sticky top-0 border-b-neutral-300 sm:border-primary-800 border-b sm:border-l sm:border-r sm:gap-6">
         {/* mobile menu */}
         <Collapsible
           open={mobileOpen}
           onOpenChange={setMobileOpen}
-          className="sm:hidden"
+          className="sm:hidden me-auto"
         >
           <CollapsibleTrigger asChild>
             <Button
-              className="absolute left-6 top-4 [&_svg]:size-6 sm:hidden"
+              className="[&_svg]:size-6 sm:hidden"
               size={'icon'}
               variant={'ghost'}
             >
@@ -93,21 +80,33 @@ export default function HeaderNav() {
               <span className="sr-only">Toggle Menu</span>
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="mt-4 px-4">
+          <CollapsibleContent className="fixed top-17 border-t left-0 right-0 bottom-0 bg-white pt-6 px-9">
             <div className="flex flex-col sm:items-center gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal">
-              <NavLinks />
-              <SearchBox />
-              <Button
-                onClick={() => setLoginOpen(true)}
-                className="bg-main-purple rounded-lg border-black border text-primary-800 font-bold hover:bg-main-purple hover:shadow-[0_3px_0_0_#000]"
-              >
-                Sign in
-                <ArrowRight className="ml-1 w-4 h-4" />
-              </Button>
+              <Suspense>
+                <SearchBox />
+                <NavLinks className="flex flex-col" />
+              </Suspense>
             </div>
           </CollapsibleContent>
         </Collapsible>
+
+        <Link href="/">
+          <Image src={Logo} alt="Repot Logo" className="h-9" priority />
+        </Link>
+        <Suspense>
+          <NavLinks className="hidden sm:flex sm:items-center me-auto" />
+          <SearchBox className="hidden sm:flex" />
+        </Suspense>
+        <Button
+          onClick={() => setLoginOpen(true)}
+          className={clsx('bg-main-purple rounded-lg aspect-square p-0 border-black border text-primary-800 font-bold ms-auto sm:ms-0 sm:px-6 hover:bg-main-purple')}
+          effect="raised"
+        >
+          <span className="hidden sm:inline">Sign in</span>
+          <ArrowRight className="sm:ml-1 w-4 h-4" />
+        </Button>
       </nav>
+
       <LoginDialog open={loginOpen} setOpen={setLoginOpen} />
     </>
   );

@@ -44,7 +44,7 @@ export default async function Search({
     });
   }
   return <>
-    <SearchType className="py-8" current={category as string} />
+    <SearchType className="py-8" current={category as string || (q && 'contracts')} />
     {(isChain || isProtocol) && <ChainList
       currentChain={chain as string || chains[ 0 ].name}
       items={chains}

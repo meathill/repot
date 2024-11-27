@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import HeaderNav from './_components/header-nav';
-import { Suspense } from 'react';
+import { ReactNode } from 'react';
 
 const NextBookFont = localFont({
   display: 'swap',
@@ -52,27 +52,20 @@ export const metadata: Metadata = {
   description: 'Repot',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
-    <html lang="en">
-    <head>
-      <link rel="preconnect" href="https://fonts.googleapis.com"/>
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
-      <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-            rel="stylesheet"/>
-    </head>
-    <body
-      className={`${NextBookFont.variable} ${NextPosterFont.variable} antialiased bg-ivory`}
-    >
-    <HeaderNav/>
-    <Suspense>
+    <html>
+      <body
+        className={`${NextBookFont.variable} ${NextPosterFont.variable} antialiased bg-ivory`}
+      >
+      <HeaderNav/>
       {children}
-    </Suspense>
-    </body>
+      </body>
     </html>
+
   );
 }

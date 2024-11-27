@@ -69,7 +69,7 @@ export async function getProtocolDetail(protocolId: string) {
   return json.data;
 }
 
-export async function getProtocols(withChains = false, chainId?: number, params?: { page?: string }) {
+export async function getProtocols(withChains = false, chainId?: number, query?: string = '', params?: { page?: string }) {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
   url.searchParams.set('pagination[page]', params?.page ? params.page : '1');
   url.searchParams.set('pagination[pageSize]', '30');
@@ -82,6 +82,9 @@ export async function getProtocols(withChains = false, chainId?: number, params?
     url.searchParams.set('populate[1]', 'chains');
     url.searchParams.set('populate[chains][populate]', 'logo');
   }
+  if (query) {
+    url.searchParams.set('filters[name][$containsi]', query);
+  }
   if (chainId) {
     url.searchParams.set('filters[chains][$contains]', chainId.toString());
   }
@@ -89,7 +92,7 @@ export async function getProtocols(withChains = false, chainId?: number, params?
   return json.data;
 }
 
-export async function getContracts(protocolId?: number, query?: string, params?: { page?: string }) {
+export async function getContracts(protocolId?: number, query?: string, query?: string = '', params?: { page?: string }) {
   const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts`);
   url.searchParams.set('pagination[page]', params?.page ? params.page : '1');
   url.searchParams.set('pagination[pageSize]', '30');
