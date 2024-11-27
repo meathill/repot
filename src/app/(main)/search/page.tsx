@@ -15,7 +15,7 @@ export default async function Search({
   searchParams,
 }: SearchProps) {
   const params = await searchParams;
-  const { category, chain, protocol, q = '' } = params;
+  const { category, chain, protocol, q = '', page = '1' } = params;
   const chains: Chain[] = await getChains();
   const chainDocId = chain
     ? chains.find((c) => c.name === chain)?.documentId
@@ -30,16 +30,19 @@ export default async function Search({
   let protocols: Protocol[] = [];
   if (!isChain && chainDocId) {
     const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
-    protocols = await getProtocols({ withChains: true, chainId });
+    protocols = await getProtocols(true, chainId, {
+      page: page as string,
+    });
   }
 
   let contracts: Contract[] = [];
   if (!isChain && !isProtocol) {
     const protocolId = protocol
       ? protocols.find((p) => p.name === protocol)?.id : 0;
-    contracts = await getContracts({ protocolId, query: q as string });
+    contracts = await getContracts(protocolId, q as string, {
+      page: page as string,
+    });
   }
-
   return <>
     <SearchType className="py-8" current={category as string || (q && 'contracts')} />
     {(isChain || isProtocol) && <ChainList
@@ -55,9 +58,9 @@ export default async function Search({
     {!isChain && <KeywordsFilter params={params} />}
 
     {isProtocol && <>
-      <ProtocolList items={protocols} />
+      <ProtocolList items={protocols} page={parseInt(page as string)} />
     </>}
 
-    {!isChain && !isProtocol && <ContractList items={contracts} />}
+    {!isChain && !isProtocol && <ContractList items={contracts} page={parseInt(page as string)} />}
   </>;
 }
