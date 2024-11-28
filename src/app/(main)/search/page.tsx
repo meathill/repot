@@ -54,9 +54,9 @@ export default async function Search({
     {!isChain && <KeywordsFilter params={params} />}
 
     {isProtocol && <>
-      <ProtocolList items={protocols} />
-      </>}
+      <ProtocolList items={protocols} page={page?.toString()} />
+    </>}
 
-    {!isChain && !isProtocol && <ContractList items={contracts} />}
+    {!isChain && !isProtocol && <ContractList items={contracts} page={page?.toString()} />}
   </>;
 }

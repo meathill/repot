@@ -78,7 +78,7 @@ export default async function Landing() {
         <div className="sm:absolute sm:bottom-0 sm:left-0 flex flex-col sm:flex-row gap-6 sm:w-1/2 sm:h-[35%]">
           <Link
             className="bg-main-purple p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto raised-button"
-            href="/search?category=contracts&page=1"
+            href="/search?category=contracts"
           >
             <ContractLayoutIcon className="w-14 h-14" />
             <div className="flex justify-between items-center">
@@ -93,7 +93,7 @@ export default async function Landing() {
           </Link>
           <Link
             className="bg-lime-green p-6 border border-black rounded-2.5xl sm:grow flex sm:flex-1 flex-col justify-between h-48 sm:h-auto raised-button"
-            href="/search?category=protocols&page=1"
+            href="/search?category=protocols"
           >
             <FileMinus className="w-14 h-14" strokeWidth={1} />
             <div className="flex justify-between items-center">

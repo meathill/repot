@@ -14,25 +14,21 @@ const TabItems = [
     name: 'chains',
     label: 'Chains',
     icon: Box,
-    href: `?category=chains`,
   },
   {
     name: 'protocols',
     label: 'Protocols',
     icon: GitBranch,
-    href: `?category=protocols&page=1`,
   },
   {
     name: 'contracts',
     label: 'Contracts',
     icon: FileNetwork,
-    href: `?category=contracts&page=1`,
   },
   {
     name: 'code',
     label: 'Code Search',
     icon: Code,
-    href: `?category=code`,
   },
 ];
 
@@ -55,7 +51,7 @@ export default function SearchType({
           type="button"
           variant="ghost"
         >
-          <Link href={item.href}>
+          <Link href={`?category=${item.name}`}>
             <item.icon size={24} strokeWidth={2} />
             {item.label}
           </Link>
