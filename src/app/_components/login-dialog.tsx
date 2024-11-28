@@ -1,3 +1,5 @@
+'use client';
+
 import { X, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -10,8 +12,16 @@ import {
 } from '@/components/ui/dialog';
 import GitHub from '@/assets/images/github.svg';
 import Logo from '@/assets/images/repot.svg'
+import { useState } from 'react';
+import { Spinner } from '@/components/ui/spinner';
+import Link from 'next/link';
 
 export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  async function doSignInViaGitHub() {
+    setIsLoading(true);
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
@@ -48,9 +58,20 @@ export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen:
           </DialogClose>
         </DialogHeader>
         <div className="pt-2 pb-8 flex flex-col justify-center items-center gap-6">
-          <Button className="font-bold text-base leading-normal py-2 px-6">
-            Continut To GitHub
-            <ExternalLink className="w-4 h-4" />
+          <Button
+            asChild
+            className="font-bold text-base leading-normal py-2 px-6"
+            disabled={isLoading}
+            onClick={doSignInViaGitHub}
+          >
+            <Link href={`${process.env.CMS_URL}/api/auth/github`}>
+              {isLoading ? <Spinner className="w-6 h-6" />
+                : <>
+                    Continue To GitHub
+                    <ExternalLink className="w-4 h-4" />
+                  </>
+              }
+            </Link>
           </Button>
           <div className="capitalize text-primary-800 text-sm leading-6">
             Logging in will enable you to Earn repot point

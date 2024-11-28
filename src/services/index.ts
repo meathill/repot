@@ -13,14 +13,14 @@ export async function fetchFromStrapi<T>(url: string | URL, method = 'GET', body
 }
 
 export async function getProtocolCount() {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocols`);
   url.searchParams.set('pagination[pageSize]', '1');
   const json = await fetchFromStrapi<StrapiResponse<Protocol>>(url);
   return json.meta.pagination.total;
 }
 
 export async function getLatestFeaturedProtocol() {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocols`);
   url.searchParams.set('pagination[pageSize]', '6');
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('fields[0]', 'name');
@@ -33,14 +33,14 @@ export async function getLatestFeaturedProtocol() {
 }
 
 export async function getLatestContracts(count: number) {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contracts`);
   url.searchParams.set('pagination[pageSize]', count.toString());
   url.searchParams.set('sort', 'id:desc');
   return fetchFromStrapi<StrapiResponse<Contract[]>>(url);
 }
 
 export async function getChains() {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/chains`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chains`);
   url.searchParams.set('pagination[pageSize]', '100');
   url.searchParams.set('fields[0]', 'name');
   url.searchParams.set('fields[1]', 'logo_url');
@@ -50,7 +50,7 @@ export async function getChains() {
 }
 
 export async function getChainDetail(chainId: string, withProtocols = false) {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/chains/${chainId}`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chains/${chainId}`);
   url.searchParams.set('populate[0]', 'logo');
   if (withProtocols) {
     url.searchParams.set('populate[1]', 'protocols');
@@ -61,7 +61,7 @@ export async function getChainDetail(chainId: string, withProtocols = false) {
 }
 
 export async function getProtocolDetail(protocolId: string) {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols/${protocolId}`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocols/${protocolId}`);
   url.searchParams.set('populate[0]', 'logo');
   url.searchParams.set('populate[1]', 'chains');
   url.searchParams.set('populate[chains][populate]', 'logo');
@@ -69,14 +69,16 @@ export async function getProtocolDetail(protocolId: string) {
   return json.data;
 }
 
-export async function getProtocols(withChains = false, chainId?: number, params: { page: string | number } = {
-  page: 1
-}) {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/protocols`);
-  if (params && params.page) {
-    url.searchParams.set('pagination[page]', params.page.toString());
-  }
-  url.searchParams.set('pagination[pageSize]', '30');
+export async function getProtocols({
+  chainId = 0,
+  pageSize = 30,
+  page = '1',
+  query = '',
+  withChains = false,
+} = {}) {
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocols`);
+  url.searchParams.set('pagination[pageSize]', pageSize.toString());
+  url.searchParams.set('pagination[page]', page.toString());
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('populate[0]', 'logo');
   url.searchParams.set('fields[0]', 'name');
@@ -86,6 +88,9 @@ export async function getProtocols(withChains = false, chainId?: number, params:
     url.searchParams.set('populate[1]', 'chains');
     url.searchParams.set('populate[chains][populate]', 'logo');
   }
+  if (query) {
+    url.searchParams.set('filters[name][$containsi]', query);
+  }
   if (chainId) {
     url.searchParams.set('filters[chains][$contains]', chainId.toString());
   }
@@ -93,13 +98,15 @@ export async function getProtocols(withChains = false, chainId?: number, params:
   return json.data;
 }
 
-export async function getContracts(protocolId?: number, query?: string) {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts`);
-  
-  if (params && params.page) {
-    url.searchParams.set('pagination[page]', params.page.toString());
-  }
-  url.searchParams.set('pagination[pageSize]', '30');
+export async function getContracts({
+  page = '1',
+  pageSize = 30,
+  protocolId = 0,
+  query = '',
+} = {}) {
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contracts`);
+  url.searchParams.set('pagination[page]', page.toString());
+  url.searchParams.set('pagination[pageSize]', pageSize.toString());
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('fields[0]', 'name');
   url.searchParams.set('fields[1]', 'overview');
@@ -116,7 +123,7 @@ export async function getContracts(protocolId?: number, query?: string) {
 }
 
 export async function getContractDetail(contractId: string) {
-  const url = new URL(`${process.env.STRAPI_ENDPOINT}/api/contracts/${contractId}`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contracts/${contractId}`);
   url.searchParams.set('populate', 'logo');
   const json = await fetchFromStrapi<StrapiResponse<Contract>>(url);
   return json.data;
