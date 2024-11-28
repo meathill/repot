@@ -1,30 +1,19 @@
-'use client'
-
 import { Protocol } from '@/types';
 import { clsx } from 'clsx';
 import ProtocolCard from '@/app/_components/protocol-card';
 import Pagination from '@/components/ui/pagination';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 interface ProtocolListProps {
   className?: string;
   items: Protocol[];
+  page?: number;
 }
 
 export default function ProtocolList({
   className = '',
   items,
+  page = 1,
 }: ProtocolListProps) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams();
-
-  function onPageChange(newVal: number) {
-    console.log('onPageChange', newVal)
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    newSearchParams.set('page', newVal.toString());
-    router.replace(pathname + '?' + newSearchParams.toString())
-  }
 
   return (
     <>
@@ -33,7 +22,7 @@ export default function ProtocolList({
           <ProtocolCard hasDetails key={item.id} protocol={item} />
         ))}
       </div>
-      <Pagination total={items.length} pageChange={onPageChange} />
+      <Pagination total={items.length} page={page} />
     </>
   );
 }
