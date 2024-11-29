@@ -2,6 +2,7 @@
 
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { UserProfile } from '@/types';
 
 const config = {
   maxAge: 60 * 60 * 24 * 7, // 1 week
@@ -30,10 +31,14 @@ export async function GET(
   url.searchParams.append('access_token', token);
 
   const res = await fetch(url.href);
-  const data = await res.json();
+  const data = (await res.json()) as {
+    jwt: string;
+    user: UserProfile;
+  };
 
   const cookiesObj = await cookies();
-  cookiesObj.set('jwt', data.jwt, config);
+  cookiesObj.set('repot-jwt', data.jwt, config);
+  cookiesObj.set('repot-user', JSON.stringify(data.user), config);
 
   return NextResponse.redirect(new URL('/', request.url));
 }

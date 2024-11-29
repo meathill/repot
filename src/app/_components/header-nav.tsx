@@ -3,7 +3,7 @@
 import { Suspense, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Box, GitBranch, ArrowRight, AlignJustify } from 'lucide-react';
+import { Box, GitBranch, AlignJustify } from 'lucide-react';
 import ContractsIcon from '@/components/icons/contracts-icon';
 import SocialIcon from '@/components/icons/social-icon';
 import { Button } from '@/components/ui/button';
@@ -13,10 +13,11 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import SearchBox from '@/app/_components/search-box';
-import LoginDialog from '@/app/_components/login-dialog';
 import Logo from '@/assets/images/logo-text.svg';
 import { useSearchParams } from 'next/navigation';
 import { clsx } from 'clsx';
+import { UserProfile } from '@/types';
+import NavUser from '@/components/user/nav-user';
 
 const NavLinks = ({
   className = '',
@@ -58,8 +59,9 @@ const NavLinks = ({
   );
 };
 
-export default function HeaderNav() {
-  const [loginOpen, setLoginOpen] = useState(false);
+export default function HeaderNav({
+  user,
+}: { user?: UserProfile}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <>
@@ -97,17 +99,8 @@ export default function HeaderNav() {
           <NavLinks className="hidden sm:flex sm:items-center me-auto" />
           <SearchBox className="hidden sm:flex" />
         </Suspense>
-        <Button
-          onClick={() => setLoginOpen(true)}
-          className={clsx('bg-main-purple rounded-lg aspect-square p-0 border-black border text-primary-800 font-bold ms-auto sm:ms-0 sm:px-6 hover:bg-main-purple')}
-          effect="raised"
-        >
-          <span className="hidden sm:inline">Sign in</span>
-          <ArrowRight className="sm:ml-1 w-4 h-4" />
-        </Button>
+        <NavUser user={user} />
       </nav>
-
-      <LoginDialog open={loginOpen} setOpen={setLoginOpen} />
     </>
   );
 }

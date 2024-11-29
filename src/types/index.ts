@@ -74,3 +74,13 @@ export type S3FolderList = {
   files: S3File[];
   folders: S3Folder[];
 }
+
+export type UserProfile = {
+  id: number;
+  blocked: boolean;
+  confirmed: boolean;
+  username: string;
+  email: string;
+  avatar: string;
+  provider: string;
+}

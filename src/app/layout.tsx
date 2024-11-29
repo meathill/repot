@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import './globals.css';
 import HeaderNav from './_components/header-nav';
 import { ReactNode } from 'react';
+import { cookies } from 'next/headers';
+import { UserProfile } from '@/types';
 
 const NextBookFont = localFont({
   display: 'swap',
@@ -57,12 +59,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const cookieObj = await cookies();
+  const json = cookieObj.get('repot-user');
+  const user: UserProfile | undefined = json ? JSON.parse(json.value) : undefined;
   return (
     <html>
       <body
         className={`${NextBookFont.variable} ${NextPosterFont.variable} antialiased bg-ivory`}
       >
-      <HeaderNav/>
+      <HeaderNav user={user}/>
       {children}
       </body>
     </html>

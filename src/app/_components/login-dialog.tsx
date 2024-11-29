@@ -64,7 +64,7 @@ export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen:
             disabled={isLoading}
             onClick={doSignInViaGitHub}
           >
-            <Link href={`${process.env.CMS_URL}/api/auth/github`}>
+            <Link href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/connect/github`}>
               {isLoading ? <Spinner className="w-6 h-6" />
                 : <>
                     Continue To GitHub

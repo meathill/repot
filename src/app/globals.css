@@ -99,6 +99,6 @@ body {
   @apply rotate-90;
 }
 
-:has(.search-box-content) {
+[data-radix-popper-content-wrapper] {
   @apply !z-50;
 }
