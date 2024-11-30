@@ -30,7 +30,7 @@ export default function Pagination({
     } else if (targetPage > totalPage) {
       targetPage = totalPage;
     }
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams!);
     params.set('page', targetPage.toString());
     return `?${params.toString()}`;
   }
