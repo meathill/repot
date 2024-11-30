@@ -15,14 +15,14 @@ const config = {
 export const dynamic = 'force-dynamic'; // defaults to auto
 export async function GET(
   request: Request,
-  params: { params: { provider: string } }
+  { params }: { params: Promise<{ provider: string }> }
 ) {
   const { searchParams } = new URL(request.url);
   const token = searchParams.get('access_token');
 
   if (!token) return NextResponse.redirect(new URL('/', request.url));
 
-  const provider = params.params.provider;
+  const provider = (await params).provider;
   const backendUrl =
     process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:1337';
   const path = `/api/auth/${provider}/callback`;
