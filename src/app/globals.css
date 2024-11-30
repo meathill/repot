@@ -87,8 +87,12 @@ body {
 
 .raised-button {
   --shadow-size: 4px;
+  @apply transition-all shadow-raised -translate-y-1 active:-translate-y-1;
 
-  @apply transition-all hover:shadow-raised hover:-translate-y-1 active:shadow-none active:translate-y-0;
+  &:hover {
+    --shadow-size: 8px;
+    @apply -translate-y-2;
+  }
 }
 
 .prose pre {

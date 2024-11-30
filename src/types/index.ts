@@ -83,4 +83,5 @@ export type UserProfile = {
   email: string;
   avatar: string;
   provider: string;
+  points?: number;
 }

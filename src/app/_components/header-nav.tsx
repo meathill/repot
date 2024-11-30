@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Box, GitBranch, AlignJustify } from 'lucide-react';
@@ -18,6 +18,7 @@ import { useSearchParams } from 'next/navigation';
 import { clsx } from 'clsx';
 import { UserProfile } from '@/types';
 import NavUser from '@/components/user/nav-user';
+import { useUserStore } from '@/store';
 
 const NavLinks = ({
   className = '',
@@ -62,7 +63,13 @@ const NavLinks = ({
 export default function HeaderNav({
   user,
 }: { user?: UserProfile}) {
+  const setUser = useUserStore((state) => state.setUser);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    setUser(user || null);
+  }, [ user ]);
+
   return (
     <>
       <nav className="z-10 container mx-auto h-auto sm:h-20 flex sm:items-center sm:flex-row w-full px-4 sm:px-10 py-4 sm:py-3.5 sm:rounded-b-2.5xl bg-background sticky top-0 border-b-neutral-300 sm:border-primary-800 border-b sm:border-l sm:border-r sm:gap-6">

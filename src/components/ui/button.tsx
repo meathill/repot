@@ -28,8 +28,8 @@ const buttonVariants = cva(
         icon: 'h-9 w-9',
       },
       effect: {
-        active: 'bg-light-green border border-black shadow-raised',
-        raised: 'raised-button',
+        active: 'bg-main-green border border-black text-dark-green hover:bg-light-green',
+        raised: 'raised-button bg-white border border-black text-primary-800 hover:bg-light-green',
         none: '',
       },
     },
