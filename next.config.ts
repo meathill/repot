@@ -4,6 +4,7 @@ import pkg from './package.json';
 const nextConfig: NextConfig = {
   env: {
     VERSION: pkg.version,
+    FIXED_CHAIN_ID: process.env.FIXED_CHAIN,
   },
   images: {
     remotePatterns: [

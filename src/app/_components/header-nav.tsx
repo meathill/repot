@@ -23,6 +23,7 @@ import { useUserStore } from '@/store';
 const NavLinks = ({
   className = '',
 }: { className?: string }) => {
+  const hasChain = !process.env.FIXED_CHAIN_ID;
   const searchParams = useSearchParams();
   const q = searchParams?.get('q') || '';
 
@@ -35,13 +36,13 @@ const NavLinks = ({
         <ContractsIcon className="w-4 h-4"/>
         Contracts
       </Link>
-      <Link
+      {hasChain && <Link
         href="/search?category=chains"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <Box className="w-4 h-4"/>
         Chains
-      </Link>
+      </Link>}
       <Link
         href="/search?category=protocols"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"

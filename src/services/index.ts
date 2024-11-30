@@ -89,7 +89,9 @@ export async function getProtocols({
   if (query) {
     url.searchParams.set('filters[name][$containsi]', query);
   }
-  if (chainId) {
+  if (process.env.FIXED_CHAIN_ID) {
+    url.searchParams.set('filters[chains][$contains]', process.env.FIXED_CHAIN_ID);
+  } else if (chainId) {
     url.searchParams.set('filters[chains][$contains]', chainId.toString());
   }
   const json = await fetchFromStrapi<StrapiResponse<Protocol[]>>(url);

@@ -14,6 +14,7 @@ interface SearchProps {
 export default async function Search({
   searchParams,
 }: SearchProps) {
+  const hasChain = !process.env.FIXED_CHAIN_ID;
   const params = await searchParams;
   const { category, chain, protocol, q = '' } = params;
   const chains: Chain[] = await getChains();
@@ -41,8 +42,11 @@ export default async function Search({
   }
 
   return <>
-    <SearchType className="py-8" current={category as string || (q && 'contracts')} />
-    {(isChain || isProtocol) && <ChainList
+    <SearchType
+      className="py-8"
+      current={category as string || (q && 'contracts')}
+    />
+    {(hasChain && (isChain || isProtocol)) && <ChainList
       currentChain={chain as string || chains[ 0 ].name}
       items={chains}
       params={params}

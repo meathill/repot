@@ -11,11 +11,6 @@ interface SearchTypeProps {
 
 const TabItems = [
   {
-    name: 'chains',
-    label: 'Chains',
-    icon: Box,
-  },
-  {
     name: 'protocols',
     label: 'Protocols',
     icon: GitBranch,
@@ -31,6 +26,13 @@ const TabItems = [
     icon: Code,
   },
 ];
+if (!process.env.FIXED_CHAIN_ID) {
+  TabItems.unshift({
+    name: 'chains',
+    label: 'Chains',
+    icon: Box,
+  });
+}
 
 export default function SearchType({
   className = '',
