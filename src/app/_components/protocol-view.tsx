@@ -10,11 +10,11 @@ import Avatar from '@/components/ui/avatar';
 import { marked } from 'marked';
 import { removeS3Prefix } from '@/utils';
 import FileTreeView from '@/components/ui/file-tree';
-import GitHub from '@/assets/images/github.svg';
-import CodeViewer from '@/components/ui/codeViewer';
+import CodeViewer from '@/components/ui/code-viewer';
 
 interface ProtocolViewProps {
   data: Protocol;
+  defaultFile: string;
   sources: S3FolderList;
 }
 
@@ -22,23 +22,14 @@ const TabItems = ['Info', 'Docs', 'Source'];
 
 export default function ProtocolView({
   data,
+  defaultFile,
   sources,
 }: ProtocolViewProps) {
   const [tab, setTab] = useState<typeof TabItems[ number ]>(TabItems[ 2 ]);
-  const [selectedFile, setSelectedFile] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<string>(defaultFile);
   const logo = data.logo?.url || data.logo_url || '';
   const descriptionHtml = marked(data.description || '');
   const infoHtml = marked(data.info || '');
-
-  function doDownloadFile() {
-
-  }
-  function doOpenCode() {
-
-  }
-  function doInspectAudit() {
-
-  }
 
   return (
     <main className="mt-6 sm:mt-8 mb-6 px-6 sm:px-0">
@@ -77,15 +68,15 @@ export default function ProtocolView({
               Token
             </div>
             <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <ImageIcon size={16} />
+              <ImageIcon size={16}/>
               NFT
             </div>
             <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <User size={16} />
+              <User size={16}/>
               DAO
             </div>
             <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <CircleCheckBig size={16} color="#26BF59" />
+              <CircleCheckBig size={16} color="#26BF59"/>
               Audited
             </div>
           </div>
@@ -105,6 +96,10 @@ export default function ProtocolView({
         className={clsx('prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words', { hidden: tab !== 'Info' })}
         dangerouslySetInnerHTML={{ __html: infoHtml }}
       />
+      <article
+        className={clsx('mt-6 prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words', { hidden: tab !== 'Docs' })}
+        dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+      />
       <div className={clsx('flex min-h-96 gap-6', { hidden: tab !== 'Source' })}>
         <aside className="w-54 flex-none py-3 px-5 bg-white border border-black rounded-lg">
           <FileTreeView
@@ -115,61 +110,13 @@ export default function ProtocolView({
           />
         </aside>
         <div className="flex-1 flex flex-col">
-          <div className="flex items-center gap-6 mb-6 flex-none">
-            <Button
-              className="w-54 h-12 border border-black flex justify-center items-center bg-main-purple rounded-lg text-sm font-bold"
-              disabled={!selectedFile}
-              onClick={doDownloadFile}
-              variant="outline"
-            >
-              Download Code
-            </Button>
-            <Button
-              className="w-54 h-12 border border-black flex justify-center items-center bg-lime-green rounded-lg text-sm text-dark-green font-bold"
-              disabled={!selectedFile}
-              onClick={doOpenCode}
-              variant="outline"
-            >
-              Open Code
-            </Button>
-            <Button
-              className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
-              disabled={!selectedFile}
-              onClick={doInspectAudit}
-              variant="outline"
-            >
-              <Image
-                alt="GitHub logo"
-                className="w-4 h-4"
-                src={GitHub}
-                width={16}
-                height={16}
-              />
-              Inspect Audit
-            </Button>
-            <Button
-              className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
-              disabled={!selectedFile}
-              onClick={doInspectAudit}
-              variant="outline"
-            >
-              <Image
-                alt="GitHub logo"
-                className="w-4 h-4"
-                src={GitHub}
-                width={16}
-                height={16}
-              />
-              View Repo
-            </Button>
-          </div>
-          <CodeViewer prefix={data.document_link} selectedFile={selectedFile} />
+          <CodeViewer
+            isProtocol
+            prefix={data.document_link}
+            selectedFile={selectedFile}
+          />
         </div>
       </div>
-      <article
-        className={clsx('mt-6 prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words', { hidden: tab !== 'Docs' })}
-        dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-      />
     </main>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { CircleCheckBig, CircleStop, Download, Github, ImageIcon, Star, User } from 'lucide-react';
+import { CircleCheckBig, CircleStop, Download, ImageIcon, Star, User } from 'lucide-react';
 import Image from 'next/image';
 import { marked } from 'marked';
 import { useState } from 'react';
@@ -9,10 +9,11 @@ import { Contract, S3FolderList } from '@/types';
 import { Button } from '@/components/ui/button';
 import FileTreeView from '@/components/ui/file-tree';
 import { removeS3Prefix } from '@/utils';
-import CodeViewer from '@/components/ui/codeViewer';
+import CodeViewer from '@/components/ui/code-viewer';
 
 interface ContractViewProps {
   data: Contract;
+  defaultFile: string;
   sources: S3FolderList;
 }
 
@@ -20,22 +21,13 @@ const TabItems = ['Docs', 'Source'];
 
 export default function ContractView({
   data,
+  defaultFile,
   sources,
 }: ContractViewProps) {
   const [tab, setTab] = useState<typeof TabItems[ number ]>(TabItems[ 1 ]);
-  const [selectedFile, setSelectedFile] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<string>(defaultFile || '');
   const logo = data.logo?.url || data.logo_url || '';
   const descriptionHtml = marked(data.description || '');
-
-  function doDownloadFile() {
-
-  }
-  function doOpenCode() {
-
-  }
-  function doInspectAudit() {
-
-  }
 
   return (
     <main className="mt-6 sm:mt-8 mb-6 px-6 sm:px-0">
@@ -102,30 +94,6 @@ export default function ContractView({
           />
         </aside>
         <div className="flex-1 flex flex-col">
-          <div className="hidden sm:flex items-center gap-6 mb-6 flex-none">
-            <Button
-              className="w-54 h-12 border border-black flex justify-center items-center bg-main-purple rounded-lg text-sm font-bold"
-              disabled={!selectedFile}
-              onClick={doDownloadFile}
-            >
-              Download Code
-            </Button>
-            <Button
-              className="w-54 h-12 border border-black flex justify-center items-center bg-lime-green rounded-lg text-sm text-dark-green font-bold"
-              disabled={!selectedFile}
-              onClick={doOpenCode}
-            >
-              Open Code
-            </Button>
-            <Button
-              className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
-              disabled={!selectedFile}
-              onClick={doInspectAudit}
-            >
-              <Github size={16} />
-              Inspect Audit
-            </Button>
-          </div>
           <CodeViewer prefix={data.document_links} selectedFile={selectedFile} />
         </div>
       </div>

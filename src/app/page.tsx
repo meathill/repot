@@ -159,20 +159,15 @@ export default async function Landing() {
           <div className="w-full sm:w-2/3 flex flex-col gap-6 sm:gap-8">
             <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
               <Link
-                className="h-50 sm:w-2/3 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer raised-button inline-flex flex-col justify-between"
-                href="https://hackquest.io"
+                className="h-50 sm:w-2/3 bg-lime-green rounded-2.5xl border border-dark-green p-6 relative cursor-pointer raised-button inline-flex flex-col"
+                href="https://consensys.io/academy"
                 target="_blank"
               >
-                <div className="font-title text-2xl text-dark-green inline-flex items-center gap-2">
+                <div className="font-title text-2xl text-dark-green inline-flex items-center gap-2 mb-4">
                   <Hackquest className="w-6 h-6" />
-                  Hackquest Learning
+                  Consensys Academy
                 </div>
-                <div className="hidden sm:block text-dark-green text-sm capitalize">
-                  Discover the most innovative Web3 contracts,showcasing fresh
-                  ideas and advanced techniquesthat keep you at the forefront
-                  of smart contractdevelopment.
-                </div>
-                <CircleArrowRight className="w-6 h-6 stroke-dark-green ml-auto" />
+                <CircleArrowRight className="absolute w-6 h-6 stroke-dark-green ml-auto right-6 bottom-6" />
               </Link>
               <Link
                 className="grow h-50 bg-main-purple rounded-2.5xl border border-dark-green p-6 relative cursor-pointer inline-flex flex-col justify-between raised-button"

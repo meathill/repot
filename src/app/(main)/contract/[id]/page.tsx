@@ -1,6 +1,7 @@
 import ContractView from '@/app/_components/contract-view';
 import { getContractDetail } from '@/services';
 import { readDir, readFile } from '@/services/s3';
+import { findFirstFileFrom } from '@/utils/server';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -32,9 +33,11 @@ export default async function Contracts({
   if (/^s3:\/\//.test(description)) {
     description = await readFile(description);
   }
+  const currentFile = await findFirstFileFrom(sources);
 
   return (
     <ContractView
+      defaultFile={currentFile.Key}
       data={{
         ...contractData,
         description,
