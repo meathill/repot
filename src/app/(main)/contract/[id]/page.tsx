@@ -1,6 +1,6 @@
 import ContractView from '@/app/_components/contract-view';
 import { getContractDetail } from '@/services';
-import { readDir } from '@/services/s3';
+import { readDir, readFile } from '@/services/s3';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -28,6 +28,18 @@ export default async function Contracts({
   const sources = contractData.document_links
     ? await readDir(contractData.document_links)
     : { folders: [], files: [] };
+  let description = contractData.description || '';
+  if (/^s3:\/\//.test(description)) {
+    description = await readFile(description);
+  }
 
-  return <ContractView data={contractData} sources={sources} />;
+  return (
+    <ContractView
+      data={{
+        ...contractData,
+        description,
+      }}
+      sources={sources}
+    />
+  );
 }

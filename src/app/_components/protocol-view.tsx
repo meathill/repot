@@ -24,7 +24,7 @@ export default function ProtocolView({
   data,
   sources,
 }: ProtocolViewProps) {
-  const [tab, setTab] = useState(TabItems[ 0 ]);
+  const [tab, setTab] = useState<typeof TabItems[ number ]>(TabItems[ 2 ]);
   const [selectedFile, setSelectedFile] = useState<string>('');
   const logo = data.logo?.url || data.logo_url || '';
   const descriptionHtml = marked(data.description || '');
@@ -166,12 +166,10 @@ export default function ProtocolView({
           <CodeViewer prefix={data.document_link} selectedFile={selectedFile} />
         </div>
       </div>
-      <div className={clsx('mt-6', { hidden: tab !== 'Docs' })}>
-        <article
-          className="prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words"
-          dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-        />
-      </div>
+      <article
+        className={clsx('mt-6 prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words', { hidden: tab !== 'Docs' })}
+        dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+      />
     </main>
   );
 }

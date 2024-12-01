@@ -1,6 +1,6 @@
 import { getProtocolDetail } from '@/services';
 import ProtocolView from '@/app/_components/protocol-view';
-import { readDir } from '@/services/s3';
+import { readDir, readFile } from '@/services/s3';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -28,6 +28,22 @@ export default async function Contracts({
   const sources = protocolData.document_link
     ? await readDir(protocolData.document_link)
     : { folders: [], files: [] };
+  let { info, description } = protocolData;
+  if (/^s3:\/\//.test(info)) {
+    info = await readFile(info);
+  }
+  if (/^s3:\/\//.test(description)) {
+    description = await readFile(description);
+  }
 
-  return <ProtocolView data={protocolData} sources={sources} />;
+  return (
+    <ProtocolView
+      data={{
+        ...protocolData,
+        description,
+        info,
+      }}
+      sources={sources}
+    />
+  );
 }

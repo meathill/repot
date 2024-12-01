@@ -22,7 +22,7 @@ export default function ContractView({
   data,
   sources,
 }: ContractViewProps) {
-  const [tab, setTab] = useState(TabItems[ 0 ]);
+  const [tab, setTab] = useState<typeof TabItems[ number ]>(TabItems[ 1 ]);
   const [selectedFile, setSelectedFile] = useState<string>('');
   const logo = data.logo?.url || data.logo_url || '';
   const descriptionHtml = marked(data.description || '');
