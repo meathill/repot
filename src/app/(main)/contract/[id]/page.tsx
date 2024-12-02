@@ -1,7 +1,6 @@
 import ContractView from '@/app/_components/contract-view';
 import { getContractDetail } from '@/services';
 import { readDir } from '@/services/s3';
-import { findFirstFileFrom } from '@/utils/server';
 
 interface PageProps {
   params: Promise<{ id: string }>;
