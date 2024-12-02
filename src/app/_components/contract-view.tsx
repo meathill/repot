@@ -13,7 +13,7 @@ import CodeViewer from '@/components/ui/code-viewer';
 
 interface ContractViewProps {
   data: Contract;
-  defaultFile: string;
+  defaultFile?: string;
   sources: S3FolderList;
 }
 

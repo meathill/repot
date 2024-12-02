@@ -14,7 +14,7 @@ import CodeViewer from '@/components/ui/code-viewer';
 
 interface ProtocolViewProps {
   data: Protocol;
-  defaultFile: string;
+  defaultFile?: string;
   sources: S3FolderList;
 }
 
@@ -26,7 +26,7 @@ export default function ProtocolView({
   sources,
 }: ProtocolViewProps) {
   const [tab, setTab] = useState<typeof TabItems[ number ]>(TabItems[ 2 ]);
-  const [selectedFile, setSelectedFile] = useState<string>(defaultFile);
+  const [selectedFile, setSelectedFile] = useState<string>(defaultFile || '');
   const logo = data.logo?.url || data.logo_url || '';
   const descriptionHtml = marked(data.description || '');
   const infoHtml = marked(data.info || '');

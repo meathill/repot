@@ -27,19 +27,19 @@ export default async function Contracts({
   const contractId = id.match(/^\w+/)?.[ 0 ];
   console.log('xxx', id, contractId);
   const contractData = await getContractDetail(contractId as string);
-  console.log('xxx', id, contractData.document_links);
+  console.log('xxx', contractData.document_links);
   const sources = contractData.document_links
     ? await readDir(contractData.document_links)
     : { folders: [], files: [] };
   /*let description = contractData.description || '';
   if (/^s3:\/\//.test(description)) {
     description = await readFile(description);
-  }*/
-  const currentFile = await findFirstFileFrom(sources);
+  }
+  const currentFile = await findFirstFileFrom(sources);*/
+  console.log('xxx', JSON.stringify(sources));
 
   return (
     <ContractView
-      defaultFile={currentFile.Key}
       data={contractData}
       sources={sources}
     />
