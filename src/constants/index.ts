@@ -5,3 +5,5 @@ export const cookieConfig = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
 };
+
+export const PAGE_SIZE = 30;

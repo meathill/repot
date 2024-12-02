@@ -16,7 +16,7 @@ export default async function Search({
 }: SearchProps) {
   const hasChain = !process.env.FIXED_CHAIN_ID;
   const params = await searchParams;
-  const { category, chain, protocol, q = '', page = '1' } = params;
+  const { category, chain, protocol, q = '', page = 1 } = params;
   const chains: Chain[] = await getChains();
   const chainDocId = chain
     ? chains.find((c) => c.name === chain)?.documentId
@@ -31,14 +31,14 @@ export default async function Search({
   let protocols: Protocol[] = [];
   if (!isChain && chainDocId) {
     const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
-    protocols = await getProtocols({ withChains: true, chainId, page: page as string  });
+    protocols = await getProtocols({ withChains: true, chainId, page: parseInt(page as string)  });
   }
 
   let contracts: Contract[] = [];
   if (!isChain && !isProtocol) {
     const protocolId = protocol
       ? protocols.find((p) => p.name === protocol)?.id : 0;
-    contracts = await getContracts({ protocolId, query: q as string, page: page as string });
+    contracts = await getContracts({ protocolId, query: q as string, page: parseInt(page as string) });
   }
   return <>
     <SearchType

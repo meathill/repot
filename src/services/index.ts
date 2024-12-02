@@ -1,4 +1,5 @@
 import { Chain, Contract, Protocol, StrapiResponse } from '@/types';
+import { PAGE_SIZE } from '@/constants';
 
 export async function fetchFromStrapi<T>(url: string | URL, method = 'GET', body?: unknown) {
   const response = await fetch(url, {
@@ -71,8 +72,8 @@ export async function getProtocolDetail(protocolId: string) {
 
 export async function getProtocols({
   chainId = 0,
-  pageSize = 30,
-  page = '1',
+  pageSize = PAGE_SIZE,
+  page = 1,
   query = '',
   withChains = false,
 } = {}) {
@@ -101,8 +102,8 @@ export async function getProtocols({
 }
 
 export async function getContracts({
-  page = '1',
-  pageSize = 30,
+  page = 1,
+  pageSize = PAGE_SIZE,
   protocolId = 0,
   query = '',
 } = {}) {

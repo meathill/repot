@@ -15,14 +15,12 @@ export default function ProtocolList({
   page = 1,
 }: ProtocolListProps) {
 
-  return (
-    <>
-      <div className={clsx('grid md:grid-cols-3 gap-4', className)}>
-        {items.map((item) => (
-          <ProtocolCard hasDetails key={item.id} protocol={item} />
-        ))}
-      </div>
-      <Pagination total={items.length} page={page} />
-    </>
-  );
+  return <>
+    <div className={clsx('grid md:grid-cols-3 gap-4', className)}>
+      {items.map((item) => (
+        <ProtocolCard hasDetails key={item.id} protocol={item} />
+      ))}
+    </div>
+    <Pagination total={items.length} page={page} />
+  </>
 }

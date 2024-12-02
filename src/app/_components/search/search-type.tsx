@@ -11,11 +11,6 @@ interface SearchTypeProps {
 
 const TabItems = [
   {
-    name: 'chains',
-    label: 'Chains',
-    icon: Box,
-  },
-  {
     name: 'protocols',
     label: 'Protocols',
     icon: GitBranch,
