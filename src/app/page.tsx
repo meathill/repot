@@ -164,10 +164,12 @@ export default async function Landing() {
                 target="_blank"
               >
                 <div className="font-title text-2xl text-dark-green inline-flex items-center gap-2 mb-4">
-                  <Hackquest className="w-6 h-6" />
+                  <Hackquest className="w-6 h-6"/>
                   Consensys Academy
                 </div>
-                <CircleArrowRight className="absolute w-6 h-6 stroke-dark-green ml-auto right-6 bottom-6" />
+                <p className="hidden sm:block text-dark-green text-sm capitalize">Consensys Academy provides specialized training and resources for blockchain development, focusing on Ethereum-based technologies. Its programs include courses, workshops, and certifications designed to equip participants with practical skills in smart contract programming and decentralized application development.
+                </p>
+                <CircleArrowRight className="absolute w-6 h-6 stroke-dark-green ml-auto right-6 bottom-6"/>
               </Link>
               <Link
                 className="grow h-50 bg-main-purple rounded-2.5xl border border-dark-green p-6 relative cursor-pointer inline-flex flex-col justify-between raised-button"
