@@ -112,7 +112,7 @@ export default function CodeViewer({
         disabled={!selectedFile || isOpening}
         onClick={doOpenCode}
       >
-        {isLoading ? <Spinner className="w-4 h-4" /> : 'Open Code'}
+        {isOpening ? <Spinner className="w-4 h-4" /> : 'Open Code'}
       </Button>
       <Button
         className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
