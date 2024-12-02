@@ -1,6 +1,7 @@
 import ContractView from '@/app/_components/contract-view';
 import { getContractDetail } from '@/services';
-import { readDir } from '@/services/s3';
+import { readDir, readFile } from '@/services/s3';
+import { findFirstFileFrom } from '@/utils/server';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -24,22 +25,23 @@ export default async function Contracts({
 }: PageProps) {
   const { id } = await params;
   const contractId = id.match(/^\w+/)?.[ 0 ];
-  console.log('xxx', id, contractId);
   const contractData = await getContractDetail(contractId as string);
-  console.log('xxx', contractData.document_links);
   const sources = contractData.document_links
     ? await readDir(contractData.document_links)
     : { folders: [], files: [] };
-  /*let description = contractData.description || '';
+  let description = contractData.description || '';
   if (/^s3:\/\//.test(description)) {
     description = await readFile(description);
   }
-  const currentFile = await findFirstFileFrom(sources);*/
-  console.log('xxx', JSON.stringify(sources));
+  const currentFile = await findFirstFileFrom(sources);
 
   return (
     <ContractView
-      data={contractData}
+      defaultFile={currentFile.Key}
+      data={{
+        ...contractData,
+        description,
+      }}
       sources={sources}
     />
   );
