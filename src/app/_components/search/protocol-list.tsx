@@ -14,7 +14,6 @@ export default function ProtocolList({
   items,
   page = 1,
 }: ProtocolListProps) {
-
   return <>
     <div className={clsx('grid md:grid-cols-3 gap-4', className)}>
       {items.map((item) => (
