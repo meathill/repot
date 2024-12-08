@@ -1,18 +1,17 @@
-import { FolderOpen, Layers, Lock, Star, User, Wallet } from 'lucide-react';
+import { FolderOpen, Layers, Lock, User, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Contract } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import slugify from 'slugify';
+import StarButton from '@/components/ui/star-button';
 
 interface ContractCardProps {
   data: Contract;
-  onClick?: () => void;
 }
 
 export default function ContractCard({
   data,
-  onClick,
 }: ContractCardProps) {
   const logo = data.logo?.url || data.logo_url || '';
 
@@ -40,12 +39,12 @@ export default function ContractCard({
           <FolderOpen className="w-4 h-4" />
           <span className="text-sm text-dark-gray">Open</span>
         </Link>
-        <div
-          onClick={onClick}
-          className="flex justify-center items-center w-1/2 gap-1.5 cursor-pointer hover:bg-lime-green transition-colors">
-          <Star className="w-4 h-4" />
-          <span className="text-sm text-dark-gray">123</span>
-        </div>
+        <StarButton
+          className="flex justify-center items-center w-1/2 gap-1.5 cursor-pointer hover:bg-lime-green transition-colors"
+          id={data.documentId}
+          number={data.stars?.stars || 0}
+          type="contract"
+        />
       </div>
       <div className="flex flex-row flex-wrap gap-2">
         <div className="border border-gray rounded-2xl px-2 py-1 inline-flex items-center gap-1">

@@ -7,7 +7,7 @@ import Footer from '@/app/_components/footer';
 import FeaturedList from '@/app/_components/featured-list';
 import ContractsDisplay from '@/app/_components/contracts-display';
 import PointsDialog from '@/app/_components/points-dialog';
-import { getLatestContracts, getLatestFeaturedProtocol, getProtocolCount } from '@/services';
+import { getLatestContracts, getLatestProtocol, getProtocolCount } from '@/services';
 import Image from 'next/image';
 import Link from 'next/link';
 import HeroBg from '@/assets/images/hero-bg.svg';
@@ -16,7 +16,7 @@ import HeroPic from '@/assets/images/hero-pic.svg';
 export default async function Landing() {
   // fetch count of contracts, protocols
   const protocolCount = await getProtocolCount();
-  const protocols = await getLatestFeaturedProtocol();
+  const protocols = await getLatestProtocol();
   // fetch latest contracts
   const contracts = await getLatestContracts(9);
   const contractCount = contracts.meta.pagination.total;
@@ -173,11 +173,12 @@ export default async function Landing() {
               </Link>
               <Link
                 className="grow h-50 bg-main-purple rounded-2.5xl border border-dark-green p-6 relative cursor-pointer inline-flex flex-col justify-between raised-button"
-                href="/contact-us"
+                href="https://t.me/repotadmin"
+                target="_blank"
               >
-                <div className="font-title text-2xl text-dark-purple">
+                <span className="font-title text-2xl text-dark-purple">
                   Contact Us
-                </div>
+                </span>
                 <CircleArrowRight className="w-6 h-6 stroke-dark-purple ml-auto" />
               </Link>
             </div>

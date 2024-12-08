@@ -1,7 +1,7 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { CircleCheckBig, CircleStop, Download, ImageIcon, Star, User } from 'lucide-react';
+import { CircleCheckBig, CircleStop, Download, ImageIcon, User } from 'lucide-react';
 import Image from 'next/image';
 import { marked } from 'marked';
 import { useState } from 'react';
@@ -10,10 +10,12 @@ import { Button } from '@/components/ui/button';
 import FileTreeView from '@/components/ui/file-tree';
 import { removeS3Prefix } from '@/utils';
 import CodeViewer from '@/components/ui/code-viewer';
+import StarButton from '@/components/ui/star-button';
 
 interface ContractViewProps {
   data: Contract;
   defaultFile?: string;
+  id: string;
   sources: S3FolderList;
 }
 
@@ -22,6 +24,7 @@ const TabItems = ['Docs', 'Source'];
 export default function ContractView({
   data,
   defaultFile,
+  id,
   sources,
 }: ContractViewProps) {
   const [tab, setTab] = useState<typeof TabItems[ number ]>(TabItems[ 1 ]);
@@ -44,13 +47,14 @@ export default function ContractView({
           <div className="flex sm:items-center gap-4 flex-col sm:flex-row">
             <h1 className="sm:text-xl font-bold">{data.name}</h1>
             <div className="flex gap-4">
-              <div className="flex items-center gap-2 text-xs">
-                <Star size={16} color="#636363"/>
-                1323
-              </div>
+              <StarButton
+                id={id}
+                number={data.stars?.stars || 0}
+                type="contract"
+              />
               <div className="flex items-center gap-2 text-xs">
                 <Download size={16} color="#636363"/>
-                1323
+                {data.stars?.downloads || 0}
               </div>
             </div>
           </div>

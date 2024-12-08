@@ -5,9 +5,7 @@ import { Copy } from 'lucide-react';
 import { readFile } from '@/services/s3';
 import { codeToHtml } from 'shiki';
 import { useEffect, useMemo, useState } from 'react';
-import Image from 'next/image';
 import { clsx } from 'clsx';
-import GitHub from '@/assets/images/github.svg';
 import slugify from 'slugify';
 
 const CHAIN_IDE = 'https://chainide.com/s/';
@@ -21,7 +19,6 @@ interface CodeViewerProps {
 
 export default function CodeViewer({
   className = '',
-  isProtocol,
   prefix,
   selectedFile,
 }: CodeViewerProps) {
@@ -87,9 +84,6 @@ export default function CodeViewer({
       setIsOpening(false);
     }
   }
-  function doInspectAudit() {
-
-  }
 
   useEffect(() => {
     loadSelectedFile(selectedFile);
@@ -114,35 +108,6 @@ export default function CodeViewer({
       >
         {isOpening ? <Spinner className="w-4 h-4" /> : 'Open Code'}
       </Button>
-      <Button
-        className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
-        disabled={!selectedFile}
-        onClick={doInspectAudit}
-      >
-        <Image
-          alt="GitHub logo"
-          className="w-4 h-4 invert"
-          src={GitHub}
-          width={16}
-          height={16}
-        />
-        Inspect Audit
-      </Button>
-      {isProtocol && <Button
-        className="w-40 h-12 border border-black flex justify-center items-center gap-2 rounded-lg text-sm font-bold"
-        disabled={!selectedFile}
-        onClick={doInspectAudit}
-        variant="outline"
-      >
-        <Image
-          alt="GitHub logo"
-          className="w-4 h-4"
-          src={GitHub}
-          width={16}
-          height={16}
-        />
-        View Repo
-      </Button>}
     </div>
     <div className={clsx('flex items-center gap-4 mb-2 flex-none', className)}>
       <h2

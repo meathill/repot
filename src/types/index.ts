@@ -15,6 +15,11 @@ export type ApiResponse<T> = {
   data: T,
 }
 
+export type BaseStrapiRecord = {
+  id: number;
+  documentId: string;
+}
+
 export type Chain = {
   id: number;
   documentId: string;
@@ -48,6 +53,9 @@ export type Protocol = {
   };
   logo_url?: string;
   chains?: Chain[];
+  stars?: {
+    stars: number;
+  },
 }
 
 export type Contract = {
@@ -62,6 +70,10 @@ export type Contract = {
   document_links: string;
   description: string;
   protocols?: Protocol[];
+  stars?: {
+    stars: number;
+    downloads: number;
+  },
 }
 
 export type S3File = {

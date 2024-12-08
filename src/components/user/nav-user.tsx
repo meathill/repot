@@ -2,10 +2,11 @@ import { clsx } from 'clsx';
 import { ArrowRight } from 'lucide-react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Button, ButtonProps } from '@/components/ui/button';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import LoginDialog from '@/app/_components/login-dialog';
 import { UserProfile } from '@/types';
 import Link from 'next/link';
+import { useUserStore } from '@/store';
 
 interface NavUserProps {
   size?: ButtonProps['size'];
@@ -16,10 +17,21 @@ export default function NavUser({
   size = 'default',
   user,
 }: NavUserProps) {
+  const loadStars = useUserStore(state => state.loadStars);
+  const isModalOpen = useUserStore(state => state.isModalOpen);
   const [loginOpen, setLoginOpen] = useState(false);
   const username = useMemo(() => {
     return user?.username || user?.email || 'User';
   }, [user]);
+
+  useEffect(() => {
+    if (user) loadStars();
+  }, []);
+  useEffect(() => {
+    if (!user) return;
+
+    setLoginOpen(isModalOpen);
+  }, [isModalOpen]);
 
   if (user) {
     return (

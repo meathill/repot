@@ -24,7 +24,7 @@ export default async function Contracts({
   params,
 }: PageProps) {
   const { id } = await params;
-  const contractId = id.match(/^\w+/)?.[ 0 ];
+  const contractId = id.match(/^\w+/)?.[ 0 ] as string;
   const contractData = await getContractDetail(contractId as string);
   const sources = contractData.document_links
     ? await readDir(contractData.document_links)
@@ -42,6 +42,7 @@ export default async function Contracts({
         ...contractData,
         description,
       }}
+      id={contractId}
       sources={sources}
     />
   );

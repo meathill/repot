@@ -37,7 +37,7 @@ export async function GET(
   };
 
   const cookiesObj = await cookies();
-  cookiesObj.set('repot-jwt', data.jwt, config);
+  cookiesObj.set('jwt', data.jwt, config);
   cookiesObj.set('repot-user', JSON.stringify(data.user), config);
 
   return NextResponse.redirect(new URL('/', request.url));

@@ -1,11 +1,13 @@
+'use client';
+
 import { Protocol } from '@/types';
 import { clsx } from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Avatar from '@/components/ui/avatar';
 import slugify from 'slugify';
+import StarButton from '@/components/ui/star-button';
 
 interface ProtocolCardProps {
   className?: string;
@@ -53,10 +55,12 @@ export default function ProtocolCard({
               />
             ))}
           </div>
-          <div className="w-1/2 flex-none flex justify-center items-center gap-1.5">
-            <Star size={16} />
-            123
-          </div>
+          <StarButton
+            className="flex justify-center items-center w-1/2 gap-1.5 cursor-pointer hover:bg-lime-green transition-colors"
+            id={protocol.documentId}
+            number={protocol.stars?.stars || 0}
+            type="protocol"
+          />
         </div>
         <Button
           asChild

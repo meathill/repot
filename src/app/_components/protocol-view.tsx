@@ -1,6 +1,6 @@
 'use client';
 
-import { CircleCheckBig, CircleStop, ImageIcon, Star, User } from 'lucide-react';
+import { CircleCheckBig, CircleStop, ImageIcon, User } from 'lucide-react';
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import Image from 'next/image';
@@ -11,6 +11,7 @@ import { marked } from 'marked';
 import { removeS3Prefix } from '@/utils';
 import FileTreeView from '@/components/ui/file-tree';
 import CodeViewer from '@/components/ui/code-viewer';
+import StarButton from '@/components/ui/star-button';
 
 interface ProtocolViewProps {
   data: Protocol;
@@ -46,10 +47,11 @@ export default function ProtocolView({
           <div className="flex sm:items-center gap-4 flex-col sm:flex-row">
             <h1 className="sm:text-xl font-bold">{data.name}</h1>
             <div className="flex gap-4">
-              <div className="flex items-center gap-2 text-xs">
-                <Star size={16} color="#636363"/>
-                1323
-              </div>
+              <StarButton
+                id={data.documentId}
+                number={data.stars?.stars || 0}
+                type="protocol"
+              />
               <div className="flex items-center gap-1.5">
                 {data.chains?.map(chain => (
                   <Avatar

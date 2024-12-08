@@ -16,7 +16,7 @@ export default function ProtocolList({
 }: ProtocolListProps) {
   return <>
     <div className={clsx('grid md:grid-cols-3 gap-4', className)}>
-      {items.map((item) => (
+      {(items || []).map((item) => (
         <ProtocolCard
           hasDetails
           key={item.id}
@@ -24,6 +24,6 @@ export default function ProtocolList({
         />
       ))}
     </div>
-    <Pagination total={items.length} page={page} />
+    <Pagination total={items?.length || 0} page={page} />
   </>
 }
