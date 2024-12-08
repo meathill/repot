@@ -17,7 +17,7 @@ export default async function Search({
   const hasChain = !process.env.FIXED_CHAIN_ID;
   const params = await searchParams;
   const { category, chain, protocol, q = '' } = params;
-  const page = Number(params?.page) || 1;
+  const page = Number(params.page) || 1;
   const chains: Chain[] = await getChains();
   const chainDocId = chain
     ? chains.find((c) => c.name === chain)?.documentId

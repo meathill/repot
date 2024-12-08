@@ -27,15 +27,16 @@ export default function Pagination({
 
   const MAX_VISIBLE_PAGE = 11; // 最多显示的页数（左 + 右 + 1[当前页]）
   const visiblePages = useMemo(() => {
+    const pages: number[] = [];
     const start = Math.max(1, page - Math.floor(MAX_VISIBLE_PAGE / 2));
 
-    const pages = Array.from({ length: MAX_VISIBLE_PAGE }, (_, index) => {
-      const pageNum = start + index;
-      if (pageNum > totalPage) return;
-      return pageNum;
-    }).filter(Boolean);
+    for (let i = 0; i < MAX_VISIBLE_PAGE; ++i) {
+      const pageNum = start + i;
+      if (pageNum > totalPage) continue;
+      pages.push(pageNum);
+    }
 
-    return pages as number[];
+    return pages;
   }, [totalPage, page, MAX_VISIBLE_PAGE]);
   
   function getPageLink(targetPage: number) {

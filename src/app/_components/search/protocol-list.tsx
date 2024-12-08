@@ -17,7 +17,11 @@ export default function ProtocolList({
   return <>
     <div className={clsx('grid md:grid-cols-3 gap-4', className)}>
       {items.map((item) => (
-        <ProtocolCard hasDetails key={item.id} protocol={item} />
+        <ProtocolCard
+          hasDetails
+          key={item.id}
+          protocol={item}
+        />
       ))}
     </div>
     <Pagination total={items.length} page={page} />
