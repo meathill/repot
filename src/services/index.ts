@@ -1,4 +1,5 @@
 import { Chain, Contract, Protocol, StrapiResponse } from '@/types';
+import { PAGE_SIZE } from '@/constants';
 
 export async function fetchFromStrapi<T>(url: string | URL, method = 'GET', body?: unknown) {
   const response = await fetch(url, {
@@ -71,12 +72,14 @@ export async function getProtocolDetail(protocolId: string) {
 
 export async function getProtocols({
   chainId = 0,
-  pageSize = 30,
+  pageSize = PAGE_SIZE,
+  page = 1,
   query = '',
   withChains = false,
 } = {}) {
   const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocols`);
   url.searchParams.set('pagination[pageSize]', pageSize.toString());
+  url.searchParams.set('pagination[page]', page.toString());
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('populate[0]', 'logo');
   url.searchParams.set('fields[0]', 'name');
@@ -99,11 +102,13 @@ export async function getProtocols({
 }
 
 export async function getContracts({
-  pageSize = 30,
+  page = 1,
+  pageSize = PAGE_SIZE,
   protocolId = 0,
   query = '',
 } = {}) {
   const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contracts`);
+  url.searchParams.set('pagination[page]', page.toString());
   url.searchParams.set('pagination[pageSize]', pageSize.toString());
   url.searchParams.set('sort', 'id:desc');
   url.searchParams.set('fields[0]', 'name');
