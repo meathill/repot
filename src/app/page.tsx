@@ -2,7 +2,6 @@ import { ArrowRight, FileMinus, CircleArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ContractLayoutIcon from '@/components/icons/contract-layout-icon';
 import Discord from '@/components/icons/discord-icon';
-import Hackquest from '@/components/icons/hackquest-icon';
 import Footer from '@/app/_components/footer';
 import FeaturedList from '@/app/_components/featured-list';
 import ContractsDisplay from '@/app/_components/contracts-display';
@@ -12,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import HeroBg from '@/assets/images/hero-bg.svg';
 import HeroPic from '@/assets/images/hero-pic.svg';
+import ConsensysLogo from '@/assets/images/consensys-logo.svg';
 
 export default async function Landing() {
   // fetch count of contracts, protocols
@@ -164,7 +164,13 @@ export default async function Landing() {
                 target="_blank"
               >
                 <div className="font-title text-2xl text-dark-green inline-flex items-center gap-2 mb-4">
-                  <Hackquest className="w-6 h-6"/>
+                  <Image
+                    alt="Consensys logo"
+                    className="w-6 h-6"
+                    src={ConsensysLogo}
+                    width={24}
+                    height={24}
+                  />
                   Consensys Academy
                 </div>
                 <p className="hidden sm:block text-dark-green text-sm capitalize">Consensys Academy provides specialized training and resources for blockchain development, focusing on Ethereum-based technologies. Its programs include courses, workshops, and certifications designed to equip participants with practical skills in smart contract programming and decentralized application development.
