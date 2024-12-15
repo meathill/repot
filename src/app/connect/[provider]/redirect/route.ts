@@ -20,7 +20,7 @@ export async function GET(
   const { searchParams } = new URL(request.url);
   const token = searchParams.get('access_token');
 
-  if (!token) return NextResponse.redirect(new URL('/', request.url));
+  if (!token) return NextResponse.redirect(new URL('/', process.env.NEXT_PUBLIC_SITE_URL));
 
   const provider = (await params).provider;
   const backendUrl =
@@ -40,5 +40,5 @@ export async function GET(
   cookiesObj.set('jwt', data.jwt, config);
   cookiesObj.set('repot-user', JSON.stringify(data.user), config);
 
-  return NextResponse.redirect(new URL('/', request.url));
+  return NextResponse.redirect(new URL('/', process.env.NEXT_PUBLIC_SITE_URL));
 }
