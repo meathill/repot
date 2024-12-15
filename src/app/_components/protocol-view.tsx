@@ -113,9 +113,11 @@ export default function ProtocolView({
         </aside>
         <div className="flex-1 flex flex-col">
           <CodeViewer
-            isProtocol
+            allCode={data.document_json}
+            name={data.name}
             prefix={data.document_link}
             selectedFile={selectedFile}
+            zipUrl={data.document_zip}
           />
         </div>
       </div>

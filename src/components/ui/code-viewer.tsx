@@ -11,20 +11,24 @@ import slugify from 'slugify';
 const CHAIN_IDE = 'https://chainide.com/s/';
 
 interface CodeViewerProps {
+  allCode?: string;
   className?: string;
-  isProtocol?: boolean;
+  name: string;
   prefix: string;
   selectedFile: string;
+  zipUrl?: string;
 }
 
 export default function CodeViewer({
+  allCode,
   className = '',
+  name,
   prefix,
   selectedFile,
+  zipUrl,
 }: CodeViewerProps) {
   const [fileContent, setFileContent] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isOpening, setIsOpening] = useState<boolean>(false);
   const isShiki = useMemo(() => {
     return selectedFile && /\.sol$/.test(selectedFile);
   }, [selectedFile]);
@@ -33,12 +37,6 @@ export default function CodeViewer({
 
     return selectedFile.split('/').pop();
   }, [selectedFile]);
-  const fileUrl = useMemo(() => {
-    if (!fileContent) return '';
-
-    const blob = new Blob([fileContent], { type: 'text/plain' });
-    return URL.createObjectURL(blob);
-  }, [fileContent]);
 
   async function loadSelectedFile(file: string) {
     if (!file) {
@@ -69,22 +67,6 @@ export default function CodeViewer({
     setIsLoading(false);
   }
 
-  async function doOpenCode() {
-    if (isOpening) return;
-
-    setIsOpening(true);
-    try {
-      const uniqueId = slugify(location.pathname);
-      const allFiles = await fetch('/api/s3/getDirContent?prefix=' + prefix);
-      const files = await allFiles.text();
-      window.open(`${CHAIN_IDE}createHackProject?version=soljson-v0.8.12.js&open=${fileName || 'filename.move'}&chain=sui&type=type&uniqueId=${uniqueId}&code=${encodeURIComponent(files)}`);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsOpening(false);
-    }
-  }
-
   useEffect(() => {
     loadSelectedFile(selectedFile);
   }, [selectedFile]);
@@ -94,19 +76,25 @@ export default function CodeViewer({
       <Button
         asChild
         className="w-54 h-12 border border-black flex justify-center items-center bg-main-purple rounded-lg text-sm font-bold hover:bg-main-purple/75"
-        disabled={!selectedFile}
+        disabled={!zipUrl}
       >
         <a
+          className={clsx({ 'pointer-events-none opacity-50 border-none': !zipUrl })}
           download={fileName}
-          href={fileUrl}
+          href={zipUrl}
         >Download Code</a>
       </Button>
       <Button
+        asChild
         className="w-54 h-12 border border-black flex justify-center items-center bg-lime-green rounded-lg text-sm text-dark-green font-bold hover:bg-light-green"
-        disabled={!selectedFile || isOpening}
-        onClick={doOpenCode}
+        disabled={!allCode}
       >
-        {isOpening ? <Spinner className="w-4 h-4" /> : 'Open Code'}
+        <a
+          className={clsx({ 'pointer-events-none opacity-50 border-none': !allCode })}
+          href={`${CHAIN_IDE}createHackProject?version=soljson-v0.8.12.js&open=${fileName || 'filename.move'}&chain=sui&type=type&uniqueId=${slugify(name)}&url=${encodeURIComponent(allCode || '')}`}
+          target="_blank"
+          rel="nofollow noreferrer"
+        >Open Code</a>
       </Button>
     </div>
     <div className={clsx('flex items-center gap-4 mb-2 flex-none', className)}>

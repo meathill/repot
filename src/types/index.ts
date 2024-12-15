@@ -56,6 +56,8 @@ export type Protocol = {
   stars?: {
     stars: number;
   },
+  document_json: string;
+  document_zip: string;
 }
 
 export type Contract = {
@@ -74,6 +76,8 @@ export type Contract = {
     stars: number;
     downloads: number;
   },
+  document_json: string;
+  document_zip: string;
 }
 
 export type S3File = {

@@ -98,7 +98,13 @@ export default function ContractView({
           />
         </aside>
         <div className="flex-1 flex flex-col">
-          <CodeViewer prefix={data.document_links} selectedFile={selectedFile} />
+          <CodeViewer
+            allCode={data.document_json}
+            name={data.name}
+            prefix={data.document_links}
+            selectedFile={selectedFile}
+            zipUrl={data.document_zip}
+          />
         </div>
       </div>
       <div className={clsx('mt-6', { hidden: tab !== 'Docs' })}>
