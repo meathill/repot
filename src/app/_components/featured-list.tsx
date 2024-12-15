@@ -24,7 +24,7 @@ const FeatureItem = ({
   return (
     <Link
       className="block bg-white hover:bg-lighter-gray p-6 border border-primary-800 rounded-2.5xl shadow-[0_4px_0_0_#000] raised-button"
-      href={`/contract/${documentId}-${slugify(name)}`}
+      href={`/protocol/${documentId}-${slugify(name)}`}
       style={{ '--shadow-size': '8px' }}
     >
       <div className="flex justify-between items-center mb-5">

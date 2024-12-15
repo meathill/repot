@@ -36,6 +36,10 @@ export async function getAllContentFromDir(Prefix: string, root: string) {
   } = response;
   const results = await Promise.all((files || []).map(async (file) => {
     if (!file.Key) return null;
+    if (!/\.(sol|txt|md)$/i.test(file.Key)) {
+      console.log('Unsupported file type:', file.Key);
+      return null;
+    }
 
     const response = await s3Client.send(new GetObjectCommand({
       Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
