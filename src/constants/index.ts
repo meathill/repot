@@ -3,7 +3,7 @@ export const cookieConfig = {
   path: '/',
   domain: process.env.HOST ?? 'localhost',
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
+  secure: true,
 };
 
 export const PAGE_SIZE = 30;

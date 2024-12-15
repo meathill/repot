@@ -3,14 +3,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { UserProfile } from '@/types';
-
-const config = {
-  maxAge: 60 * 60 * 24 * 7, // 1 week
-  path: '/',
-  domain: process.env.HOST ?? 'localhost',
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-};
+import { cookieConfig } from '@/constants';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 export async function GET(
@@ -37,8 +30,8 @@ export async function GET(
   };
 
   const cookiesObj = await cookies();
-  cookiesObj.set('jwt', data.jwt, config);
-  cookiesObj.set('repot-user', JSON.stringify(data.user), config);
+  cookiesObj.set('jwt', data.jwt, cookieConfig);
+  cookiesObj.set('repot-user', JSON.stringify(data.user), cookieConfig);
 
   return NextResponse.redirect(new URL('/', process.env.NEXT_PUBLIC_SITE_URL));
 }
