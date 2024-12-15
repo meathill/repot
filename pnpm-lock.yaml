@@ -38,6 +38,9 @@ importers:
       '@radix-ui/react-toggle-group':
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@tailwindcss/typography':
+        specifier: ^0.5.15
+        version: 0.5.15(tailwindcss@3.4.16)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -68,18 +71,27 @@ importers:
       next:
         specifier: ^15.1.0
         version: 15.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      postcss:
+        specifier: ^8.4.49
+        version: 8.4.49
       react:
         specifier: ^19.0.0
         version: 19.0.0
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
+      shiki:
+        specifier: ^1.24.2
+        version: 1.24.2
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
       tailwind-merge:
         specifier: ^2.5.5
         version: 2.5.5
+      tailwindcss:
+        specifier: ^3.4.16
+        version: 3.4.16
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.16)
@@ -87,9 +99,6 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2(@types/react@19.0.1)(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0))
     devDependencies:
-      '@tailwindcss/typography':
-        specifier: ^0.5.15
-        version: 0.5.15(tailwindcss@3.4.16)
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
@@ -108,15 +117,6 @@ importers:
       eslint-config-next:
         specifier: ^15.1.0
         version: 15.1.0(eslint@8.57.1)(typescript@5.7.2)
-      postcss:
-        specifier: ^8.4.49
-        version: 8.4.49
-      shiki:
-        specifier: ^1.24.2
-        version: 1.24.2
-      tailwindcss:
-        specifier: ^3.4.16
-        version: 3.4.16
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
