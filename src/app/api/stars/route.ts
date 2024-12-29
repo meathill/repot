@@ -1,6 +1,6 @@
 import { getUserMeLoader } from '@/services/user-me-loader';
 import { fetchFromStrapi } from '@/services';
-import { BaseStrapiRecord, Contract, Protocol } from '@/types';
+import { BaseStrapiRecord, Contract, ItemType, Protocol } from '@/types';
 
 type StarLog = BaseStrapiRecord & {
   contract?: Contract;
@@ -13,7 +13,7 @@ type Stars = BaseStrapiRecord & {
   stars: number;
 }
 
-function keyByDocumentId(items: BaseStrapiRecord[], key: 'contract' | 'protocol') {
+function keyByDocumentId(items: BaseStrapiRecord[], key: ItemType) {
   return items.reduce((acc, item) => {
     // @ts-expect-error I'm sure key is right
     acc[ item[ key ].documentId ] = item[ key ];
@@ -29,26 +29,38 @@ export async function GET() {
     )
   }
 
-  console.log('xxx', user.data.id);
   const token = process.env.STRAPI_STAR_TOKEN;
 
-  // load contracts
-  let url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contract-star-logs`);
+  // load chains
+  let url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chain-star-logs`);
   url.searchParams.set('filters[user][id][$eq]', user.data.id);
-  url.searchParams.set('populate', 'contract');
+  url.searchParams.set('populate[0]', 'chain');
+  url.searchParams.set('populate[chain][populate][0]', 'logo');
+  url.searchParams.set('populate[chain][populate][1]', 'stars');
+  const chains = await fetchFromStrapi<StarLog[]>(url, 'GET', null, token);
+
+  // load contracts
+  url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contract-star-logs`);
+  url.searchParams.set('filters[user][id][$eq]', user.data.id);
+  url.searchParams.set('populate[0]', 'contract');
+  url.searchParams.set('populate[contract][populate][0]', 'logo');
+  url.searchParams.set('populate[contract][populate][1]', 'stars');
   const contracts = await fetchFromStrapi<StarLog[]>(url, 'GET', null, token);
 
   // load protocols
   url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocol-star-logs`);
   url.searchParams.set('filters[user][id][$eq]', user.data.id);
   url.searchParams.set('populate', 'protocol');
+  url.searchParams.set('populate[protocol][populate][0]', 'logo');
+  url.searchParams.set('populate[protocol][populate][1]', 'stars');
   const protocols = await fetchFromStrapi<StarLog[]>(url, 'GET', null, token);
 
   return new Response(JSON.stringify({
     code: 0,
     data: {
-      contracts: keyByDocumentId(contracts.data, 'contract'),
-      protocols: keyByDocumentId(protocols.data, 'protocol'),
+      chains: keyByDocumentId(chains.data || [], 'chain'),
+      contracts: keyByDocumentId(contracts.data || [], 'contract'),
+      protocols: keyByDocumentId(protocols.data || [], 'protocol'),
     },
   }));
 }

@@ -1,6 +1,6 @@
 import UserDashboard from '@/app/_components/user/dashboard';
 
-export default function UserDashboardPage() {
+export default async function UserDashboardPage() {
   return (
     <UserDashboard />
   );

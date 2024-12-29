@@ -9,10 +9,46 @@ import Image from 'next/image';
 import ContractsIcon from '@/components/icons/contracts-icon';
 import EthIcon from '@/assets/images/eth-icon.svg';
 import { useState } from 'react';
+import ContractCard from '@/app/_components/contract-card';
+import { Chain, Contract, Protocol } from '@/types';
+import ProtocolCard from '@/app/_components/protocol-card';
+import ChainCard from '@/app/_components/chain-card';
+
+type ItemListProps = {
+  items: (Chain | Contract | Protocol)[];
+  ItemComponent: typeof ChainCard | typeof ContractCard | typeof ProtocolCard;
+}
+function ItemList({
+  ItemComponent,
+  items,
+}: ItemListProps) {
+  if (!items.length) {
+    return <div className="flex flex-col justify-center items-center">
+      <p className="text-center mb-6">Nothing Here</p>
+      <Image
+        alt="Nothing here"
+        src={EmptyIcon}
+        width={153}
+        height={144}
+      />
+    </div>;
+  }
+
+  return <div className="grid sm:grid-cols-3 gap-6">
+    {items.map((item) => (
+      // @ts-expect-error data is correct
+      <ItemComponent data={item} key={item.id} />
+    ))}
+  </div>;
+}
 
 export default function UserDashboard() {
+  const stars = useUserStore((state) => state.stars);
   const user = useUserStore((state) => state.user);
   const [query, setQuery] = useState<string>('');
+  const chains = Object.values(stars.chains);
+  const contracts = Object.values(stars.contracts);
+  const protocols = Object.values(stars.protocols);
 
   if (!user) {
     return (
@@ -21,6 +57,7 @@ export default function UserDashboard() {
       </div>
     )
   }
+
   return (
     <div className="border border-primary-800 bg-white rounded-2.5xl mt-6 sm:mt-8 p-4 sm:p-8">
       <div className="flex items-center gap-6 border-b border-gray pb-6 mb-6">
@@ -56,35 +93,30 @@ export default function UserDashboard() {
       </div>
       <div className="mb-6">
         <header className="flex items-center gap-2 py-2 mb-4">
-          <Star size={14}/> Collection chains(0)
+          <Star size={14}/> Collection Chain ({chains.length})
         </header>
-        <div className="flex justify-center">
-          <div className="">
-            <p className="text-center mb-6">Nothing Here</p>
-            <Image
-              alt="Nothing here"
-              src={EmptyIcon}
-              width={153}
-              height={144}
-            />
-          </div>
-        </div>
+        <ItemList
+          ItemComponent={ChainCard}
+          items={chains}
+        />
       </div>
       <div className="mb-6">
         <header className="flex items-center gap-2 py-2 mb-4">
-          <Star size={14}/> Collection Protocols(0)
+          <Star size={14}/> Collection Protocols ({protocols.length})
         </header>
-        <div className="flex justify-center">
-          <div className="">
-            <p className="text-center mb-6">Nothing Here</p>
-            <Image
-              alt="Nothing here"
-              src={EmptyIcon}
-              width={153}
-              height={144}
-            />
-          </div>
-        </div>
+        <ItemList
+          ItemComponent={ProtocolCard}
+          items={protocols}
+        />
+      </div>
+      <div className="mb-6">
+        <header className="flex items-center gap-2 py-2 mb-4">
+          <Star size={14}/> Collection Contracts ({contracts.length})
+        </header>
+        <ItemList
+          ItemComponent={ContractCard}
+          items={contracts}
+        />
       </div>
       <hr className="mb-6"/>
       <div className="mb-6">

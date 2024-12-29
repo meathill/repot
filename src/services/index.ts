@@ -57,9 +57,12 @@ export async function getChains() {
 export async function getChainDetail(chainId: string, withProtocols = false) {
   const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chains/${chainId}`);
   url.searchParams.set('populate[0]', 'logo');
+  url.searchParams.set('populate[1]', 'stars');
   if (withProtocols) {
-    url.searchParams.set('populate[1]', 'protocols');
     url.searchParams.set('populate[protocols][populate]', 'logo');
+    url.searchParams.set('populate[protocols][fields][0]', 'name');
+    url.searchParams.set('populate[protocols][fields][1]', 'overview');
+    url.searchParams.set('populate[protocols][fields][2]', 'logo_url');
   }
   const json = await fetchFromStrapi<Chain>(url);
   return json.data;

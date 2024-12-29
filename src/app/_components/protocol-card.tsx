@@ -12,14 +12,14 @@ import StarButton from '@/components/ui/star-button';
 interface ProtocolCardProps {
   className?: string;
   hasDetails?: boolean;
-  protocol: Protocol;
+  data: Protocol;
 }
 export default function ProtocolCard({
   className = '',
   hasDetails,
-  protocol,
+  data,
 }: ProtocolCardProps) {
-  const logo = protocol.logo?.url || protocol.logo_url;
+  const logo = data.logo?.url || data.logo_url;
   const Component = hasDetails ? 'div' : Link;
 
   return (
@@ -29,24 +29,24 @@ export default function ProtocolCard({
         { 'hover:bg-main-green ': !hasDetails },
         className,
       )}
-      href={`/protocol/${protocol.documentId}-${slugify(protocol.name)}`}
+      href={`/protocol/${data.documentId}-${slugify(data.name)}`}
     >
       <div className="flex items-center gap-4 h-12">
         {logo && <Image
           src={logo}
-          alt={protocol.name}
+          alt={data.name}
           className="w-12 h-12 rounded-lg block"
           width={48}
           height={48}
           unoptimized
         />}
-        <h4 className="font-bold text-primary-800">{protocol.name}</h4>
+        <h4 className="font-bold text-primary-800">{data.name}</h4>
       </div>
-      {protocol.overview && <p className="text-sm line-clamp-2 text-primary-800">{protocol.overview}</p>}
+      {data.overview && <p className="text-sm line-clamp-2 text-primary-800">{data.overview}</p>}
       {hasDetails && <>
         <div className="flex border-y border-light-gray bg-lighter-gray h-12 -mx-6">
           <div className="w-1/2 flex-none flex justify-center items-center gap-1.5 border-r border-light-gray">
-            {(protocol.chains || []).map((chain) => (
+            {(data.chains || []).map((chain) => (
               <Avatar
                 key={chain.id}
                 src={chain.logo?.url || chain.logo_url}
@@ -57,8 +57,8 @@ export default function ProtocolCard({
           </div>
           <StarButton
             className="flex justify-center items-center w-1/2 gap-1.5 cursor-pointer hover:bg-lime-green transition-colors"
-            id={protocol.documentId}
-            number={protocol.stars?.stars || 0}
+            id={data.documentId}
+            number={data.stars?.stars || 0}
             type="protocol"
           />
         </div>
@@ -68,7 +68,7 @@ export default function ProtocolCard({
           size="lg"
           variant="outline"
         >
-          <Link href={`/protocol/${protocol.documentId}-${slugify(protocol.name)}`}>
+          <Link href={`/protocol/${data.documentId}-${slugify(data.name)}`}>
             Go to Protocol
           </Link>
         </Button>

@@ -29,7 +29,7 @@ export default function ProtocolsDisplay({
         className={clsx('w-full', className)}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="font-bold">{name} Projects</h3>
+          <h3 id="protocols-carousel" className="font-bold">{name} Projects</h3>
           <div className="flex gap-4">
             <CarouselPrevious
               className="static transform-none w-6 h-6 rounded-md border-black hover:bg-light-green"

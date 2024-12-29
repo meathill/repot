@@ -4,14 +4,14 @@ import { Star } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useUserStore } from '@/store';
-import { ApiResponse } from '@/types';
+import { ApiResponse, ItemType, ItemTypePlural } from '@/types';
 import { cn } from '@/lib/utils';
 
 interface StarButtonProps {
   className?: string;
   id: string;
   number: number;
-  type: 'protocol' | 'contract';
+  type: ItemType;
 }
 export default function StarButton({
   className = '',
@@ -26,9 +26,9 @@ export default function StarButton({
   const isStarred = useMemo(() => {
     if (!user) return false;
 
-    const items = stars[ type + 's' as 'contracts' | 'protocols' ] || {};
+    const items = stars[ type + 's' as ItemTypePlural ] || {};
     return id in items;
-  }, [stars, type]);
+  }, [id, stars, type]);
 
   async function doStar() {
     if (isStarring) return;

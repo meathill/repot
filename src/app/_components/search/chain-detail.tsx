@@ -2,12 +2,13 @@
 
 import { Chain } from '@/types';
 import { Button } from '@/components/ui/button';
-import { Database, Droplets, Link2, Star, Wallet } from 'lucide-react';
+import { Database, Droplets, Link2, Wallet } from 'lucide-react';
 import RadioGroup from '@/components/ui/radio-group';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ProtocolsDisplay from '@/app/_components/protocols-display';
+import StarButton from '@/components/ui/star-button';
 
 interface ChainDetailProps {
   chainId: string;
@@ -31,6 +32,7 @@ const TabItems = [
 
 export default function ChainDetail({
   chainData,
+  chainId,
 }: ChainDetailProps) {
   const [currentTab, setCurrentTab] = useState<string>('overview');
 
@@ -44,7 +46,7 @@ export default function ChainDetail({
 
   return (
     <div className="border border-gray rounded-2.5xl bg-white p-6">
-      <header className="flex items-center pb-6 border-b mb-6 border-gray">
+      <header className="flex items-center pb-6 border-b mb-6 gap-4 border-gray">
         {logo && <Image
           src={logo}
           alt={chainData.name}
@@ -54,13 +56,7 @@ export default function ChainDetail({
           unoptimized
         />}
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
-        <Button
-          className="aspect-square"
-          variant="ghost"
-          size="sm"
-        >
-          <Star size={24} color="currentColor" />
-        </Button>
+        <StarButton id={chainId} number={0} type="chain" />
 
         <RadioGroup
           className="ml-auto"

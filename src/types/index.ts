@@ -20,6 +20,9 @@ export type BaseStrapiRecord = {
   documentId: string;
 }
 
+export type ItemType = 'chain' | 'protocol' | 'contract';
+export type ItemTypePlural = 'chains' | 'protocols' | 'contracts';
+
 export type Chain = {
   id: number;
   documentId: string;
@@ -101,3 +104,5 @@ export type UserProfile = {
   provider: string;
   points?: number;
 }
+
+export type URLSearchParamsObject = { [key: string]: string | string[] | undefined };
