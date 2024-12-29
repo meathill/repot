@@ -9,19 +9,21 @@ import Image from 'next/image';
 import ContractsIcon from '@/components/icons/contracts-icon';
 import EthIcon from '@/assets/images/eth-icon.svg';
 import { useState } from 'react';
+import EditProfileDialog from '@/app/_components/edit-profile-dialog';
 
 export default function UserDashboard() {
   const user = useUserStore((state) => state.user);
   const [query, setQuery] = useState<string>('');
+  const [editProfileOpen, openEditProfile] = useState(false);
 
-  if (!user) {
+    if (!user) {
     return (
       <div className="border border-primary-800 bg-white rounded-2.5xl mt-6 sm:mt-8 p-4 sm:p-8 flex justify-center">
         <NavUser size={'xl'} />
       </div>
     )
   }
-  return (
+  return <>
     <div className="border border-primary-800 bg-white rounded-2.5xl mt-6 sm:mt-8 p-4 sm:p-8">
       <div className="flex items-center gap-6 border-b border-gray pb-6 mb-6">
         <Button
@@ -39,8 +41,7 @@ export default function UserDashboard() {
         <Button
           className="font-bold"
           effect="raised"
-          onClick={() => {
-          }}
+          onClick={() => openEditProfile(true)}
           size="xl"
         >
           <PenLine size={16}/>
@@ -133,5 +134,6 @@ export default function UserDashboard() {
         </div>
       </div>
     </div>
-  );
+    <EditProfileDialog open={editProfileOpen} setOpen={openEditProfile} />
+  </>;
 }
