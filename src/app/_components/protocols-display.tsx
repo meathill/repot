@@ -45,7 +45,7 @@ export default function ProtocolsDisplay({
         <CarouselContent className="-ml-6">
           {items.map((item) => (
             <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
-              <ProtocolCard protocol={item} />
+              <ProtocolCard data={item} />
             </CarouselItem>
           ))}
         </CarouselContent>

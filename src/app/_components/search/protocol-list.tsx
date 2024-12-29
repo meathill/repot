@@ -20,7 +20,7 @@ export default function ProtocolList({
         <ProtocolCard
           hasDetails
           key={item.id}
-          protocol={item}
+          data={item}
         />
       ))}
     </div>
