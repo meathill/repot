@@ -103,7 +103,7 @@ export default function ProtocolView({
         dangerouslySetInnerHTML={{ __html: descriptionHtml }}
       />
       <div className={clsx('flex min-h-96 gap-6', { hidden: tab !== 'Source' })}>
-        <aside className="w-54 flex-none py-3 px-5 bg-white border border-black rounded-lg">
+        <aside className="sm:w-64 flex-none">
           <FileTreeView
             folderList={sources}
             onSelectFile={file => setSelectedFile(file)}

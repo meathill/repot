@@ -1,11 +1,16 @@
 'use client';
 
-import { Star } from 'lucide-react';
+import { ExternalLink, Star } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useUserStore } from '@/store';
 import { ApiResponse, ItemType, ItemTypePlural } from '@/types';
 import { cn } from '@/lib/utils';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import Image from 'next/image';
+import Logo from '@/assets/images/logo.svg';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface StarButtonProps {
   className?: string;
@@ -22,6 +27,7 @@ export default function StarButton({
   const stars = useUserStore(state => state.stars);
   const user = useUserStore(state => state.user);
   const [isStarring, setIsStarring] = useState<boolean>(false);
+  const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [value, setValue] = useState<number>(number);
   const isStarred = useMemo(() => {
     if (!user) return false;
@@ -33,6 +39,14 @@ export default function StarButton({
   async function doStar() {
     if (isStarring) return;
 
+    if (isStarred) {
+      setIsConfirm(true);
+      return;
+    }
+
+    return toggleStar();
+  }
+  async function toggleStar() {
     setIsStarring(true);
     try {
       const response = await fetch('/api/stars', {
@@ -51,7 +65,7 @@ export default function StarButton({
     }
   }
 
-  return (
+  return <>
     <button
       className={cn('flex items-center gap-2 text-xs hover:bg-main-green disabled:opacity-50 disabled:cursor-not-allowed', className)}
       disabled={!user || isStarring}
@@ -68,5 +82,42 @@ export default function StarButton({
       }
       {value}
     </button>
-  )
+    <Dialog
+      open={isConfirm}
+      onOpenChange={setIsConfirm}
+    >
+      <DialogContent
+        className="p-0 sm:rounded-3xl border border-black"
+        hasClose={false}
+        onEscapeKeyDown={() => setIsConfirm(false)}
+        onInteractOutside={() => setIsConfirm(false)}
+      >
+        <DialogHeader
+          className="bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl">
+          <DialogTitle className="font-bold text-2xl text-dark-green">
+            Delete Contract?
+          </DialogTitle>
+        </DialogHeader>
+        <div className="pt-6 pb-8 px-8">
+          <p className="font-bold leading-6 mb-6">Confirm delete contract?</p>
+          <div className="flex gap-6 justify-center items-center">
+            <Button
+              className="font-bold text-base h-10 border-black px-6 rounded-lg"
+              onClick={() => setIsConfirm(false)}
+              variant="outline"
+            >
+              Cancel
+            </Button>
+            <Button
+              className="font-bold text-base h-10 px-6 border border-black rounded-lg"
+              onClick={() => toggleStar()}
+              variant="primary"
+            >
+              Confirm
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  </>
 }

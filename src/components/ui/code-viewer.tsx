@@ -102,7 +102,7 @@ export default function CodeViewer({
         className="text-sm text-dark-gray font-mono"
       >{trimPrefix(selectedFile, removeS3Prefix(prefix))}</h2>
       <Button
-        className="flex items-center ms-auto h-5 gap-0.5 text-sm font-bold px-0"
+        className="hidden items-center ms-auto h-5 gap-0.5 text-sm font-bold px-0"
         disabled
         variant="ghost"
       >
@@ -110,7 +110,7 @@ export default function CodeViewer({
         <Copy size={16}/>
       </Button>
       <Button
-        className="flex items-center h-5 gap-0.5 text-sm font-bold px-0"
+        className="hidden items-center h-5 gap-0.5 text-sm font-bold px-0"
         disabled
         variant="ghost"
       >

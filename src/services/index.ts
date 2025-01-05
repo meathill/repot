@@ -21,8 +21,13 @@ export async function fetchFromStrapi<T>(
 export async function getProtocolCount() {
   const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocols`);
   url.searchParams.set('pagination[pageSize]', '1');
-  const json = await fetchFromStrapi<Protocol>(url);
-  return json.meta.pagination.total;
+  try {
+    const json = await fetchFromStrapi<Protocol>(url);
+    return json.meta.pagination.total;
+  } catch (error) {
+    console.log('Failed to load protocol count', error);
+    return 0;
+  }
 }
 
 export async function getLatestProtocol() {
@@ -33,15 +38,33 @@ export async function getLatestProtocol() {
   url.searchParams.set('fields[1]', 'logo_url');
   url.searchParams.set('fields[2]', 'overview');
   url.searchParams.set('populate', 'logo');
-  const json = await fetchFromStrapi<Protocol[]>(url);
-  return json.data;
+  try {
+    const json = await fetchFromStrapi<Protocol[]>(url);
+    return json.data;
+  } catch (error) {
+    console.log('Failed to load latest protocol', error);
+    return [];
+  }
 }
 
 export async function getLatestContracts(count: number) {
   const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contracts`);
   url.searchParams.set('pagination[pageSize]', count.toString());
   url.searchParams.set('sort', 'id:desc');
-  return fetchFromStrapi<Contract[]>(url);
+  try {
+    const contracts = await fetchFromStrapi<Contract[]>(url);
+    return contracts;
+  } catch (error) {
+    console.log('Failed to load latest contracts', error);
+    return {
+      data: [],
+      meta: {
+        pagination: {
+          total: 0,
+        },
+      },
+    };
+  }
 }
 
 export async function getChains() {

@@ -43,7 +43,7 @@ export default async function Search({
   }
   return <>
     <SearchType
-      className="py-8"
+      className="pt-6 mb-8 sm:pt-8"
       current={category as string || (q && 'contracts')}
     />
     {(hasChain && (isChain || isProtocol)) && <ChainList

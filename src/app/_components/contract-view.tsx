@@ -33,7 +33,7 @@ export default function ContractView({
   const descriptionHtml = marked(data.description || '');
 
   return (
-    <main className="mt-6 sm:mt-8 mb-6 px-6 sm:px-0">
+    <main className="mt-6 sm:mt-8 mb-6">
       <header className="flex flex-col sm:flex-row gap-6 mb-6 pb-6 border-b border-neutral-800">
         {logo && <Image
           alt={data.name}
@@ -58,7 +58,7 @@ export default function ContractView({
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
             <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
               <CircleStop size={16}/>
               Token
@@ -88,8 +88,8 @@ export default function ContractView({
           ))}
         </div>
       </header>
-      <div className={clsx('flex min-h-96 gap-6', { hidden: tab !== 'Source' })}>
-        <aside className="hidden sm:block w-64 flex-none p-3 bg-white border border-black rounded-lg">
+      <div className={clsx('flex flex-col sm:flex-row min-h-96 gap-6', { hidden: tab !== 'Source' })}>
+        <aside className="sm:w-64 flex-none">
           <FileTreeView
             folderList={sources}
             onSelectFile={file => setSelectedFile(file)}
