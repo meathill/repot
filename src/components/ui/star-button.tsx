@@ -1,16 +1,13 @@
 'use client';
 
-import { ExternalLink, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useUserStore } from '@/store';
 import { ApiResponse, ItemType, ItemTypePlural } from '@/types';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import Image from 'next/image';
-import Logo from '@/assets/images/logo.svg';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 interface StarButtonProps {
   className?: string;
