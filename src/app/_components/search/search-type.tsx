@@ -4,7 +4,7 @@ import { Box, GitBranch } from 'lucide-react';
 import FileNetwork from '@/components/icons/file-network';
 import Link from 'next/link';
 import { ElementType } from 'react';
-import NeedMore from '@/app/_components/need-more';
+import NeedMoreDialog from '@/app/_components/need-more-dialog';
 
 interface SearchTypeProps {
   className?: string;
@@ -62,7 +62,7 @@ export default function SearchType({
           </Link>
         </Button>
       ))}
-      <NeedMore />
+      <NeedMoreDialog />
     </div>
   );
 }

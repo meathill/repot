@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { sleep } from '@/utils';
 
-export default function NeedMore() {
+export default function NeedMoreDialog() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
@@ -27,6 +27,7 @@ export default function NeedMore() {
     setMessage('');
     setStatus(false);
     if (isLoading) return;
+    if ((event.target as HTMLFormElement).matches(':invalid')) return;
 
     if (!request) {
       setMessage('Please describe your favorite protocol.');
@@ -87,7 +88,7 @@ export default function NeedMore() {
             Submit your favorite protocol
           </DialogTitle>
           <DialogDescription>
-            Don&quot;t see your favorite protocol? Let us know!
+            Don&apos;t see your favorite protocol? Let us know!
           </DialogDescription>
           <DialogClose
             asChild
@@ -105,12 +106,16 @@ export default function NeedMore() {
             </Button>
           </DialogClose>
         </DialogHeader>
-        <div className="pt-2 pb-8 flex flex-col justify-center items-center gap-4">
+        <form
+          className="pt-2 pb-8 flex flex-col justify-center items-center gap-4"
+          onSubmit={doSubmit}
+        >
           <div className="form-control w-full px-6">
             <textarea
               className="w-full min-h-32 block px-4 py-3 border border-gray rounded-lg"
               onChange={(e) => setRequest(e.target.value)}
               placeholder="Please describe your favorite protocol here, and please explain a bit about why you like it."
+              required
               value={request}
             />
           </div>
@@ -123,12 +128,11 @@ export default function NeedMore() {
           <Button
             className="font-bold text-base leading-normal py-2 px-6"
             disabled={isLoading}
-            onClick={doSubmit}
           >
             {isLoading && <Spinner className="w-6 h-6" />}
             Submit
           </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   )
