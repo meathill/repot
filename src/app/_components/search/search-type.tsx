@@ -1,15 +1,23 @@
 import { clsx } from 'clsx';
 import { Button } from '@/components/ui/button';
-import { Box, Code, GitBranch } from 'lucide-react';
+import { Box, GitBranch } from 'lucide-react';
 import FileNetwork from '@/components/icons/file-network';
 import Link from 'next/link';
+import { ElementType } from 'react';
+import NeedMore from '@/app/_components/need-more';
 
 interface SearchTypeProps {
   className?: string;
   current: string;
 }
 
-const TabItems = [
+type TabItem = {
+  name: string;
+  label: string;
+  icon: ElementType;
+  type?: 'button' | 'link';
+}
+const TabItems: TabItem[] = [
   {
     name: 'protocols',
     label: 'Protocols',
@@ -19,11 +27,6 @@ const TabItems = [
     name: 'contracts',
     label: 'Contracts',
     icon: FileNetwork,
-  },
-  {
-    name: 'code',
-    label: 'Code Search',
-    icon: Code,
   },
 ];
 if (!process.env.FIXED_CHAIN_ID) {
@@ -59,6 +62,7 @@ export default function SearchType({
           </Link>
         </Button>
       ))}
+      <NeedMore />
     </div>
   );
 }
