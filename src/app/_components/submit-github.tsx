@@ -66,7 +66,7 @@ export default function SubmitGithub({
       });
       setName('');
       setStatus(true);
-      setMessage('Thank you for your submission!');
+      setMessage('Thank you for your submission! Your points will be added after we review your request.');
       await sleep(2000);
       setIsOpen(false);
     } catch (e) {
@@ -158,8 +158,8 @@ export default function SubmitGithub({
           </div>
           {message && (
             <p className={clsx(
-              'text-sm rounded-lg',
-              status ? 'text-green-500 text-green-100' : 'text-red-500 bg-red-100'
+              'text-sm rounded-lg px-3 py-1',
+              status ? 'text-green-500 bg-green-100' : 'text-red-500 bg-red-100'
             )}>{message}</p>
           )}
           <Button

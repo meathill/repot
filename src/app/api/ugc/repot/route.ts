@@ -17,16 +17,27 @@ export async function POST(req: Request) {
     description: string;
   };
 
-  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user_repots`);
-  const data = await fetchFromStrapi(url, 'POST', {
-    data: {
-      name,
-      github_link: github,
-      description,
-      user_id: user.ok ? user.data.id : '',
-    }
-  }, token);
-  console.log('xxx', data, user);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user-repots`);
+  try {
+    const data = await fetchFromStrapi(url, 'POST', {
+      data: {
+        name,
+        github_link: github,
+        description,
+        user_id: user.ok ? user.data.id : '',
+      }
+    }, token);
+    console.log('xxx', data, user);
+  } catch (error) {
+    console.log('error', error);
+    return new Response(
+      JSON.stringify({
+        code: 1,
+        message: (error as Error).message,
+      }),
+      { status: 400 },
+    );
+  }
 
   return new Response(JSON.stringify({
     code: 0,
