@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Blocks, X } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { sleep } from '@/utils';
 
@@ -23,7 +23,7 @@ export default function NeedMoreDialog() {
   const [request, setRequest] = useState<string>('');
   const [status, setStatus] = useState<boolean>(false);
 
-  async function doSubmit() {
+  async function doSubmit(event: FormEvent<HTMLFormElement>) {
     setMessage('');
     setStatus(false);
     if (isLoading) return;
