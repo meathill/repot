@@ -100,17 +100,15 @@ export default function LoginDialog() {
               </Form.Field>
               <Form.Submit asChild>
                 <div className="flex justify-center">
-                  {
-                    isLoading ? <Spinner className="w-6 h-6"/> :
-                    <Button
-                      disabled={isLoading}
-                      className="truncate"
-                      effect="active"
-                      size="lg"
-                    >
-                      Save Profile
-                    </Button>
-                  }
+                  <Button
+                    disabled={isLoading}
+                    className="truncate"
+                    effect="active"
+                    size="lg"
+                  >
+                    {isLoading && <Spinner className="w-6 h-6"/>}
+                    Save Profile
+                  </Button>
                 </div>
               </Form.Submit>
           </Form.Root>
