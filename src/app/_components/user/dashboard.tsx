@@ -2,7 +2,7 @@
 
 import { useUserStore } from '@/store';
 import NavUser from '@/components/user/nav-user';
-import { FilePlus, LogOut, PenLine, Star } from 'lucide-react';
+import { FilePlus, LogOut, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import EmptyIcon from '@/assets/images/empty.svg';
 import Image from 'next/image';
@@ -13,8 +13,8 @@ import ContractCard from '@/app/_components/contract-card';
 import { Chain, Contract, Protocol } from '@/types';
 import ProtocolCard from '@/app/_components/protocol-card';
 import ChainCard from '@/app/_components/chain-card';
-import RepotPointsDialog from '@/app/_components/repot-points-dialog';
 import SubmitGithub from '@/app/_components/submit-github';
+import EditProfileDialog from '@/app/_components/edit-profile-dialog';
 
 type ItemListProps = {
   items: (Chain | Contract | Protocol)[];
@@ -59,8 +59,7 @@ export default function UserDashboard() {
       </div>
     )
   }
-
-  return (
+  return <>
     <div className="border border-primary-800 bg-white rounded-2.5xl mt-6 sm:mt-8 p-4 sm:p-8">
       <div className="flex items-center gap-6 border-b border-gray pb-6 mb-6">
         <Button
@@ -75,17 +74,14 @@ export default function UserDashboard() {
             Log out
           </a>
         </Button>
+        <EditProfileDialog />
         <Button
-          className="font-bold"
+          className="ms-auto font-bold"
           effect="raised"
-          onClick={() => {
-          }}
           size="xl"
         >
-          <PenLine size={16}/>
-          Edit Profile
+          Repot Points: {user.points || 0}
         </Button>
-        <RepotPointsDialog points={user.points} />
       </div>
       <div className="mb-6">
         <header className="flex items-center gap-2 py-2 mb-4">
@@ -161,5 +157,5 @@ export default function UserDashboard() {
         </div>
       </div>
     </div>
-  );
+  </>;
 }
