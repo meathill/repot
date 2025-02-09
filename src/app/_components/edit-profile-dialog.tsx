@@ -17,7 +17,7 @@ import { PenLine } from 'lucide-react';
 
 export default function LoginDialog() {
   const inputStyle = 'justify-center align-center rounded-md border-2 border-gray w-[370px] h-[37px] p-2'
-  
+
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -75,11 +75,11 @@ export default function LoginDialog() {
             Edit Profile
           </DialogTitle>
         </DialogHeader>
-        <div className="pt-2 pb-8 flex flex-col justify-center items-center gap-6">
+        <div className="pt-2 pb-8 flex flex-col justify-center items-center">
           <Form.Root
             onSubmit={handleFormSubmit}
             >
-              <Form.Field className="grid mb-[10px]" name="username">
+              <Form.Field className="grid mb-4" name="username">
                 <div className="flex align-baseline justify-between">
                   <Form.Label className="text-base font-semibold leading-9">Name</Form.Label>
                   <Form.Message className="text-[#b91c1c]" match="valueMissing">
@@ -90,7 +90,7 @@ export default function LoginDialog() {
                     <input className={inputStyle} type="input" required/>
                 </Form.Control>
               </Form.Field>
-              <Form.Field className="grid mb-[10px]" name="account">
+              <Form.Field className="grid mb-6" name="account">
                   <div className="flex align-baseline justify-between">
                     <Form.Label className="text-base font-semibold leading-9">Github Account</Form.Label>
                   </div>
@@ -102,7 +102,7 @@ export default function LoginDialog() {
                 <div className="flex justify-center">
                   <Button
                     disabled={isLoading}
-                    className="truncate"
+                    className="font-bold"
                     effect="active"
                     size="lg"
                   >
