@@ -1,5 +1,5 @@
-import tailwindcssAnimate from "tailwindcss-animate";
-import Typography from "@tailwindcss/typography";
+import tailwindcssAnimate from 'tailwindcss-animate';
+import Typography from '@tailwindcss/typography';
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -98,7 +98,9 @@ const config: Config = {
         25: '6.25rem',
         27: '6.75rem',
         54: '13.5rem',
+        90: '22.5rem',
         125: '31.25rem',
+        128: '32rem',
         '50dvh': '50dvh',
       },
     },
