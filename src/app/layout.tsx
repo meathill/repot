@@ -4,6 +4,7 @@ import './globals.css';
 import HeaderNav from './_components/header-nav';
 import { ReactNode } from 'react';
 import { cookies } from 'next/headers';
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { UserProfile } from '@/types';
 import AiChatbot from '@/app/_components/chatbot/ai-chatbot';
 
@@ -72,6 +73,7 @@ export default async function RootLayout({
         {children}
 
         <AiChatbot />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
       </body>
     </html>
   );
