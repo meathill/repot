@@ -35,7 +35,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ]);
 
     const sitemapOfChains = chains.map((chain) => ({
-      url: `${BASE_URL}/search?category=chains&chain=${chain.name}`,
+      // 将 & 转义为 &amp;
+      url: `${BASE_URL}/search?category=chains&amp;chain=${chain.name}`,
       lastModified,
       changeFrequency: 'monthly' as const,
       priority: 0.9,
