@@ -5,25 +5,17 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { UploadIcon, X } from 'lucide-react';
+import { FileTextIcon, X } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
-import { FormEvent, PropsWithChildren, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { sleep } from '@/utils';
 
-type Props = PropsWithChildren & {
-  isProtocol?: boolean;
-}
-
-export default function NeedMoreDialog({
-  children,
-  isProtocol,
-}: Props) {
+export default function ReportDialog() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
@@ -38,24 +30,25 @@ export default function NeedMoreDialog({
     if ((event.target as HTMLFormElement).matches(':invalid')) return;
 
     if (!request) {
-      setMessage(`Please describe your favorite ${isProtocol ? 'protocol' : 'contract'}.`);
+      setMessage('Please describe your report.');
       return;
     }
 
     setIsLoading(true);
     try {
-      await fetch('/api/ugc/need-more', {
+      await fetch('/api/ugc/report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: request,
+          content: request,
+          from: window.location.href,
         }),
       });
       setRequest('');
       setStatus(true);
-      setMessage('Thank you for your submission!');
+      setMessage('Thank you for your report!');
       await sleep(2000);
       setIsOpen(false);
     } catch (e) {
@@ -74,16 +67,17 @@ export default function NeedMoreDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger onClick={() => setIsOpen(true)}>
-        {children || <Button
-          className="text-lg gap-2 font-bold hover:bg-main-green"
-          size="xl"
+      <DialogTrigger asChild>
+        <Button
+          className="text-lg gap-2 font-bold mx-auto sm:me-0 opacity-50 hover:opacity-100 hover:border-dark-green"
+          size="sm"
           type="button"
-          variant="ghost"
+          variant="outline"
+          onClick={() => setIsOpen(true)}
         >
-          <UploadIcon size={24} color="currentColor" strokeWidth={2} />
-          Upload
-        </Button>}
+          <FileTextIcon size={16} color="currentColor" strokeWidth={2} />
+          <span className="text-sm">Report</span>
+        </Button>
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
@@ -92,11 +86,8 @@ export default function NeedMoreDialog({
       >
         <DialogHeader className="relative bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl sm:rounded-t-3xl">
           <DialogTitle className="font-bold text-2xl text-dark-green">
-            Submit your favorite { isProtocol ? 'protocol' : 'contract' }
+            Report
           </DialogTitle>
-          <DialogDescription>
-            Don&apos;t see your favorite { isProtocol ? 'protocol' : 'contract' }? Let us know!
-          </DialogDescription>
           <DialogClose
             asChild
             className="absolute right-0 -top-16 sm:top-0 sm:-right-20"
@@ -114,14 +105,18 @@ export default function NeedMoreDialog({
           </DialogClose>
         </DialogHeader>
         <form
-          className="pt-2 pb-8 flex flex-col justify-center items-center gap-4"
+          className="pt-2 px-8 pb-8 flex flex-col justify-center gap-4"
           onSubmit={doSubmit}
         >
-          <div className="form-control w-full px-6">
+          <p className="font-bold mb-4">
+            Contract Problem Report
+          </p>
+          <p className="text-sm mb-2">Get rewarded faster by telling us more about Contract Problem !</p>
+          <div className="form-control w-full">
             <textarea
               className="w-full min-h-32 block px-4 py-3 border border-gray rounded-lg"
               onChange={(e) => setRequest(e.target.value)}
-              placeholder={`Please describe your favorite ${isProtocol ? 'protocol' : 'contact'} here, and please explain a bit about why you like it.`}
+              placeholder="Report description"
               required
               value={request}
             />

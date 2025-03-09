@@ -1,6 +1,7 @@
 import { removeS3Prefix, trimPrefix } from '@/utils';
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
+import ReportDialog from '@/app/_components/report-dialog';
 import { Copy } from 'lucide-react';
 import { readFile } from '@/services/s3';
 import { codeToHtml } from 'shiki';
@@ -72,10 +73,10 @@ export default function CodeViewer({
   }, [selectedFile]);
 
   return <>
-    <div className="hidden sm:flex items-center gap-6 mb-6 flex-none">
+    <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-6 sm:mb-6 flex-none order-3 sm:order-1 mt-6 sm:mt-0">
       <Button
         asChild
-        className="w-54 h-12 border border-black flex justify-center items-center bg-main-purple rounded-lg text-sm font-bold hover:bg-main-purple/75"
+        className="w-full sm:w-54 h-12 border border-black flex justify-center items-center bg-main-purple rounded-lg text-sm font-bold hover:bg-main-purple/75"
         disabled={!zipUrl}
       >
         <a
@@ -86,7 +87,7 @@ export default function CodeViewer({
       </Button>
       <Button
         asChild
-        className="w-54 h-12 border border-black flex justify-center items-center bg-lime-green rounded-lg text-sm text-dark-green font-bold hover:bg-light-green"
+        className="w-full sm:w-54 h-12 border border-black flex justify-center items-center bg-lime-green rounded-lg text-sm text-dark-green font-bold hover:bg-light-green"
         disabled={!allCode}
       >
         <a
@@ -96,8 +97,9 @@ export default function CodeViewer({
           rel="nofollow noreferrer"
         >Open Code</a>
       </Button>
+      <ReportDialog />
     </div>
-    <div className={clsx('flex items-center gap-4 mb-2 flex-none', className)}>
+    <div className={clsx('flex items-center gap-4 mb-2 flex-none order-1 sm:order-2', className)}>
       <h2
         className="text-sm text-dark-gray font-mono"
       >{trimPrefix(selectedFile, removeS3Prefix(prefix))}</h2>
@@ -119,7 +121,7 @@ export default function CodeViewer({
       </Button>
     </div>
     <div
-      className="border border-black rounded-lg bg-white flex-1 font-mono whitespace-pre-wrap p-6 max-h-[50dvh] overflow-auto relative"
+      className="border border-black rounded-lg bg-white flex-1 font-mono whitespace-pre-wrap p-6 max-h-[50dvh] overflow-auto relative order-2 sm:order-3"
     >
       {isShiki
         ? <div dangerouslySetInnerHTML={{ __html: fileContent }}/>

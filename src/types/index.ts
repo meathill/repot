@@ -1,4 +1,10 @@
 export type StrapiResponse<T> = {
+  error?: {
+    status: number;
+    name: string;
+    message: string;
+    details: unknown;
+  };
   data: T,
   meta: {
     pagination: {

@@ -36,7 +36,6 @@ export default function SubmitGithub({
   }
   async function doSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     setMessage('');
     setStatus(false);
     if (isLoading) return;

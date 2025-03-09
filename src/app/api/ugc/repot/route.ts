@@ -24,10 +24,18 @@ export async function POST(req: Request) {
         name,
         github_link: github,
         description,
-        user_id: user.ok ? user.data.id : '',
+        ...user.ok && { user: user.data.id },
       }
     }, token);
     console.log('xxx', data, user);
+    if (data.error) {
+      return new Response(JSON.stringify({
+        code: 1,
+        message: data.error.message,
+      }), {
+        status: 400,
+      });
+    }
   } catch (error) {
     console.log('error', error);
     return new Response(

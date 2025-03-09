@@ -9,6 +9,7 @@ import NeedMoreDialog from '@/app/_components/need-more-dialog';
 interface SearchTypeProps {
   className?: string;
   current: string;
+  isProtocol?: boolean;
 }
 
 type TabItem = {
@@ -40,6 +41,7 @@ if (!process.env.FIXED_CHAIN_ID) {
 export default function SearchType({
   className = '',
   current,
+  isProtocol,
 }: SearchTypeProps) {
   return (
     <div
@@ -62,7 +64,9 @@ export default function SearchType({
           </Link>
         </Button>
       ))}
-      <NeedMoreDialog />
+      <NeedMoreDialog
+        isProtocol={isProtocol}
+      />
     </div>
   );
 }
