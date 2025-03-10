@@ -7,8 +7,9 @@ import ProtocolList from '@/app/_components/search/protocol-list';
 import KeywordsFilter from '@/app/_components/search/keywords-filter';
 import ContractList from '@/app/_components/search/contract-list';
 import NeedMoreDialog from '@/app/_components/need-more-dialog';
-import { CircleArrowRight, UploadIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { CircleArrowRight } from 'lucide-react';
+import { Button as UiButton } from '@/components/ui/button';
+import SubmitGithub from '@/app/_components/submit-github';
 
 interface SearchProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -68,18 +69,33 @@ export default async function Search({
 
     {!isChain && !isProtocol && <ContractList items={contracts} page={page} />}
 
-    {!isChain && <div className="border border-gray flex p-4 w-80 justify-between rounded-xl">
-      <span className="text-dark-gray text-sm font-bold">Upload Contracts?</span>
-      <NeedMoreDialog isProtocol={isProtocol}>
-        <Button
-          className="text-sm gap-2 font-bold text-dark-gray bg-lighter-gray border border-light-gray hover:bg-main-green"
-          size="sm"
-          type="button"
-        >
-          Upload
-          <CircleArrowRight size={16} color="currentColor" />
-        </Button>
-      </NeedMoreDialog>
+    {!isChain && <div className="flex items-center gap-6 my-6">
+      <div className="border border-gray flex p-4 w-80 justify-between rounded-xl">
+        <span className="text-dark-gray text-sm font-bold">Propose More contracts?</span>
+        <NeedMoreDialog isProtocol={isProtocol}>
+          <UiButton
+            className="text-sm gap-2 font-bold text-dark-gray bg-lighter-gray border border-light-gray hover:bg-main-green"
+            size="sm"
+            type="button"
+          >
+            Report
+            <CircleArrowRight size={16} color="currentColor" />
+          </UiButton>
+        </NeedMoreDialog>
+      </div>
+      <div className="border border-gray flex p-4 w-80 justify-between rounded-xl">
+        <span className="text-dark-gray text-sm font-bold">Upload Contracts?</span>
+        <SubmitGithub>
+          <UiButton
+            className="text-sm gap-2 font-bold text-dark-gray bg-lighter-gray border border-light-gray hover:bg-main-green"
+            size="sm"
+            type="button"
+          >
+            Upload
+            <CircleArrowRight size={16} color="currentColor" />
+          </UiButton>
+        </SubmitGithub>
+      </div>
     </div>}
   </>;
 }

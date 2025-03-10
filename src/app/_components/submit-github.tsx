@@ -1,3 +1,5 @@
+'use client';
+
 import { FocusEvent, FormEvent, MouseEvent, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { sleep } from '@/utils';
 import {
