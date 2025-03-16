@@ -8,7 +8,7 @@ import KeywordsFilter from '@/app/_components/search/keywords-filter';
 import ContractList from '@/app/_components/search/contract-list';
 import NeedMoreDialog from '@/app/_components/need-more-dialog';
 import { CircleArrowRight } from 'lucide-react';
-import { Button as UiButton } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import SubmitGithub from '@/app/_components/submit-github';
 
 interface SearchProps {
@@ -72,27 +72,27 @@ export default async function Search({
       <div className="border border-gray flex p-4 w-80 justify-between rounded-xl">
         <span className="text-dark-gray text-sm font-bold">Propose More contracts?</span>
         <NeedMoreDialog isProtocol={isProtocol}>
-          <UiButton
+          <Button
             className="text-sm gap-2 font-bold text-dark-gray bg-lighter-gray border border-light-gray hover:bg-main-green"
             size="sm"
             type="button"
           >
             Report
             <CircleArrowRight size={16} color="currentColor" />
-          </UiButton>
+          </Button>
         </NeedMoreDialog>
       </div>
       <div className="border border-gray flex p-4 w-80 justify-between rounded-xl">
         <span className="text-dark-gray text-sm font-bold">Upload Contracts?</span>
         <SubmitGithub>
-          <UiButton
+          <Button
             className="text-sm gap-2 font-bold text-dark-gray bg-lighter-gray border border-light-gray hover:bg-main-green"
             size="sm"
             type="button"
           >
             Upload
             <CircleArrowRight size={16} color="currentColor" />
-          </UiButton>
+          </Button>
         </SubmitGithub>
       </div>
     </div>}

@@ -75,7 +75,7 @@ export default function NeedMoreDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger onClick={() => setIsOpen(true)}>
+      <DialogTrigger asChild>
         {children || <Button
           className="text-lg gap-2 font-bold hover:bg-main-green"
           size="xl"
