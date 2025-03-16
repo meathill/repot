@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Box, GitBranch, AlignJustify } from 'lucide-react';
+import { Box, GitBranch, AlignJustify, UploadIcon } from 'lucide-react';
 import ContractsIcon from '@/components/icons/contracts-icon';
 import SocialIcon from '@/components/icons/social-icon';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,7 @@ import { clsx } from 'clsx';
 import { UserProfile } from '@/types';
 import NavUser from '@/components/user/nav-user';
 import { useUserStore } from '@/store';
+import SubmitGithub from '@/app/_components/submit-github';
 
 const NavLinks = ({
   className = '',
@@ -92,10 +93,13 @@ export default function HeaderNav({
           </CollapsibleTrigger>
           <CollapsibleContent className="fixed top-17 border-t left-0 right-0 bottom-0 bg-white pt-6 px-9">
             <div className="flex flex-col sm:items-center gap-4 sm:gap-3 text-primary-800 font-bold sm:font-normal">
-              <Suspense>
-                <SearchBox />
-                <NavLinks className="flex flex-col" />
-              </Suspense>
+              <SearchBox />
+              <NavLinks className="flex flex-col" />
+              <SubmitGithub>
+                <div className="flex py-2 items-center gap-2 hover:bg-main-green active:bg-light-green">
+                  <UploadIcon className="w-4 h-4" /> Upload
+                </div>
+              </SubmitGithub>
             </div>
           </CollapsibleContent>
         </Collapsible>
@@ -107,7 +111,7 @@ export default function HeaderNav({
           <NavLinks className="hidden sm:flex sm:items-center me-auto" />
           <SearchBox className="hidden sm:flex" />
         </Suspense>
-        <NavUser user={user} />
+        <NavUser className="ms-auto" user={user} />
       </nav>
     </>
   );

@@ -9,11 +9,13 @@ import Link from 'next/link';
 import { useUserStore } from '@/store';
 
 interface NavUserProps {
+  className?: string;
   size?: ButtonProps['size'];
   user?: UserProfile;
 }
 
 export default function NavUser({
+  className = '',
   size = 'default',
   user,
 }: NavUserProps) {
@@ -38,7 +40,7 @@ export default function NavUser({
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <Button
-            className="max-w-25 truncate"
+            className={clsx('max-w-25 truncate', className)}
             effect="active"
             size="sm"
           >

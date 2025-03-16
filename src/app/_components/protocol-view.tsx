@@ -33,7 +33,7 @@ export default function ProtocolView({
   const infoHtml = marked(data.info || '');
 
   return (
-    <main className="mt-6 sm:mt-8 mb-6 px-6 sm:px-0">
+    <div className="mt-6 sm:mt-8 mb-6">
       <header className="flex flex-col sm:flex-row gap-6 mb-6 pb-6 border-b border-neutral-800">
         {logo && <Image
           alt={data.name}
@@ -102,7 +102,7 @@ export default function ProtocolView({
         className={clsx('mt-6 prose sm:prose-xl mx-auto border border-gray rounded-lg p-6 bg-white text-pretty break-words', { hidden: tab !== 'Docs' })}
         dangerouslySetInnerHTML={{ __html: descriptionHtml }}
       />
-      <div className={clsx('flex min-h-96 gap-6', { hidden: tab !== 'Source' })}>
+      <div className={clsx('flex flex-col sm:flex-row min-h-96 gap-6', { hidden: tab !== 'Source' })}>
         <aside className="sm:w-64 flex-none">
           <FileTreeView
             folderList={sources}
@@ -121,6 +121,6 @@ export default function ProtocolView({
           />
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -1,15 +1,14 @@
 import { clsx } from 'clsx';
 import { Button } from '@/components/ui/button';
-import { Box, GitBranch } from 'lucide-react';
+import { Box, GitBranch, UploadIcon } from 'lucide-react';
 import FileNetwork from '@/components/icons/file-network';
 import Link from 'next/link';
 import { ElementType } from 'react';
-import NeedMoreDialog from '@/app/_components/need-more-dialog';
+import SubmitGithub from '@/app/_components/submit-github';
 
 interface SearchTypeProps {
   className?: string;
   current: string;
-  isProtocol?: boolean;
 }
 
 type TabItem = {
@@ -41,7 +40,6 @@ if (!process.env.FIXED_CHAIN_ID) {
 export default function SearchType({
   className = '',
   current,
-  isProtocol,
 }: SearchTypeProps) {
   return (
     <div
@@ -64,9 +62,16 @@ export default function SearchType({
           </Link>
         </Button>
       ))}
-      <NeedMoreDialog
-        isProtocol={isProtocol}
-      />
+      <SubmitGithub>
+        <Button
+          className="text-lg gap-2 font-bold hover:bg-main-green"
+          size="xl"
+          type="button"
+          variant="ghost"
+        >
+          <UploadIcon size={24} strokeWidth={2} /> Upload
+        </Button>
+      </SubmitGithub>
     </div>
   );
 }

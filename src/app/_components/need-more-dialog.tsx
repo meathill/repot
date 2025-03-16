@@ -5,16 +5,17 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
 import { UploadIcon, X } from 'lucide-react';
+import Image from 'next/image';
 import { Spinner } from '@/components/ui/spinner';
 import { FormEvent, PropsWithChildren, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { sleep } from '@/utils';
+import PurpleLeaf from '@/assets/images/leaf-purple.svg';
 
 type Props = PropsWithChildren & {
   isProtocol?: boolean;
@@ -87,16 +88,25 @@ export default function NeedMoreDialog({
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
-        className="w-[90%] sm:w-2/5 rounded-3xl sm:rounded-3xl p-0 border border-black outline-none"
+        className="w-[90%] sm:w-2/5 rounded-3xl sm:rounded-3xl p-0 border border-black outline-none max-w-2xl"
         hasClose={false}
       >
         <DialogHeader className="relative bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl sm:rounded-t-3xl">
           <DialogTitle className="font-bold text-2xl text-dark-green">
-            Submit your favorite { isProtocol ? 'protocol' : 'contract' }
+            {status ? <>
+              <div className="w-16 h-16 rounded-full border border-dark-green bg-lime-green flex items-center justify-center mx-auto">
+                <Image
+                  alt="Leaf"
+                  className="w-6.5 h-7.5"
+                  src={PurpleLeaf}
+                  width={26}
+                  height={30}
+                />
+              </div>
+              <p className="text-2xl font-bold mt-6 text-center">Thank you for your submission</p>
+            </> : 'Propose More Contracts?'}
+
           </DialogTitle>
-          <DialogDescription>
-            Don&apos;t see your favorite { isProtocol ? 'protocol' : 'contract' }? Let us know!
-          </DialogDescription>
           <DialogClose
             asChild
             className="absolute right-0 -top-16 sm:top-0 sm:-right-20"
@@ -113,18 +123,32 @@ export default function NeedMoreDialog({
             </Button>
           </DialogClose>
         </DialogHeader>
-        <form
-          className="pt-2 pb-8 flex flex-col justify-center items-center gap-4"
+        {status ? <div className="pt-2 pb-8 px-8">
+          <p className="text-sm leading-6">Please wait for our review. Once the review is completed, the reward points will be automatically sent to your account</p>
+          <footer className="flex justify-center mt-6">
+            <Button
+              className="font-bold text-base leading-normal py-2 px-6"
+              onClick={() => setIsOpen(false)}
+              variant="primary-bordered"
+            >
+              Close
+            </Button>
+          </footer>
+        </div>
+      : <form
+          className="pt-2 pb-8 px-8"
           onSubmit={doSubmit}
         >
-          <div className="form-control w-full px-6">
-            <textarea
-              className="w-full min-h-32 block px-4 py-3 border border-gray rounded-lg"
-              onChange={(e) => setRequest(e.target.value)}
-              placeholder={`Please describe your favorite ${isProtocol ? 'protocol' : 'contact'} here, and please explain a bit about why you like it.`}
-              required
-              value={request}
-            />
+          <p className="font-bold leading-loose mb-4">Description what contracts you need</p>
+          <p className="text-sm mb-2">Get rewarded faster by telling us more !</p>
+          <div className="form-control w-full mb-4">
+              <textarea
+                className="w-full min-h-32 block px-4 py-3 border border-gray rounded-lg"
+                onChange={(e) => setRequest(e.target.value)}
+                placeholder={`Please describe your favorite ${isProtocol ? 'protocol' : 'contact'} here, and please explain a bit about why you like it.`}
+                required
+                value={request}
+              />
           </div>
           {message && (
             <p className={clsx(
@@ -132,14 +156,17 @@ export default function NeedMoreDialog({
               status ? 'text-green-500 text-green-100' : 'text-red-500 bg-red-100'
             )}>{message}</p>
           )}
-          <Button
-            className="font-bold text-base leading-normal py-2 px-6"
-            disabled={isLoading}
-          >
-            {isLoading && <Spinner className="w-6 h-6" />}
-            Submit
-          </Button>
-        </form>
+          <footer>
+            <Button
+              className="font-bold text-base leading-normal py-2 px-6"
+              disabled={!request || isLoading}
+              variant="outline"
+            >
+              {isLoading && <Spinner className="w-6 h-6" />}
+              Submit
+            </Button>
+          </footer>
+        </form>}
       </DialogContent>
     </Dialog>
   )

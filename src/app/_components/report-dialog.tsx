@@ -81,7 +81,7 @@ export default function ReportDialog() {
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
-        className="w-[90%] sm:w-2/5 rounded-3xl sm:rounded-3xl p-0 border border-black outline-none"
+        className="w-[90%] sm:w-2/5 rounded-3xl sm:rounded-3xl p-0 border border-black outline-none max-w-2xl"
         hasClose={false}
       >
         <DialogHeader className="relative bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl sm:rounded-t-3xl">
@@ -105,14 +105,14 @@ export default function ReportDialog() {
           </DialogClose>
         </DialogHeader>
         <form
-          className="pt-2 px-8 pb-8 flex flex-col justify-center gap-4"
+          className="pt-2 px-8 pb-8"
           onSubmit={doSubmit}
         >
           <p className="font-bold mb-4">
             Contract Problem Report
           </p>
           <p className="text-sm mb-2">Get rewarded faster by telling us more about Contract Problem !</p>
-          <div className="form-control w-full">
+          <div className="form-control w-full mb-4">
             <textarea
               className="w-full min-h-32 block px-4 py-3 border border-gray rounded-lg"
               onChange={(e) => setRequest(e.target.value)}
@@ -129,7 +129,8 @@ export default function ReportDialog() {
           )}
           <Button
             className="font-bold text-base leading-normal py-2 px-6"
-            disabled={isLoading}
+            disabled={!request || isLoading}
+            variant="outline"
           >
             {isLoading && <Spinner className="w-6 h-6" />}
             Submit

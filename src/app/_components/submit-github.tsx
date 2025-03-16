@@ -108,7 +108,7 @@ export default function SubmitGithub({
       >
         <DialogHeader className="relative bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl sm:rounded-t-3xl">
           <DialogTitle className="font-bold text-2xl text-dark-green">
-            Upload Contract / Protocol
+            Submit Contract
           </DialogTitle>
           <DialogClose
             asChild
