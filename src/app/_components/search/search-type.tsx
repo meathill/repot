@@ -5,10 +5,13 @@ import FileNetwork from '@/components/icons/file-network';
 import Link from 'next/link';
 import { ElementType } from 'react';
 import SubmitGithub from '@/app/_components/submit-github';
+import { Chain } from '@/types';
 
 interface SearchTypeProps {
   className?: string;
   current: string;
+  isProtocol?: boolean;
+  chains: Chain[];
 }
 
 type TabItem = {
@@ -40,6 +43,8 @@ if (!process.env.FIXED_CHAIN_ID) {
 export default function SearchType({
   className = '',
   current,
+  isProtocol,
+  chains,
 }: SearchTypeProps) {
   return (
     <div
@@ -56,7 +61,11 @@ export default function SearchType({
           type="button"
           variant="ghost"
         >
-          <Link href={`?category=${item.name}`}>
+          <Link href={
+            (item.name === 'chains' || item.name === 'protocols') && chains?.length
+              ? `?category=${item.name}&chain=${chains[ 0 ].name}`
+              : `?category=${item.name}`
+          }>
             <item.icon size={24} strokeWidth={2} />
             {item.label}
           </Link>

@@ -20,6 +20,7 @@ import { UserProfile } from '@/types';
 import NavUser from '@/components/user/nav-user';
 import { useUserStore } from '@/store';
 import SubmitGithub from '@/app/_components/submit-github';
+import { usePathname } from 'next/navigation'
 
 const NavLinks = ({
   className = '',
@@ -67,6 +68,8 @@ export default function HeaderNav({
 }: { user?: UserProfile}) {
   const setUser = useUserStore((state) => state.setUser);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const isSearchPage = pathname?.startsWith('/search');
 
   useEffect(() => {
     setUser(user || null);
@@ -108,10 +111,10 @@ export default function HeaderNav({
           <Image src={Logo} alt="Repot Logo" className="h-9" priority />
         </Link>
         <Suspense>
-          <NavLinks className="hidden sm:flex sm:items-center me-auto" />
+          {!isSearchPage && <NavLinks className="hidden sm:flex sm:items-center me-auto" />}
           <SearchBox className="hidden sm:flex" />
         </Suspense>
-        <NavUser className="ms-auto" user={user} />
+        <NavUser user={user} className={clsx({ 'ml-auto': isSearchPage })} />
       </nav>
     </>
   );

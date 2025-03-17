@@ -3,8 +3,8 @@
 import { Chain } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Database, Droplets, Link2, Wallet } from 'lucide-react';
-import RadioGroup from '@/components/ui/radio-group';
-import { useState } from 'react';
+// import RadioGroup from '@/components/ui/radio-group';
+// import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ProtocolsDisplay from '@/app/_components/protocols-display';
@@ -15,31 +15,30 @@ interface ChainDetailProps {
   chainData: Chain | null;
 }
 
-const TabItems = [
-  {
-    label: 'Overview',
-    value: 'overview',
-  },
-  {
-    label: 'Protocols',
-    value: 'protocols',
-  },
-  {
-    label: 'Learn',
-    value: 'learn',
-  },
-]
+// const TabItems = [
+//   {
+//     label: 'Overview',
+//     value: 'overview',
+//   },
+//   {
+//     label: 'Protocols',
+//     value: 'protocols',
+//   },
+//   {
+//     label: 'Learn',
+//     value: 'learn',
+//   },
+// ]
 
-export default function ChainDetail({
-  chainData,
-  chainId,
-}: ChainDetailProps) {
-  const [currentTab, setCurrentTab] = useState<string>('overview');
+export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
+  // const [currentTab, setCurrentTab] = useState<string>('overview');
 
   if (!chainData) {
-    return <div className="border border-gray rounded-2.5xl bg-white p-6 flex justify-center items-center">
-      Chain not found
-    </div>;
+    return (
+      <div className="border border-gray rounded-2.5xl bg-white p-6 flex justify-center items-center">
+        Chain not found
+      </div>
+    );
   }
 
   const logo = chainData.logo?.url || chainData.logo_url || '';
@@ -47,23 +46,25 @@ export default function ChainDetail({
   return (
     <div className="border border-gray rounded-2.5xl bg-white p-6">
       <header className="flex items-center pb-6 border-b mb-6 gap-4 border-gray">
-        {logo && <Image
-          src={logo}
-          alt={chainData.name}
-          className="w-15 h-15 block me-6"
-          width={60}
-          height={60}
-          unoptimized
-        />}
+        {logo && (
+          <Image
+            src={logo}
+            alt={chainData.name}
+            className="w-15 h-15 block me-6"
+            width={60}
+            height={60}
+            unoptimized
+          />
+        )}
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
         <StarButton id={chainId} number={0} type="chain" />
 
-        <RadioGroup
+        {/* <RadioGroup
           className="ml-auto"
           items={TabItems}
           onChange={setCurrentTab}
           value={currentTab}
-        />
+        /> */}
       </header>
       <article className="bg-light-gray border-gray rounded-lg p-6 mb-6">
         <h3 className="font-bold mb-2">What Is {chainData.name}</h3>
@@ -78,10 +79,7 @@ export default function ChainDetail({
             size="xl"
             variant="outline"
           >
-            <Link
-              href={chainData.website}
-              target="_blank"
-            >
+            <Link href={chainData.website} target="_blank">
               <Link2 size={16} color="currentColor" />
               Official links
             </Link>
@@ -94,10 +92,7 @@ export default function ChainDetail({
             size="xl"
             variant="outline"
           >
-            <Link
-              href={chainData.developer_docs}
-              target="_blank"
-            >
+            <Link href={chainData.developer_docs} target="_blank">
               <Database size={16} color="currentColor" />
               Documentation
             </Link>
@@ -110,10 +105,7 @@ export default function ChainDetail({
             size="xl"
             variant="outline"
           >
-            <Link
-              href={chainData.whitepaper}
-              target="_blank"
-            >
+            <Link href={chainData.whitepaper} target="_blank">
               <Droplets size={16} color="currentColor" />
               White paper
             </Link>
@@ -126,10 +118,7 @@ export default function ChainDetail({
             size="xl"
             variant="outline"
           >
-            <Link
-              href={chainData.explorer}
-              target="_blank"
-            >
+            <Link href={chainData.explorer} target="_blank">
               <Wallet size={16} color="currentColor" />
               Explorer
             </Link>
@@ -151,11 +140,15 @@ export default function ChainDetail({
           <p className="text-sm w-1/3 mx-auto">{chainData.network_layer}</p>
         </div>
         <div className="flex-none w-1/4 relative">
-          <h4 className="font-bold mb-4 w-1/3 min-w-32 mx-auto">Network Type</h4>
+          <h4 className="font-bold mb-4 w-1/3 min-w-32 mx-auto">
+            Network Type
+          </h4>
           <p className="text-sm w-1/3 mx-auto">{chainData.network_type}</p>
         </div>
       </div>
-      {chainData.protocols && <ProtocolsDisplay items={chainData.protocols} name={chainData.name}/>}
+      {chainData.protocols && (
+        <ProtocolsDisplay items={chainData.protocols} name={chainData.name} />
+      )}
     </div>
   );
 }

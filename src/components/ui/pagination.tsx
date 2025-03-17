@@ -50,31 +50,33 @@ export default function Pagination({
     return `?${params.toString()}`;
   }
  
-  return (
-    <div className='flex justify-center items-center mt-8 overflow-x-auto'>
-      <Link
-        href={getPageLink(page - 1)}
-        className={clsx('cursor-pointer', page <= 1 && 'text-slate-300 cursor-not-allowed')}
-      >
-        <ArrowLeft />
-      </Link>
-      {visiblePages.map((pageNum: number, index: number) => {
-        return (
-          <Link
-            key={index}
-            className={clsx('mx-1 min-w-4 h-auto px-2 flex justify-center items-center', page !== pageNum && 'bg-slate-300')}
-            href={getPageLink(pageNum as number)}
-          >
-            {pageNum}
-          </Link>
-        )
-      })}
-      <Link
-        href={getPageLink(page + 1)}
-        className={clsx('cursor-pointer', page >= totalPage && 'text-slate-300 cursor-not-allowed')}
-      >
-        <ArrowRight />
-      </Link>
-    </div>
-  )
+  if (total > 0) {
+    return (
+      <div className='flex justify-center items-center mt-8 overflow-x-auto'>
+        <Link
+          href={getPageLink(page - 1)}
+          className={clsx('cursor-pointer', page <= 1 && 'text-slate-300 cursor-not-allowed')}
+        >
+          <ArrowLeft />
+        </Link>
+        {visiblePages.map((pageNum: number, index: number) => {
+          return (
+            <Link
+              key={index}
+              className={clsx('mx-1 min-w-4 h-auto px-2 flex justify-center items-center', page !== pageNum && 'bg-slate-300')}
+              href={getPageLink(pageNum as number)}
+            >
+              {pageNum}
+            </Link>
+          )
+        })}
+        <Link
+          href={getPageLink(page + 1)}
+          className={clsx('cursor-pointer', page >= totalPage && 'text-slate-300 cursor-not-allowed')}
+        >
+          <ArrowRight />
+        </Link>
+      </div>
+    )
+  }
 }

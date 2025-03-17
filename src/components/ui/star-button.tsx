@@ -8,6 +8,7 @@ import { ApiResponse, ItemType, ItemTypePlural } from '@/types';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import LoginDialog from '@/app/_components/login-dialog';
 
 interface StarButtonProps {
   className?: string;
@@ -26,8 +27,11 @@ export default function StarButton({
   const [isStarring, setIsStarring] = useState<boolean>(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [value, setValue] = useState<number>(number);
+  const [loginOpen, setLoginOpen] = useState(false);
   const isStarred = useMemo(() => {
-    if (!user) return false;
+    if (!user) {
+      return false;
+    }
 
     const items = stars[ type + 's' as ItemTypePlural ] || {};
     return id in items;
@@ -35,6 +39,10 @@ export default function StarButton({
 
   async function doStar() {
     if (isStarring) return;
+
+    if (!user) {
+      setLoginOpen(true);
+    }
 
     if (isStarred) {
       setIsConfirm(true);
@@ -64,8 +72,8 @@ export default function StarButton({
 
   return <>
     <button
-      className={cn('flex items-center gap-2 text-xs hover:bg-main-green disabled:opacity-50 disabled:cursor-not-allowed', className)}
-      disabled={!user || isStarring}
+      className={cn('flex items-center gap-2 text-xs hover:bg-main-green disabled:opacity-50', className)}
+      disabled={isStarring}
       onClick={doStar}
       title={!user ? 'Please Sign in before star' : ''}
       type="button"
@@ -116,5 +124,6 @@ export default function StarButton({
         </div>
       </DialogContent>
     </Dialog>
+    <LoginDialog open={loginOpen} setOpen={setLoginOpen} />
   </>
 }

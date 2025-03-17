@@ -1,22 +1,35 @@
+'use client'
+
 import { FolderOpen, Layers, Lock, User, Wallet } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Contract } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import slugify from 'slugify';
 import StarButton from '@/components/ui/star-button';
+import { useRouter } from 'next/navigation';
 
 interface ContractCardProps {
   data: Contract;
 }
 
+
 export default function ContractCard({
   data,
 }: ContractCardProps) {
+  const router = useRouter();
   const logo = data.logo?.url || data.logo_url || '';
+  const contractUrl = `/contract/${data.documentId}-${slugify(data.name)}`;
+
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    router.push(contractUrl);
+  };
 
   return (
-    <div className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4">
+    <div 
+      onClick={handleCardClick}
+      className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4 cursor-pointer hover:border-[#343434]"
+    >
       <div className="flex gap-4 items-center">
         {logo && <Image
           alt={data.name}
@@ -31,10 +44,11 @@ export default function ContractCard({
       <p className="text-primary-800 capitalize text-sm h-10 max-h-10 line-clamp-2">
         {data.overview}
       </p>
+
       <div className="bg-zinc-50 h-12 border-y -ml-6 -mr-6 flex flex-row">
         <Link
           className="flex justify-center items-center w-1/2 gap-1.5 border-r cursor-pointer hover:bg-lime-green transition-colors"
-          href={`/contract/${data.documentId}-${slugify(data.name)}`}
+          href={contractUrl}
         >
           <FolderOpen className="w-4 h-4" />
           <span className="text-sm text-dark-gray">Open</span>
@@ -68,15 +82,12 @@ export default function ContractCard({
         </div>
       </div>
 
-      <Button
-        asChild
-        variant={'outline'}
-        className="h-10 bg-ivory border-dark-gray hover:bg-main-green active:bg-light-green rounded-lg font-bold text-primary-800"
+      <Link
+        href={contractUrl}
+        className="h-10 bg-ivory border border-dark-gray hover:bg-main-green active:bg-light-green rounded-lg font-bold text-primary-800 flex items-center justify-center"
       >
-        <Link href={`/contract/${data.documentId}-${slugify(data.name)}`}>
-          Go Contract
-        </Link>
-      </Button>
-    </div>
+        Go Contract
+      </Link>
+  </div>
   );
 };
