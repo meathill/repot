@@ -10,6 +10,7 @@ import NeedMoreDialog from '@/app/_components/need-more-dialog';
 import { CircleArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SubmitGithub from '@/app/_components/submit-github';
+import EmptyResult from '@/components/ui/empty-result';
 
 interface SearchProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -45,11 +46,20 @@ export default async function Search({
       ? protocols.find((p) => p.name === protocol)?.id : 0;
     contracts = await getContracts({ protocolId, query: q as string, page });
   }
+
+  const showEmptyResult = !isChain && (
+    (isProtocol && protocols.length === 0) || 
+    (!isProtocol && contracts.length === 0)
+  );
+
   return <>
     <SearchType
       className="pt-6 mb-8 sm:pt-8"
       current={category as string || (q && 'contracts')}
+      isProtocol={isProtocol}
+      chains={chains}
     />
+
     {(hasChain && (isChain || isProtocol)) && <ChainList
       currentChain={chain as string || chains[ 0 ].name}
       items={chains}
@@ -68,8 +78,12 @@ export default async function Search({
 
     {!isChain && !isProtocol && <ContractList items={contracts} page={page} />}
 
-    {!isChain && <div className="grid grid-cols-2 sm:flex items-center gap-6 my-6">
-      <div className="border border-gray flex flex-col sm:flex-row gap-2 sm:gap-0 p-4 sm:w-80 justify-between rounded-xl">
+    {
+      showEmptyResult && <EmptyResult />
+    }
+
+    {!isChain && <div className="grid grid-cols-2 sm:flex justify-center items-center gap-6 my-6">
+      <div className="border border-gray flex p-4 w-80 justify-between rounded-xl">
         <span className="text-dark-gray text-sm font-bold">Propose More contracts?</span>
         <NeedMoreDialog isProtocol={isProtocol}>
           <Button

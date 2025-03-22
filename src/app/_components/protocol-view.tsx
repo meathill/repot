@@ -66,18 +66,6 @@ export default function ProtocolView({
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <CircleStop size={16}/>
-              Token
-            </div>
-            <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <ImageIcon size={16}/>
-              NFT
-            </div>
-            <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <User size={16}/>
-              DAO
-            </div>
-            <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
               <CircleCheckBig size={16} color="#26BF59"/>
               Audited
             </div>
