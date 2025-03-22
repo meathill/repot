@@ -43,7 +43,6 @@ if (!process.env.FIXED_CHAIN_ID) {
 export default function SearchType({
   className = '',
   current,
-  isProtocol,
   chains,
 }: SearchTypeProps) {
   return (

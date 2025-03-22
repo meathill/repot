@@ -12,7 +12,6 @@ interface ContractCardProps {
   data: Contract;
 }
 
-
 export default function ContractCard({
   data,
 }: ContractCardProps) {

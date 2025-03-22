@@ -8,7 +8,6 @@ import { ApiResponse, ItemType, ItemTypePlural } from '@/types';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import LoginDialog from '@/app/_components/login-dialog';
 
 interface StarButtonProps {
   className?: string;
@@ -24,10 +23,10 @@ export default function StarButton({
 }: StarButtonProps) {
   const stars = useUserStore(state => state.stars);
   const user = useUserStore(state => state.user);
+  const { toggleModal } = useUserStore();
   const [isStarring, setIsStarring] = useState<boolean>(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [value, setValue] = useState<number>(number);
-  const [loginOpen, setLoginOpen] = useState(false);
   const isStarred = useMemo(() => {
     if (!user) {
       return false;
@@ -37,11 +36,12 @@ export default function StarButton({
     return id in items;
   }, [id, stars, type]);
 
-  async function doStar() {
+  async function doStar(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     if (isStarring) return;
 
     if (!user) {
-      setLoginOpen(true);
+      toggleModal(true);
     }
 
     if (isStarred) {
@@ -124,6 +124,5 @@ export default function StarButton({
         </div>
       </DialogContent>
     </Dialog>
-    <LoginDialog open={loginOpen} setOpen={setLoginOpen} />
   </>
 }

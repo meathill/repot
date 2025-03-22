@@ -10,8 +10,7 @@ import NeedMoreDialog from '@/app/_components/need-more-dialog';
 import { CircleArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SubmitGithub from '@/app/_components/submit-github';
-import Image from 'next/image';
-import EmptyResult from '@/assets/images/empty-result.svg';
+import EmptyResult from '@/components/ui/empty-result';
 
 interface SearchProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -80,16 +79,10 @@ export default async function Search({
     {!isChain && !isProtocol && <ContractList items={contracts} page={page} />}
 
     {
-      showEmptyResult && <Image
-        className='mx-auto my-16'
-        alt='empty-search-result'
-        src={EmptyResult}
-        width={276}
-        height={48}
-      />
+      showEmptyResult && <EmptyResult />
     }
 
-    {!isChain && <div className="flex justify-center items-center gap-6 my-6">
+    {!isChain && <div className="grid grid-cols-2 sm:flex justify-center items-center gap-6 my-6">
       <div className="border border-gray flex p-4 w-80 justify-between rounded-xl">
         <span className="text-dark-gray text-sm font-bold">Propose More contracts?</span>
         <NeedMoreDialog isProtocol={isProtocol}>

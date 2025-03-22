@@ -46,7 +46,7 @@ const NavLinks = ({
         Chains
       </Link>}
       <Link
-        href="/search?category=protocols"
+        href="/search?category=protocols&chain=Solana"
         className="py-2 sm:px-4 inline-flex rounded-lg items-center gap-2 hover:bg-main-green active:bg-light-green"
       >
         <GitBranch className="w-4 h-4"/>

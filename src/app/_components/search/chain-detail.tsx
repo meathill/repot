@@ -3,8 +3,6 @@
 import { Chain } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Database, Droplets, Link2, Wallet } from 'lucide-react';
-// import RadioGroup from '@/components/ui/radio-group';
-// import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ProtocolsDisplay from '@/app/_components/protocols-display';
@@ -15,24 +13,7 @@ interface ChainDetailProps {
   chainData: Chain | null;
 }
 
-// const TabItems = [
-//   {
-//     label: 'Overview',
-//     value: 'overview',
-//   },
-//   {
-//     label: 'Protocols',
-//     value: 'protocols',
-//   },
-//   {
-//     label: 'Learn',
-//     value: 'learn',
-//   },
-// ]
-
 export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
-  // const [currentTab, setCurrentTab] = useState<string>('overview');
-
   if (!chainData) {
     return (
       <div className="border border-gray rounded-2.5xl bg-white p-6 flex justify-center items-center">
@@ -46,8 +27,7 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
   return (
     <div className="border border-gray rounded-2.5xl bg-white p-6">
       <header className="flex items-center pb-6 border-b mb-6 gap-4 border-gray">
-        {logo && (
-          <Image
+        {logo && (<Image
             src={logo}
             alt={chainData.name}
             className="w-15 h-15 block me-6"
@@ -58,13 +38,6 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
         )}
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
         <StarButton id={chainId} number={0} type="chain" />
-
-        {/* <RadioGroup
-          className="ml-auto"
-          items={TabItems}
-          onChange={setCurrentTab}
-          value={currentTab}
-        /> */}
       </header>
       <article className="bg-light-gray border-gray rounded-lg p-6 mb-6">
         <h3 className="font-bold mb-2">What Is {chainData.name}</h3>
