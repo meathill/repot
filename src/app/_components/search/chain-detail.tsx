@@ -27,15 +27,14 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
   return (
     <div className="border border-gray rounded-2.5xl bg-white p-6">
       <header className="flex items-center pb-6 border-b mb-6 gap-4 border-gray">
-        {logo && (<Image
-            src={logo}
-            alt={chainData.name}
-            className="w-15 h-15 block me-6"
-            width={60}
-            height={60}
-            unoptimized
-          />
-        )}
+        {logo && <Image
+          src={logo}
+          alt={chainData.name}
+          className="w-15 h-15 block me-6"
+          width={60}
+          height={60}
+          unoptimized
+        />}
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
         <StarButton id={chainId} number={0} type="chain" />
       </header>

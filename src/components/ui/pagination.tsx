@@ -49,9 +49,10 @@ export default function Pagination({
     params.set('page', targetPage.toString());
     return `?${params.toString()}`;
   }
- 
+
+  if (total === 0) return null;
   return (
-    total !== 0 && (<div className='flex justify-center items-center mt-8 overflow-x-auto'>
+    <div className='flex justify-center items-center mt-8 overflow-x-auto'>
       <Link
         href={getPageLink(page - 1)}
         className={clsx('cursor-pointer', page <= 1 && 'text-slate-300 cursor-not-allowed')}
@@ -75,6 +76,6 @@ export default function Pagination({
       >
         <ArrowRight />
       </Link>
-    </div>)
+    </div>
   )
 }
