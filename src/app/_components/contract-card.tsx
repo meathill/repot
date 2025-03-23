@@ -91,6 +91,6 @@ export default function ContractCard({
           Go Contract
         </Link>
       </Button>
-  </div>
+    </div>
   );
 };

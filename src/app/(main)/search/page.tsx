@@ -56,7 +56,6 @@ export default async function Search({
     <SearchType
       className="pt-6 mb-8 sm:pt-8"
       current={category as string || (q && 'contracts')}
-      isProtocol={isProtocol}
       chains={chains}
     />
 

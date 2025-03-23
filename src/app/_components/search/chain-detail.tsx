@@ -32,7 +32,7 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
           width={60}
           height={60}
           unoptimized
-       />}
+          />}
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
         <StarButton id={chainId} number={0} type="chain" />
       </header>
