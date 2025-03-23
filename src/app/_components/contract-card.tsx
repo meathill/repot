@@ -7,6 +7,7 @@ import Link from 'next/link';
 import slugify from 'slugify';
 import StarButton from '@/components/ui/star-button';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 interface ContractCardProps {
   data: Contract;
@@ -81,12 +82,15 @@ export default function ContractCard({
         </div>
       </div>
 
-      <Link
-        href={contractUrl}
-        className="h-10 bg-ivory border border-dark-gray hover:bg-main-green active:bg-light-green rounded-lg font-bold text-primary-800 flex items-center justify-center"
+      <Button
+        asChild
+        variant={'outline'}
+        className="h-10 bg-ivory border-dark-gray hover:bg-main-green active:bg-light-green rounded-lg font-bold text-primary-800"
       >
-        Go Contract
-      </Link>
+        <Link href={contractUrl}>
+          Go Contract
+        </Link>
+      </Button>
   </div>
   );
 };

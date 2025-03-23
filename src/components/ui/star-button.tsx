@@ -28,9 +28,7 @@ export default function StarButton({
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [value, setValue] = useState<number>(number);
   const isStarred = useMemo(() => {
-    if (!user) {
-      return false;
-    }
+    if (!user) return false;
 
     const items = stars[ type + 's' as ItemTypePlural ] || {};
     return id in items;
@@ -40,9 +38,7 @@ export default function StarButton({
     e.stopPropagation();
     if (isStarring) return;
 
-    if (!user) {
-      toggleModal(true);
-    }
+    if (!user) { toggleModal(true) };
 
     if (isStarred) {
       setIsConfirm(true);

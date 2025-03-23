@@ -2,7 +2,7 @@ import React from 'react';
 import empty from '@/assets/images/empty.svg';
 import Image from 'next/image';
 
-const EmptySearchResult: React.FC = () => {
+export default function EmptySearchResult() {
   return (
     <div className='flex justify-center items-center my-16'>
       <Image src={empty} alt="empty" width={51} height={48} />
@@ -10,5 +10,3 @@ const EmptySearchResult: React.FC = () => {
     </div>
   );
 };
-
-export default EmptySearchResult;

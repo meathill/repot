@@ -15,11 +15,9 @@ interface ChainDetailProps {
 
 export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
   if (!chainData) {
-    return (
-      <div className="border border-gray rounded-2.5xl bg-white p-6 flex justify-center items-center">
-        Chain not found
-      </div>
-    );
+    return <div className="border border-gray rounded-2.5xl bg-white p-6 flex justify-center items-center">
+      Chain not found
+    </div>;
   }
 
   const logo = chainData.logo?.url || chainData.logo_url || '';
@@ -34,7 +32,7 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
           width={60}
           height={60}
           unoptimized
-        />}
+       />}
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
         <StarButton id={chainId} number={0} type="chain" />
       </header>
@@ -51,7 +49,10 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
             size="xl"
             variant="outline"
           >
-            <Link href={chainData.website} target="_blank">
+            <Link
+              href={chainData.website}
+              target="_blank"
+            >
               <Link2 size={16} color="currentColor" />
               Official links
             </Link>
@@ -64,7 +65,10 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
             size="xl"
             variant="outline"
           >
-            <Link href={chainData.developer_docs} target="_blank">
+            <Link
+              href={chainData.developer_docs}
+              target="_blank"
+            >
               <Database size={16} color="currentColor" />
               Documentation
             </Link>
@@ -77,7 +81,10 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
             size="xl"
             variant="outline"
           >
-            <Link href={chainData.whitepaper} target="_blank">
+            <Link
+              href={chainData.whitepaper}
+              target="_blank"
+            >
               <Droplets size={16} color="currentColor" />
               White paper
             </Link>
@@ -112,15 +119,11 @@ export default function ChainDetail({ chainData, chainId }: ChainDetailProps) {
           <p className="text-sm w-1/3 mx-auto">{chainData.network_layer}</p>
         </div>
         <div className="flex-none w-1/4 relative">
-          <h4 className="font-bold mb-4 w-1/3 min-w-32 mx-auto">
-            Network Type
-          </h4>
+          <h4 className="font-bold mb-4 w-1/3 min-w-32 mx-auto">Network Type</h4>
           <p className="text-sm w-1/3 mx-auto">{chainData.network_type}</p>
         </div>
       </div>
-      {chainData.protocols && (
-        <ProtocolsDisplay items={chainData.protocols} name={chainData.name} />
-      )}
+      {chainData.protocols && <ProtocolsDisplay items={chainData.protocols} name={chainData.name}/>}
     </div>
   );
 }

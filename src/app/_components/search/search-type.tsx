@@ -10,7 +10,6 @@ import { Chain } from '@/types';
 interface SearchTypeProps {
   className?: string;
   current: string;
-  isProtocol?: boolean;
   chains: Chain[];
 }
 

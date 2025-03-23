@@ -78,12 +78,10 @@ export default async function Search({
 
     {!isChain && !isProtocol && <ContractList items={contracts} page={page} />}
 
-    {
-      showEmptyResult && <EmptyResult />
-    }
+    {showEmptyResult && <EmptyResult />}
 
-    {!isChain && <div className="grid grid-cols-2 sm:flex justify-center items-center gap-6 my-6">
-      <div className="border border-gray flex p-4 w-80 justify-between rounded-xl">
+    {!isChain && <div className="grid grid-cols-2 sm:flex items-center gap-6 my-6">
+      <div className="border border-gray flex flex-col sm:flex-row gap-2 sm:gap-0 p-4 sm:w-80 justify-between rounded-xl">
         <span className="text-dark-gray text-sm font-bold">Propose More contracts?</span>
         <NeedMoreDialog isProtocol={isProtocol}>
           <Button
