@@ -125,3 +125,10 @@ export type UserResponse = {
   updatedAt: string;
   publishedAt: string;
 }
+
+export type SelectedCode = {
+  file: string;
+  code: string;
+  startLine: number;
+  endLine: number;
+}

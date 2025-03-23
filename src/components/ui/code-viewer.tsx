@@ -8,6 +8,7 @@ import { codeToHtml } from 'shiki';
 import { useEffect, useMemo, useState } from 'react';
 import { clsx } from 'clsx';
 import slugify from 'slugify';
+import SelectableContainer from '@/components/ui/selectable-container';
 
 const CHAIN_IDE = 'https://chainide.com/s/';
 
@@ -123,10 +124,12 @@ export default function CodeViewer({
     <div
       className="border border-black rounded-lg bg-white flex-1 font-mono whitespace-pre-wrap p-6 max-h-[50dvh] overflow-auto relative order-2 sm:order-3"
     >
-      {isShiki
-        ? <div dangerouslySetInnerHTML={{ __html: fileContent }}/>
-        : <div>{fileContent}</div>
-      }
+      <SelectableContainer file={fileName || ''}>
+        {isShiki
+          ? <div dangerouslySetInnerHTML={{ __html: fileContent }}/>
+          : <div>{fileContent}</div>
+        }
+      </SelectableContainer>
       {isLoading && <div
         className="absolute top-0 left-0 w-full h-full bg-white/50 backdrop-blur-sm flex justify-center items-center">
         <Spinner className="w-8 h-8"/>

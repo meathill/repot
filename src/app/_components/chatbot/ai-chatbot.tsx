@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { FormEvent, KeyboardEvent, useRef, useState } from 'react';
-import { ArrowUpIcon, CircleUserIcon } from 'lucide-react';
+import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { ArrowUpIcon, CircleUserIcon, XIcon } from 'lucide-react';
 import Ask from '@/assets/images/ask.svg';
 import Logo from '@/assets/images/logo.svg';
 import RepotText from '@/assets/images/repot.svg';
@@ -13,9 +13,10 @@ import { marked } from 'marked';
 import { useChat } from '@ai-sdk/react';
 import { hasMetaKey } from '@/lib/utils';
 import { Spinner } from '@/components/ui/spinner';
+import useUiStore from '@/store/ui';
 
 export default function AiChatbot() {
-  const { messages, input, handleInputChange, handleSubmit, setInput } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, setInput, setMessages } = useChat({
     initialMessages: [
       {
         id: '',
@@ -25,6 +26,9 @@ export default function AiChatbot() {
     ],
     onFinish: () => setIsChatting(false),
   });
+  const selectedCodes = useUiStore(state => state.selectedCodes);
+  const clearSelectedCodes = useUiStore(state => state.clearSelectedCodes);
+  const removeSelectedCode = useUiStore(state => state.removeSelectedCode);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [isChatting, setIsChatting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -35,21 +39,38 @@ export default function AiChatbot() {
       if ((event.target as HTMLFormElement).matches(':invalid')) return;
     }
     if (isChatting) return;
+    if (!input.trim()) return;
 
     setIsChatting(true);
     setInput('');
+    if (selectedCodes.length) {
+      const lastItem = messages[ messages.length - 1 ];
+      const lastContent = lastItem.content;
+      lastItem.content = selectedCodes.reduce((acc, item) => {
+        return `Reference: ${item.file} Line ${item.startLine}~${item.endLine}
+
+\`\`\`
+${item.code}
+\`\`\`
+
+${acc}`;
+      }, lastContent);
+      setMessages(messages);
+      clearSelectedCodes();
+    }
     handleSubmit();
   }
-  function doOpen() {
+  function doOpen(isOpen?: boolean) {
     setIsOpen(prev => {
       if (!prev) {
         sleep(50).then(() => {
           textarea.current?.focus();
         });
       }
-      return !prev;
+      return !prev || !!isOpen;
     });
   }
+
   function onTextareaKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (hasMetaKey(event) && event.key === 'Enter') {
       doChat();
@@ -59,6 +80,10 @@ export default function AiChatbot() {
   function toHtml(content: string) {
     return content ? marked(content) : '';
   }
+
+  useEffect(() => {
+    doOpen(true);
+  }, [selectedCodes]);
 
   return (
     <div className="fixed right-4 bottom-20 z-50 hidden md:flex flex-col gap-5 items-end">
@@ -113,6 +138,28 @@ export default function AiChatbot() {
             className="border-t border-black p-4"
             onSubmit={event => doChat(event)}
           >
+            {selectedCodes.length ? (
+              <div className="flex items-center flex-wrap gap-2 mb-2">
+                {selectedCodes.map((code, index) => (
+                  <div
+                    className="flex items-center border gap-1 ps-2 pe-1 py-1 whitespace-nowrap text-xs"
+                    key={index}
+                  >
+                    {code.file} ({code.startLine}~{code.endLine})
+                    <Button
+                      aria-label="Remove"
+                      className="w-4 h-4 p-0"
+                      onClick={() => removeSelectedCode(index)}
+                      size="xs"
+                      type="button"
+                      variant="ghost"
+                    >
+                      <XIcon className="size-3" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : null}
             <div className={clsx(
               'border border-primary-800 rounded-lg flex items-end py-2.5 px-3 gap-2',
               { 'bg-lighter-gray': isChatting },
@@ -147,7 +194,7 @@ export default function AiChatbot() {
         aria-label="Ask Repot"
         className="p-2 h-auto border-black flex-col items-center gap-1"
         effect="raised"
-        onClick={doOpen}
+        onClick={() => doOpen()}
         type="button"
         variant="outline"
       >
