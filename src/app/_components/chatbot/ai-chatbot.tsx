@@ -26,11 +26,13 @@ export default function AiChatbot() {
     ],
     onFinish: () => setIsChatting(false),
   });
+  const currentFile = useUiStore(state => state.currentFile);
   const selectedCodes = useUiStore(state => state.selectedCodes);
   const clearSelectedCodes = useUiStore(state => state.clearSelectedCodes);
   const removeSelectedCode = useUiStore(state => state.removeSelectedCode);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [isChatting, setIsChatting] = useState(false);
+  const [isInclude, setIsInclude] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   async function doChat(event?: FormEvent<HTMLFormElement>) {
@@ -43,9 +45,18 @@ export default function AiChatbot() {
 
     setIsChatting(true);
     setInput('');
-    if (selectedCodes.length) {
+    if (selectedCodes.length || currentFile) {
       const lastItem = messages[ messages.length - 1 ];
       const lastContent = lastItem.content;
+      if (currentFile && isInclude) {
+        lastItem.content = `Reference: ${currentFile.file}
+        
+\`\`\`
+${currentFile.code}
+\`\`\`
+        
+${lastItem.content}`;
+      }
       lastItem.content = selectedCodes.reduce((acc, item) => {
         return `Reference: ${item.file} Line ${item.startLine}~${item.endLine}
 
@@ -138,11 +149,22 @@ ${acc}`;
             className="border-t border-black p-4"
             onSubmit={event => doChat(event)}
           >
-            {selectedCodes.length ? (
+            {selectedCodes.length || currentFile ? (
               <div className="flex items-center flex-wrap gap-2 mb-2">
+                {currentFile && (
+                  <label className="inline-flex items-center gap-1 px-2 py-1 border rounded text-xs">
+                    <input
+                      type="checkbox"
+                      checked={isInclude}
+                      className="block"
+                      onChange={(event) => setIsInclude(event.target.checked)}
+                    />
+                    Include current file
+                  </label>
+                )}
                 {selectedCodes.map((code, index) => (
                   <div
-                    className="flex items-center border gap-1 ps-2 pe-1 py-1 whitespace-nowrap text-xs"
+                    className="flex items-center border gap-1 ps-2 pe-1 py-1 whitespace-nowrap text-xs rounded"
                     key={index}
                   >
                     {code.file} ({code.startLine}~{code.endLine})

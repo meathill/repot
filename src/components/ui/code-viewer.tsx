@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { clsx } from 'clsx';
 import slugify from 'slugify';
 import SelectableContainer from '@/components/ui/selectable-container';
+import useUiStore from '@/store/ui';
 
 const CHAIN_IDE = 'https://chainide.com/s/';
 
@@ -29,6 +30,7 @@ export default function CodeViewer({
   selectedFile,
   zipUrl,
 }: CodeViewerProps) {
+  const setCurrentFile = useUiStore(state => state.setCurrentFile);
   const [fileContent, setFileContent] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isShiki = useMemo(() => {
@@ -48,6 +50,9 @@ export default function CodeViewer({
 
     setIsLoading(true);
     const content = await readFile(file);
+    if (fileName) {
+      setCurrentFile(fileName, content);
+    }
     if (!/\.sol$/.test(file)) {
       setFileContent(content);
       setIsLoading(false);
@@ -72,6 +77,11 @@ export default function CodeViewer({
   useEffect(() => {
     loadSelectedFile(selectedFile);
   }, [selectedFile]);
+  useEffect(() => {
+    return () => {
+      setCurrentFile('');
+    }
+  }, []);
 
   return <>
     <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-6 sm:mb-6 flex-none order-3 sm:order-1 mt-6 sm:mt-0">

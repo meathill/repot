@@ -1,11 +1,13 @@
 import { create } from 'zustand';
-import { SelectedCode } from '@/types';
+import { CodeFile, SelectedCode } from '@/types';
 
 type UiStore = {
+  currentFile: CodeFile | null;
   selectedCodes: SelectedCode[];
   addSelectedCode: (code: string, startLine: number, endLine: number, file: string) => void;
   clearSelectedCodes: () => void;
   removeSelectedCode: (index: number) => void;
+  setCurrentFile: (file: string, code?: string) => void;
 }
 
 const useUiStore = create<UiStore>((set, get) => {
@@ -32,13 +34,22 @@ const useUiStore = create<UiStore>((set, get) => {
     newSelectedCodes.splice(index, 1);
     set({ selectedCodes: newSelectedCodes });
   }
+  function setCurrentFile(file: string, code: string = '') {
+    if (file) {
+      set({ currentFile: { file, code } });
+    } else {
+      set({ currentFile: null });
+    }
+  }
 
   return {
+    currentFile: null,
     selectedCodes: [],
 
     addSelectedCode,
     clearSelectedCodes,
     removeSelectedCode,
+    setCurrentFile,
   };
 });
 

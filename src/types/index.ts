@@ -132,3 +132,8 @@ export type SelectedCode = {
   startLine: number;
   endLine: number;
 }
+
+export type CodeFile = {
+  file: string;
+  code: string;
+}
