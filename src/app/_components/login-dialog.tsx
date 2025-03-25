@@ -16,8 +16,7 @@ import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import Link from 'next/link';
 
-export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void })
-{
+export default function LoginDialog({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   async function doSignInViaGitHub() {
     setIsLoading(true);
