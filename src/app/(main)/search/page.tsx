@@ -35,10 +35,8 @@ export default async function Search({
   }
 
   let protocols: Protocol[] = [];
-  if (!isChain && chainDocId) {
-    const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
-    protocols = await getProtocols({ withChains: true, chainId, page  });
-  }
+  const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
+  protocols = await getProtocols({ withChains: true, chainId, page  });
 
   let contracts: Contract[] = [];
   if (!isChain && !isProtocol) {
@@ -67,6 +65,7 @@ export default async function Search({
     {isChain && chainDocId && <ChainDetail
       chainId={chainDocId as string}
       chainData={chainData}
+      protocols={protocols}
     />}
 
     {!isChain && <KeywordsFilter params={params} />}
