@@ -3,7 +3,7 @@
 import { Chain, Protocol } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Database, Droplets, Link2, Wallet } from 'lucide-react';
-import RadioGroup from '@/components/ui/radio-group';	
+import RadioGroup from '@/components/ui/radio-group';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ const TabItems = [
   },
 ]	
 
-export default function ChainDetail({	
+export default function ChainDetail({
   chainData,
   chainId,
   protocols,
@@ -59,11 +59,11 @@ export default function ChainDetail({
         <h2 className="text-2xl text-primary-800">{chainData.name}</h2>
         <StarButton id={chainId} number={0} type="chain" />
 
-        <RadioGroup	
-          className="ml-auto"	
+        <RadioGroup
+          className="ml-auto"
           items={TabItems}
-          onChange={setCurrentTab}	
-          value={currentTab}	
+          onChange={setCurrentTab}
+          value={currentTab}
         />
       </header>
       {currentTab === TabItems[ 0 ].value && (<>

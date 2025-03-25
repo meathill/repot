@@ -56,7 +56,6 @@ export default async function Search({
       current={category as string || (q && 'contracts')}
       chains={chains}
     />
-
     {(hasChain && (isChain || isProtocol)) && <ChainList
       currentChain={chain as string || chains[ 0 ].name}
       items={chains}

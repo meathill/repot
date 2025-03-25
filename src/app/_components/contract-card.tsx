@@ -27,8 +27,8 @@ export default function ContractCard({
 
   return (
     <div 
-      onClick={handleCardClick}
       className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4 cursor-pointer hover:border-[#343434]"
+      onClick={handleCardClick}
     >
       <div className="flex gap-4 items-center">
         {logo && <Image
@@ -44,7 +44,6 @@ export default function ContractCard({
       <p className="text-primary-800 capitalize text-sm h-10 max-h-10 line-clamp-2">
         {data.overview}
       </p>
-
       <div className="bg-zinc-50 h-12 border-y -ml-6 -mr-6 flex flex-row">
         <Link
           className="flex justify-center items-center w-1/2 gap-1.5 border-r cursor-pointer hover:bg-lime-green transition-colors"
