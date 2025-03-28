@@ -49,7 +49,9 @@ export default function Pagination({
     params.set('page', targetPage.toString());
     return `?${params.toString()}`;
   }
- 
+
+  if (total === 0) return null;
+  
   return (
     <div className='flex justify-center items-center mt-8 overflow-x-auto'>
       <Link

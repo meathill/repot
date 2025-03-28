@@ -10,6 +10,7 @@ import NeedMoreDialog from '@/app/_components/need-more-dialog';
 import { CircleArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SubmitGithub from '@/app/_components/submit-github';
+import EmptyResult from '@/components/ui/empty-result';
 
 interface SearchProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -34,10 +35,8 @@ export default async function Search({
   }
 
   let protocols: Protocol[] = [];
-  if (!isChain && chainDocId) {
-    const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
-    protocols = await getProtocols({ withChains: true, chainId, page  });
-  }
+  const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
+  protocols = await getProtocols({ withChains: true, chainId, page  });
 
   let contracts: Contract[] = [];
   if (!isChain && !isProtocol) {
@@ -45,10 +44,17 @@ export default async function Search({
       ? protocols.find((p) => p.name === protocol)?.id : 0;
     contracts = await getContracts({ protocolId, query: q as string, page });
   }
+
+  const showEmptyResult = !isChain && (
+    (isProtocol && protocols.length === 0) || 
+    (!isProtocol && contracts.length === 0)
+  );
+
   return <>
     <SearchType
       className="pt-6 mb-8 sm:pt-8"
       current={category as string || (q && 'contracts')}
+      chains={chains}
     />
     {(hasChain && (isChain || isProtocol)) && <ChainList
       currentChain={chain as string || chains[ 0 ].name}
@@ -58,6 +64,7 @@ export default async function Search({
     {isChain && chainDocId && <ChainDetail
       chainId={chainDocId as string}
       chainData={chainData}
+      protocols={protocols}
     />}
 
     {!isChain && <KeywordsFilter params={params} />}
@@ -67,6 +74,8 @@ export default async function Search({
     </>}
 
     {!isChain && !isProtocol && <ContractList items={contracts} page={page} />}
+
+    {showEmptyResult && <EmptyResult />}
 
     {!isChain && <div className="grid grid-cols-2 sm:flex items-center gap-6 my-6">
       <div className="border border-gray flex flex-col sm:flex-row gap-2 sm:gap-0 p-4 sm:w-80 justify-between rounded-xl">

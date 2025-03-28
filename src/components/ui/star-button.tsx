@@ -23,6 +23,7 @@ export default function StarButton({
 }: StarButtonProps) {
   const stars = useUserStore(state => state.stars);
   const user = useUserStore(state => state.user);
+  const { toggleModal } = useUserStore();
   const [isStarring, setIsStarring] = useState<boolean>(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [value, setValue] = useState<number>(number);
@@ -33,8 +34,11 @@ export default function StarButton({
     return id in items;
   }, [id, stars, type]);
 
-  async function doStar() {
+  async function doStar(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     if (isStarring) return;
+
+    if (!user) { toggleModal(true) };
 
     if (isStarred) {
       setIsConfirm(true);
@@ -64,8 +68,8 @@ export default function StarButton({
 
   return <>
     <button
-      className={cn('flex items-center gap-2 text-xs hover:bg-main-green disabled:opacity-50 disabled:cursor-not-allowed', className)}
-      disabled={!user || isStarring}
+      className={cn('flex items-center gap-2 text-xs hover:bg-main-green disabled:opacity-50', className)}
+      disabled={isStarring}
       onClick={doStar}
       title={!user ? 'Please Sign in before star' : ''}
       type="button"

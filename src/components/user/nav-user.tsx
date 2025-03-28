@@ -21,7 +21,7 @@ export default function NavUser({
 }: NavUserProps) {
   const loadStars = useUserStore(state => state.loadStars);
   const isModalOpen = useUserStore(state => state.isModalOpen);
-  const [loginOpen, setLoginOpen] = useState(false);
+  const { toggleModal } = useUserStore();
   const username = useMemo(() => {
     return user?.username || user?.email || 'User';
   }, [user]);
@@ -32,11 +32,11 @@ export default function NavUser({
   useEffect(() => {
     if (!user) return;
 
-    setLoginOpen(isModalOpen);
+    toggleModal(isModalOpen);
   }, [isModalOpen]);
 
   if (user) {
-    return (
+    return <div className={className}>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <Button
@@ -73,12 +73,12 @@ export default function NavUser({
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
       </DropdownMenu.Root>
-    )
+    </div>
   }
 
-  return <>
+  return <div className={className}>
     <Button
-      onClick={() => setLoginOpen(true)}
+      onClick={() => toggleModal(true)}
       className={clsx('bg-main-purple rounded-lg aspect-square p-0 border-black border text-primary-800 font-bold ms-auto sm:ms-0 sm:px-6 hover:bg-main-purple')}
       effect="raised"
       size={size}
@@ -87,6 +87,6 @@ export default function NavUser({
       <ArrowRight className="sm:ml-1 w-4 h-4" />
     </Button>
 
-    <LoginDialog open={loginOpen} setOpen={setLoginOpen} />
-  </>;
+    <LoginDialog open={isModalOpen} setOpen={toggleModal} />
+  </div>;
 }

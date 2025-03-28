@@ -8,7 +8,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import LoginDialog from '@/app/_components/login-dialog';
 import ContractCard from '@/app/_components/contract-card';
 import { Contract } from '@/types';
 import { clsx } from 'clsx';
@@ -22,7 +21,6 @@ export default function ContractsDisplay({
   className = '',
   items,
 }: ContractsDisplayProps) {
-  const [loginOpen, setLoginOpen] = useState(false);
   return (
     <>
       <Carousel
@@ -45,7 +43,6 @@ export default function ContractsDisplay({
           ))}
         </CarouselContent>
       </Carousel>
-      <LoginDialog open={loginOpen} setOpen={setLoginOpen} />
     </>
   );
 }
