@@ -1,6 +1,6 @@
 'use client';
 
-import { CircleCheckBig, CircleStop, ImageIcon, User } from 'lucide-react';
+import { CircleCheckBig } from 'lucide-react';
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import Image from 'next/image';

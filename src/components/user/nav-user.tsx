@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { ArrowRight } from 'lucide-react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Button, ButtonProps } from '@/components/ui/button';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import LoginDialog from '@/app/_components/login-dialog';
 import { UserProfile } from '@/types';
 import Link from 'next/link';
