@@ -1,6 +1,10 @@
 import { xai } from '@ai-sdk/xai';
 import { CoreMessage, streamText } from 'ai';
 
+export const config = {
+  runtime: 'edge',
+};
+
 export async function POST(req: Request) {
   const {
     messages,

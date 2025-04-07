@@ -9,6 +9,8 @@ interface Props extends PropsWithChildren {
   file: string;
 }
 
+const indexOf = Array.prototype.indexOf;
+
 export default function SelectableContainer(props: Props) {
   const { children, file } = props;
   const addSelectedCode = useUiStore(state => state.addSelectedCode);
@@ -123,7 +125,10 @@ export default function SelectableContainer(props: Props) {
   useEffect(() => {
     if (!rootRef.current || !dropdownContainerRef.current) return;
 
-    rootRef.current.removeChild(dropdownContainerRef.current);
+    if (indexOf.call(rootRef.current.children, dropdownContainerRef.current) > -1) {
+      rootRef.current.removeChild(dropdownContainerRef.current);
+    }
+
     dropdownContainerRef.current.classList.remove('hidden');
     dropdownContainerRef.current.classList.add('inline-block');
   }, []);

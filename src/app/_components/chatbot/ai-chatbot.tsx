@@ -93,7 +93,7 @@ ${acc}`;
   }
 
   useEffect(() => {
-    doOpen(true);
+    if (selectedCodes?.length) doOpen(true);
   }, [selectedCodes]);
 
   return (

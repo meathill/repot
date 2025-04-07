@@ -1,8 +1,9 @@
 'use client';
 
+import { FormEvent } from 'react';
 import { useUserStore } from '@/store';
 import NavUser from '@/components/user/nav-user';
-import { FilePlus, LogOut, Star } from 'lucide-react';
+import { FilePlus, LogOut, Star, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import EmptyIcon from '@/assets/images/empty.svg';
 import Image from 'next/image';
@@ -13,8 +14,10 @@ import ContractCard from '@/app/_components/contract-card';
 import { Chain, Contract, Protocol } from '@/types';
 import ProtocolCard from '@/app/_components/protocol-card';
 import ChainCard from '@/app/_components/chain-card';
-import SubmitGithub from '@/app/_components/submit-github';
 import EditProfileDialog from '@/app/_components/edit-profile-dialog';
+import { Spinner } from '@/components/ui/spinner';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import PurpleLeaf from '@/assets/images/leaf-purple.svg';
 
 type ItemListProps = {
   items: (Chain | Contract | Protocol)[];
@@ -47,10 +50,39 @@ function ItemList({
 export default function UserDashboard() {
   const stars = useUserStore((state) => state.stars);
   const user = useUserStore((state) => state.user);
-  const [query, setQuery] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [isImporting, setIsImporting] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
   const chains = stars.chains ? Object.values(stars.chains) : [];
   const contracts = stars.contracts ? Object.values(stars.contracts) : [];
   const protocols = stars.protocols ? Object.values(stars.protocols) : [];
+
+  async function doImportFromEtherscan(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const target = event.target as HTMLFormElement;
+    if (target.matches(':invalid') || isImporting || !address.trim()) return;
+
+    setIsImporting(true);
+    setMessage('');
+    try {
+      await fetch('/api/ugc/etherscan', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          address,
+        }),
+      });
+      setIsModalOpen(true);
+    } catch (e) {
+      console.log(e);
+      setMessage('Failed to import contracts.');
+    } finally {
+      setIsImporting(false);
+    }
+  }
 
   if (!user) {
     return (
@@ -126,18 +158,27 @@ export default function UserDashboard() {
             Import Contracts from Etherscan
           </div>
           <p className="text-sm mb-4">Please note: only addresses verified on Etherscan are accepted.</p>
-          <SubmitGithub className="w-full border border-gray flex items-stretch rounded-lg p-2">
+          {message && <p className="text-red-500 text-sm mb-4">{message}</p>}
+          <form
+            className="w-full border border-gray flex items-stretch rounded-lg p-2 ps-4 gap-4 focus-within:outline focus-within:outline-sky-100"
+            onSubmit={doImportFromEtherscan}
+          >
             <input
-              className="flex-1 h-10 placeholder-zinc-400 placeholder:text-sm"
-              onInput={(event) => setQuery(event.currentTarget.value)}
+              className="flex-1 h-10 placeholder-zinc-400 placeholder:text-sm focus-visible:outline-0"
+              disabled={isImporting}
+              onInput={(event) => setAddress(event.currentTarget.value)}
               placeholder="Search Keywords or Contract Address"
+              required
               type="search"
-              value={query}
+              value={address}
             />
             <Button
-              className="h-10 px-6 bg-lime-green hover:bg-main-green border border-black text-dark-green"
-            >Import</Button>
-          </SubmitGithub>
+              className="w-24 h-10 px-6 bg-lime-green hover:bg-main-green border border-black text-dark-green"
+              disabled={isImporting}
+            >
+              {isImporting ? <Spinner className="size-4" /> : 'Import'}
+            </Button>
+          </form>
         </div>
       </div>
       <div className="mb-6">
@@ -156,6 +197,55 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent
+          aria-describedby={undefined}
+          className="w-[90%] sm:w-2/5 rounded-3xl sm:rounded-3xl p-0 border border-black outline-none max-w-2xl"
+          hasClose={false}
+        >
+          <DialogHeader className="relative bg-main-green py-8 flex flex-col gap-6 justify-center items-center border-b border-black rounded-t-3xl sm:rounded-t-3xl">
+            <DialogTitle className="font-bold text-2xl text-dark-green">
+              <div className="w-16 h-16 rounded-full border border-dark-green bg-lime-green flex items-center justify-center mx-auto">
+                <Image
+                  alt="Leaf"
+                  className="w-6.5 h-7.5"
+                  src={PurpleLeaf}
+                  width={26}
+                  height={30}
+                />
+              </div>
+              <p className="text-2xl font-bold mt-6 text-center">Thank you for your submission</p>
+            </DialogTitle>
+            <DialogClose
+              asChild
+              className="absolute right-0 -top-16 sm:top-0 sm:-right-20"
+              style={{ marginTop: 0 }}
+            >
+              <Button
+                type="button"
+                variant="outline"
+                className="outline-none bg-main-green rounded-xl border border-black h-12 w-12 hover:bg-lime-green hover:shadow-[0_4px_0_0_#000]"
+                onClick={() => setIsModalOpen(false)}
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </Button>
+            </DialogClose>
+          </DialogHeader>
+          <div className="pt-2 pb-8 px-8">
+            <p className="text-sm leading-6">Please wait for our review. Once the review is completed, the reward points will be automatically sent to your account</p>
+            <footer className="flex justify-center mt-6">
+              <Button
+                className="font-bold text-base leading-normal py-2 px-6"
+                onClick={() => setIsModalOpen(false)}
+                variant="primary-bordered"
+              >
+                Close
+              </Button>
+            </footer>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   </>;
 }
