@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import Avatar from '@/components/ui/avatar';
 import slugify from 'slugify';
 import StarButton from '@/components/ui/star-button';
+import StringLogo from './string-logo';
 
 interface ProtocolCardProps {
   className?: string;
@@ -40,6 +41,9 @@ export default function ProtocolCard({
           height={48}
           unoptimized
         />}
+        {
+          !logo && <StringLogo name={data.name} />
+        }
         <h4 className="font-bold text-primary-800">{data.name}</h4>
       </div>
       {data.overview && <p className="text-sm line-clamp-2 text-primary-800">{data.overview}</p>}

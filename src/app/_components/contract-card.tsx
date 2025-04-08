@@ -8,6 +8,7 @@ import slugify from 'slugify';
 import StarButton from '@/components/ui/star-button';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import StringLogo from './string-logo';
 
 interface ContractCardProps {
   data: Contract;
@@ -36,6 +37,9 @@ export default function ContractCard({
           height={48}
           unoptimized
         />}
+        {          
+          !logo && <StringLogo name={data.name} />
+        }
         <div className="font-bold text-lg text-primary-800">{data.name}</div>
       </div>
       <p className="text-primary-800 capitalize text-sm h-10 max-h-10 line-clamp-2">
