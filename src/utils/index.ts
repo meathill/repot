@@ -22,3 +22,34 @@ export function getParams(chain: string, params: URLSearchParamsObject) {
   newParams.set('chain', chain);
   return `?${newParams.toString()}`;
 }
+
+export function getInitials(str: string): string {
+  const uppercaseLetters = str.match(/[A-Z]/g);
+  if (uppercaseLetters && uppercaseLetters.length >= 2) {
+    return uppercaseLetters.slice(0, 2).join('');
+  }
+  return str.slice(0, 2);
+}
+
+/**
+ * 将字符串转换为十六进制颜色值
+ *
+ * @param str 输入的字符串
+ * @returns 返回转换后的十六进制颜色值，格式为'#RRGGBB'
+ */
+export function string2color(str: string): string {
+  let hash = 0;
+  // 计算字符串的哈希值
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = '#';
+  // 将哈希值转换为十六进制颜色值
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xFF;
+    color += ('00' + value.toString(16)).substr(-2);
+  }
+
+  return color;
+}
