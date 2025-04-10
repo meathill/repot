@@ -29,17 +29,14 @@ export default function ContractCard({
   return (
     <div className="bg-white p-6 border border-gray rounded-2.5xl flex flex-col gap-4 cursor-pointer hover:border-[#343434]" onClick={handleCardClick}>
       <div className="flex gap-4 items-center">
-        {logo && <Image
+        {logo ? <Image
           alt={data.name}
           className="w-12 h-12 rounded-lg"
           src={logo}
           width={48}
           height={48}
           unoptimized
-        />}
-        {          
-          !logo && <StringLogo name={data.name} />
-        }
+        /> : <StringLogo name={data.name} />}
         <div className="font-bold text-lg text-primary-800">{data.name}</div>
       </div>
       <p className="text-primary-800 capitalize text-sm h-10 max-h-10 line-clamp-2">

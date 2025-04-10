@@ -33,17 +33,14 @@ export default function ProtocolCard({
       href={`/protocol/${data.documentId}-${slugify(data.name)}`}
     >
       <div className="flex items-center gap-4 h-12">
-        {logo && <Image
+        {logo ? <Image
           src={logo}
           alt={data.name}
           className="w-12 h-12 rounded-lg block"
           width={48}
           height={48}
           unoptimized
-        />}
-        {
-          !logo && <StringLogo name={data.name} />
-        }
+        /> : <StringLogo name={data.name} />}
         <h4 className="font-bold text-primary-800">{data.name}</h4>
       </div>
       {data.overview && <p className="text-sm line-clamp-2 text-primary-800">{data.overview}</p>}

@@ -31,6 +31,12 @@ export function getInitials(str: string): string {
   return str.slice(0, 2);
 }
 
+/**
+ * 将字符串转换为十六进制颜色值
+ *
+ * @param str 输入的字符串
+ * @returns 返回转换后的十六进制颜色值，格式为'#RRGGBB'
+ */
 export function string2color(str: string): string {
   let hash = 0;
   // 计算字符串的哈希值
