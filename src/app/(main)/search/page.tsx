@@ -1,16 +1,31 @@
-import { Chain, Contract, Protocol } from '@/types';
+import { Chain, Contract } from '@/types';
 import SearchType from '@/app/_components/search/search-type';
-import ChainDetail from '@/app/_components/search/chain-detail';
+import dynamic from 'next/dynamic';
 import ChainList from '@/app/_components/search/chain-list';
-import { getChainDetail, getChains, getContracts, getProtocols } from '@/services';
-import ProtocolList from '@/app/_components/search/protocol-list';
+import {
+  getChainDetail,
+  getChains,
+  getContracts,
+  getProtocols,
+} from '@/services';
 import KeywordsFilter from '@/app/_components/search/keywords-filter';
-import ContractList from '@/app/_components/search/contract-list';
-import NeedMoreDialog from '@/app/_components/need-more-dialog';
 import { CircleArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import SubmitGithub from '@/app/_components/submit-github';
 import EmptyResult from '@/components/ui/empty-result';
+
+const ChainDetail = dynamic(
+  () => import('@/app/_components/search/chain-detail')
+);
+const ProtocolList = dynamic(
+  () => import('@/app/_components/search/protocol-list')
+);
+const ContractList = dynamic(
+  () => import('@/app/_components/search/contract-list')
+);
+const NeedMoreDialog = dynamic(
+  () => import('@/app/_components/need-more-dialog')
+);
+const SubmitGithub = dynamic(() => import('@/app/_components/submit-github'));
 
 interface SearchProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -27,16 +42,23 @@ export default async function Search({
   const chainDocId = chain
     ? chains.find((c) => c.name === chain)?.documentId
     : chains[ 0 ]?.documentId;
+  const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0; // 提前获取 chainId
   const isChain = category === 'chains';
   const isProtocol = category === 'protocols';
-  let chainData: Chain | null = null;
-  if (isChain && chainDocId) {
-    chainData = await getChainDetail(chainDocId, true);
-  }
 
-  let protocols: Protocol[] = [];
-  const chainId = chain ? chains.find((c) => c.name === chain)?.id : 0;
-  protocols = await getProtocols({ withChains: true, chainId, page  });
+  const [chainDataResult, protocolsResult] = await Promise.all([
+    isChain && chainDocId
+      ? getChainDetail(chainDocId, true)
+      : Promise.resolve(null),
+    !isChain
+      ? getProtocols({ withChains: true, chainId, page })
+      : Promise.resolve([]),
+  ]);
+
+  const chainData = chainDataResult;
+  const protocols = isChain
+    ? chainData?.protocols || []
+    : protocolsResult || [];
 
   let contracts: Contract[] = [];
   if (!isChain && !isProtocol) {

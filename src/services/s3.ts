@@ -2,6 +2,7 @@ import { ApiResponse, S3FolderList } from '@/types';
 import { GetObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import s3Client from '@/lib/s3';
 import { streamToString } from 'next/dist/server/stream-utils/node-web-streams-helper';
+import { getCachedFile, setCachedFile } from './file-cache';
 
 export async function readDir(path: string): Promise<S3FolderList> {
   const url = new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/s3/readDir`);
@@ -16,10 +17,17 @@ export async function readDir(path: string): Promise<S3FolderList> {
 }
 
 export async function readFile(path: string): Promise<string> {
+  // 检查缓存
+  const cached = getCachedFile(path);
+  if (cached) return cached;
+
   const url = new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/s3/readFile`);
   url.searchParams.set('key', path);
   const response = await fetch(url);
   const result = (await response.json()) as ApiResponse<string>;
+
+  // 设置缓存结
+  setCachedFile(path, result.data);
   return result.data;
 }
 
