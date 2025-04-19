@@ -1,5 +1,4 @@
 import { removeS3Prefix, trimPrefix } from '@/utils';
-import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import ReportDialog from '@/app/_components/report-dialog';
 import { Copy } from 'lucide-react';
@@ -10,8 +9,25 @@ import { clsx } from 'clsx';
 import slugify from 'slugify';
 import SelectableContainer from '@/components/ui/selectable-container';
 import useUiStore from '@/store/ui';
+import Skeleton from './skeleton';
 
 const CHAIN_IDE = 'https://chainide.com/s/';
+
+// 代码骨架屏组件
+const CodeSkeleton = () => (
+  <div className="space-y-2">
+    {[...Array(15)].map((_, i) => (
+      <Skeleton
+        key={i}
+        className="h-4 mb-1 bg-opacity-60 transition-all duration-200"
+        style={{
+          width: `${Math.max(40, 100 - i * 4)}%`,
+          opacity: 1 - i * 0.05,
+        }}
+      />
+    ))}
+  </div>
+);
 
 interface CodeViewerProps {
   allCode?: string;
@@ -133,17 +149,16 @@ export default function CodeViewer({
     </div>
     <div
       className="border border-black rounded-lg bg-white flex-1 font-mono whitespace-pre-wrap p-6 max-h-[50dvh] overflow-auto relative order-2 sm:order-3"
-    >
+    >{isLoading ? (
+        <CodeSkeleton />
+      ) : (
       <SelectableContainer file={fileName || ''}>
         {isShiki
           ? <div dangerouslySetInnerHTML={{ __html: fileContent }}/>
           : <div>{fileContent}</div>
         }
       </SelectableContainer>
-      {isLoading && <div
-        className="absolute top-0 left-0 w-full h-full bg-white/50 backdrop-blur-sm flex justify-center items-center">
-        <Spinner className="w-8 h-8"/>
-      </div>}
+      )}
     </div>
   </>
 }

@@ -15,10 +15,11 @@ import ConsensysLogo from '@/assets/images/consensys-logo.svg';
 
 export default async function Landing() {
   // fetch count of contracts, protocols
-  const protocolCount = await getProtocolCount();
-  const protocols = await getLatestProtocol();
-  // fetch latest contracts
-  const contracts = await getLatestContracts(9);
+  const [protocolCount, protocols, contracts] = await Promise.all([
+    getProtocolCount(),
+    getLatestProtocol(),
+    getLatestContracts(9),
+  ]);
   const contractCount = contracts.meta.pagination.total;
 
   return <>

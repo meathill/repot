@@ -1,5 +1,9 @@
 import { ReactNode, Suspense } from 'react';
-import Footer from '@/app/_components/footer';
+import dynamic from 'next/dynamic';
+
+const Footer = dynamic(() => import('@/app/_components/footer'), {
+  loading: () => <div className="h-16" />
+});
 
 interface MainLayoutProps {
   children: ReactNode
