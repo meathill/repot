@@ -20,10 +20,6 @@ const CodeSkeleton = () => (
       <Skeleton
         key={i}
         className="h-4 mb-1 bg-opacity-60 transition-all duration-200"
-        style={{
-          width: `${Math.max(40, 100 - i * 4)}%`,
-          opacity: 1 - i * 0.05,
-        }}
       />
     ))}
   </div>
