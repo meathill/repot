@@ -48,7 +48,8 @@ export async function POST(req: Request) {
   }
 
   // upload contract to s3
-  const key = `contracts/${address}/entry.sol`;
+  const prefix = `contracts/${address}/`;
+  const key = `${prefix}entry.sol`;
   const command = new PutObjectCommand({
     Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
     Key: key,
@@ -62,7 +63,7 @@ export async function POST(req: Request) {
   const data = await fetchFromStrapi(url, 'POST', {
     data: {
       name: result.ContractName,
-      document_links: `s3://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}/${key}`,
+      document_links: `s3://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}/${prefix}`,
       overview: `Compiler version: ${result.CompilerVersion}
 EVM Version: ${result.EVMVersion}
 License Type: ${result.LicenseType}`,
