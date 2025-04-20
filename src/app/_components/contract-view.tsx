@@ -1,7 +1,7 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { CircleCheckBig, CircleStop, Download, ImageIcon, User } from 'lucide-react';
+import { Download } from 'lucide-react';
 import Image from 'next/image';
 import { marked } from 'marked';
 import { useState } from 'react';
@@ -34,7 +34,7 @@ export default function ContractView({
 
   return (
     <main className="mt-6 sm:mt-8 mb-6">
-      <header className="flex flex-col sm:flex-row gap-6 mb-6 pb-6 border-b border-neutral-800">
+      <header className="flex flex-col sm:flex-row items-center gap-6 mb-6 pb-6 border-b border-neutral-800">
         {logo && <Image
           alt={data.name}
           className="block w-18 h-18 rounded-lg"
@@ -56,24 +56,6 @@ export default function ContractView({
                 <Download size={16} color="#636363"/>
                 {data.stars?.downloads || 0}
               </div>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-            <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <CircleStop size={16}/>
-              Token
-            </div>
-            <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <ImageIcon size={16} />
-              NFT
-            </div>
-            <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <User size={16} />
-              DAO
-            </div>
-            <div className="flex items-center gap-1 px-4 h-8 bg-neutral-200 rounded-lg text-sm">
-              <CircleCheckBig size={16} color="#26BF59" />
-              Audited
             </div>
           </div>
         </div>

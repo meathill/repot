@@ -14,6 +14,7 @@ export async function fetchFromStrapi<T>(
       'Authorization': `Bearer ${token || process.env.STRAPI_API_TOKEN}`,
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
+    next: { revalidate: 60 * 60 * 24 * 15 }, // 缓存重验证: 15 天
   });
   return (await response.json()) as StrapiResponse<T>;
 }
