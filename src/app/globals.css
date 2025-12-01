@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
 
 body {
   font-family: 'Nunito', Arial, Helvetica, sans-serif;
@@ -101,8 +100,4 @@ body {
 
 .file-tree button[data-state="open"] > .chevron-right {
   @apply rotate-90;
-}
-
-[data-radix-popper-content-wrapper] {
-  @apply !z-50;
 }

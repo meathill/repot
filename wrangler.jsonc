@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "repot",
+  "compatibility_date": "2025-12-01",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "r2_buckets": [
+    // Create a R2 binding with the binding name "NEXT_INC_CACHE_R2_BUCKET"
+     {
+       "binding": "NEXT_INC_CACHE_R2_BUCKET",
+       "bucket_name": "pvp-games"
+     }
+  ],
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "repot"
+    }
+  ],
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://storypot.roudan.io",
+    "NEXT_PUBLIC_AWS_BUCKET_NAME": "repot",
+    "NEXT_PUBLIC_BACKEND_URL": "https://storypot-cms.roudan.io",
+    "NEXT_PUBLIC_GA_ID": "G-HNL5EGV2TJ",
+    "HOST": "repot.dev",
+    "FIXED_CHAIN": "story",
+    "CRON_TOKEN": "hackquest",
+    "ETHERSCAN_API_BASE_URL": "https://api.etherscan.io/api"
+  }
+}

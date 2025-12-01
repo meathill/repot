@@ -46,7 +46,7 @@ export default function LoginDialog() {
     if (user) {
       event.preventDefault();
       const username = await updateUsername(user.id, data.username as string);
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+       
       username && setUser({ ...user, username: username as string });
       setOpen(false);
     }

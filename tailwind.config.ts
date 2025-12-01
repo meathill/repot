@@ -1,6 +1,6 @@
 import tailwindcssAnimate from 'tailwindcss-animate';
 import Typography from '@tailwindcss/typography';
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   darkMode: ['class'],
@@ -78,7 +78,7 @@ const config: Config = {
         'raised': '0 var(--shadow-size) 0 0 #000',
       },
       fontFamily: {
-        logo: "'Oleo Script', system-ui",
+        logo: '\'Oleo Script\', system-ui',
         default: 'Nunito, system-ui, sans-serif',
         title: 'NextBookFont, "NEXT Pan Book", system-ui, sans-serif',
       },
