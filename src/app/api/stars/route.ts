@@ -1,6 +1,7 @@
 import { getUserMeLoader } from '@/services/user-me-loader';
 import { fetchFromStrapi } from '@/services';
 import { BaseStrapiRecord, Contract, ItemType, Protocol } from '@/types';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 type StarLog = BaseStrapiRecord & {
   contract?: Contract;
@@ -22,6 +23,7 @@ function keyByDocumentId(items: BaseStrapiRecord[], key: ItemType) {
 }
 
 export async function GET() {
+  const { env } = getCloudflareContext();
   const user = await getUserMeLoader();
   if (!user.ok) {
     return new Response(
@@ -29,10 +31,10 @@ export async function GET() {
     )
   }
 
-  const token = process.env.STRAPI_STAR_TOKEN;
+  const token = env.STRAPI_STAR_TOKEN;
 
   // load chains
-  let url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chain-star-logs`);
+  let url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/chain-star-logs`);
   url.searchParams.set('filters[user][id][$eq]', user.data.id);
   url.searchParams.set('populate[0]', 'chain');
   url.searchParams.set('populate[chain][populate][0]', 'logo');
@@ -40,7 +42,7 @@ export async function GET() {
   const chains = await fetchFromStrapi<StarLog[]>(url, 'GET', null, token);
 
   // load contracts
-  url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contract-star-logs`);
+  url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/contract-star-logs`);
   url.searchParams.set('filters[user][id][$eq]', user.data.id);
   url.searchParams.set('populate[0]', 'contract');
   url.searchParams.set('populate[contract][populate][0]', 'logo');
@@ -48,7 +50,7 @@ export async function GET() {
   const contracts = await fetchFromStrapi<StarLog[]>(url, 'GET', null, token);
 
   // load protocols
-  url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protocol-star-logs`);
+  url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/protocol-star-logs`);
   url.searchParams.set('filters[user][id][$eq]', user.data.id);
   url.searchParams.set('populate', 'protocol');
   url.searchParams.set('populate[protocol][populate][0]', 'logo');
@@ -66,6 +68,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const { env } = getCloudflareContext();
   const user = await getUserMeLoader();
   if (!user.ok) {
     return new Response(
@@ -74,13 +77,13 @@ export async function POST(req: Request) {
     )
   }
 
-  const token = process.env.STRAPI_STAR_TOKEN;
+  const token = env.STRAPI_STAR_TOKEN;
   const { id, type } = (await req.json()) as {
     id: string,
     type: 'protocol' | 'contract',
   };
   // check log
-  let url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-star-logs`);
+  let url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-star-logs`);
   url.searchParams.set('fields[0]', 'id');
   url.searchParams.set(`filters[${type}][documentId][$eq]`, id);
   url.searchParams.set('filters[user][id][$eq]', user.data.id);
@@ -88,12 +91,12 @@ export async function POST(req: Request) {
   const log = logs.data?.[ 0 ];
 
   // update like status
-  url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-stars`);
+  url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-stars`);
   url.searchParams.set('filters[contract][documentId][$eq]', id);
   const records = await fetchFromStrapi<Stars[]>(url, 'GET', null, token);
   const record = records.data?.[ 0 ];
   if (record) {
-    url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-stars/${record.documentId}`);
+    url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-stars/${record.documentId}`);
     await fetchFromStrapi(url, 'PUT', {
       data: {
         ...record,
@@ -101,7 +104,7 @@ export async function POST(req: Request) {
       },
     }, token);
   } else {
-    url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-stars`);
+    url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-stars`);
     const data = await fetchFromStrapi(url, 'POST', {
       data: {
         [ type ]: id,
@@ -113,10 +116,10 @@ export async function POST(req: Request) {
 
   // update log
   if (log) {
-    url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-star-logs/${log.documentId}`);
+    url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-star-logs/${log.documentId}`);
     await fetchFromStrapi(url, 'DELETE', null, token);
   } else {
-    url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-star-logs`);
+    url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/${type}-star-logs`);
     const data = await fetchFromStrapi(url, 'POST', {
       data: {
         [ type ]: id,

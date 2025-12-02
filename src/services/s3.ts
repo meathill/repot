@@ -1,11 +1,13 @@
 import { ApiResponse, S3FolderList } from '@/types';
 import { GetObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
-import s3Client from '@/lib/s3';
+import getS3Client from '@/lib/s3';
 import { streamToString } from 'next/dist/server/stream-utils/node-web-streams-helper';
 import { getCachedFile, setCachedFile } from './file-cache';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function readDir(path: string): Promise<S3FolderList> {
-  const url = new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/s3/readDir`);
+  const { env } = getCloudflareContext();
+  const url = new URL(`${env.NEXT_PUBLIC_SITE_URL}/api/s3/readDir`);
   url.searchParams.set('key', path);
   const response = await fetch(url);
   const result = (await response.json()) as ApiResponse<S3FolderList>;
@@ -17,11 +19,12 @@ export async function readDir(path: string): Promise<S3FolderList> {
 }
 
 export async function readFile(path: string): Promise<string> {
+  const { env } = getCloudflareContext();
   // 检查缓存
   const cached = getCachedFile(path);
   if (cached) return cached;
 
-  const url = new URL(`${process.env.NEXT_PUBLIC_SITE_URL}/api/s3/readFile`);
+  const url = new URL(`${env.NEXT_PUBLIC_SITE_URL}/api/s3/readFile`);
   url.searchParams.set('key', path);
   const response = await fetch(url);
   const result = (await response.json()) as ApiResponse<string>;
@@ -32,11 +35,13 @@ export async function readFile(path: string): Promise<string> {
 }
 
 export async function getAllContentFromDir(Prefix: string, root: string) {
+  const { env } = getCloudflareContext();
   const listCommand = new ListObjectsV2Command({
-    Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
+    Bucket: env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
     Delimiter: '/',
-    Prefix: Prefix.replace(new RegExp(`^s3://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), ''),
+    Prefix: Prefix.replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), ''),
   });
+  const s3Client = await getS3Client();
   const response = await s3Client.send(listCommand);
   const {
     Contents: files,
@@ -50,8 +55,8 @@ export async function getAllContentFromDir(Prefix: string, root: string) {
     }
 
     const response = await s3Client.send(new GetObjectCommand({
-      Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
-      Key: file.Key.replace(new RegExp(`^s3://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), ''),
+      Bucket: env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
+      Key: file.Key.replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), ''),
     }));
     const content = await streamToString(response.Body as ReadableStream);
     return {

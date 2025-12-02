@@ -12,6 +12,7 @@ import KeywordsFilter from '@/app/_components/search/keywords-filter';
 import { CircleArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import EmptyResult from '@/components/ui/empty-result';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 const ChainDetail = dynamic(
   () => import('@/app/_components/search/chain-detail')
@@ -68,7 +69,7 @@ export default async function Search({
   }
 
   const showEmptyResult = !isChain && (
-    (isProtocol && protocols.length === 0) || 
+    (isProtocol && protocols.length === 0) ||
     (!isProtocol && contracts.length === 0)
   );
 

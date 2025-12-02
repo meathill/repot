@@ -7,6 +7,7 @@ import { cookies } from 'next/headers';
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { UserProfile } from '@/types';
 import AiChatbot from '@/app/_components/chatbot/ai-chatbot';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 const NextBookFont = localFont({
   display: 'swap',
@@ -61,6 +62,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const { env } = await getCloudflareContext({ async: true });
   const cookieObj = await cookies();
   const json = cookieObj.get('repot-user');
   const user: UserProfile | undefined = json ? JSON.parse(json.value) : undefined;
@@ -73,7 +75,7 @@ export default async function RootLayout({
         {children}
 
         <AiChatbot />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
+        <GoogleAnalytics gaId={env.NEXT_PUBLIC_GA_ID as string} />
       </body>
     </html>
   );

@@ -1,21 +1,23 @@
 import { fetchFromStrapi } from '@/services';
 import { EtherscanData } from '@/types';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import s3Client from '@/lib/s3';
+import getS3Client from '@/lib/s3';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
-  const token = process.env.STRAPI_DOCUMENT_TOKEN;
+  const { env } = getCloudflareContext();
+  const token = env.STRAPI_DOCUMENT_TOKEN;
   const { address } = (await req.json()) as {
     address: string,
   };
 
   let result: EtherscanData;
   try {
-    const url = new URL(process.env.ETHERSCAN_API_BASE_URL as string);
+    const url = new URL(env.ETHERSCAN_API_BASE_URL as string);
     url.searchParams.set('module', 'contract');
     url.searchParams.set('action', 'getsourcecode');
     url.searchParams.set('address', address);
-    url.searchParams.set('apikey', process.env.ETHERSCAN_API_KEY as string);
+    url.searchParams.set('apikey', env.ETHERSCAN_API_KEY as string);
     const response = await fetch(url, { next: { revalidate: 3600 } });
 
     const data = (await response.json()) as {
@@ -47,19 +49,20 @@ export async function POST(req: Request) {
   const prefix = `contracts/${address}/`;
   const key = `${prefix}entry.sol`;
   const command = new PutObjectCommand({
-    Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
+    Bucket: env.NEXT_PUBLIC_AWS_BUCKET_NAME,
     Key: key,
     Body: result.SourceCode,
   });
+  const s3Client = await getS3Client();
   const response = await s3Client.send(command);
   console.log('xxx', response);
 
   // save to cms
-  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contracts`);
+  const url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/contracts`);
   const data = await fetchFromStrapi(url, 'POST', {
     data: {
       name: result.ContractName,
-      document_links: `s3://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}/${prefix}`,
+      document_links: `s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/${prefix}`,
       overview: `Compiler version: ${result.CompilerVersion}
 EVM Version: ${result.EVMVersion}
 License Type: ${result.LicenseType}`,

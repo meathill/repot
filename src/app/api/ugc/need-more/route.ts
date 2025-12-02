@@ -1,14 +1,16 @@
 import { getUserMeLoader } from '@/services/user-me-loader';
 import { fetchFromStrapi } from '@/services';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
+  const { env } = getCloudflareContext();
   const user = await getUserMeLoader();
-  const token = process.env.STRAPI_STAR_TOKEN;
+  const token = env.STRAPI_STAR_TOKEN;
   const { message } = (await req.json()) as {
     message: string,
   };
 
-  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/need-mores`);
+  const url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/need-mores`);
   const data = await fetchFromStrapi(url, 'POST', {
     data: {
       message,

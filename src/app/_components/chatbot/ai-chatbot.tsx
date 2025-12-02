@@ -123,12 +123,12 @@ ${acc}`;
           const match = line.match(/^0:(.+)$/);
           if (match) {
             try {
-              const data = JSON.parse(match[1]);
+              const data = JSON.parse(match[ 1 ]);
               if (data.textDelta) {
                 accumulatedContent += data.textDelta;
                 setMessages(prev => {
                   const newMessages = [...prev];
-                  const lastMessage = newMessages[newMessages.length - 1];
+                  const lastMessage = newMessages[ newMessages.length - 1 ];
                   if (lastMessage.role === 'assistant') {
                     lastMessage.content = accumulatedContent;
                   }
@@ -145,7 +145,7 @@ ${acc}`;
       console.error('Chat error:', error);
       setMessages(prev => {
         const newMessages = [...prev];
-        const lastMessage = newMessages[newMessages.length - 1];
+        const lastMessage = newMessages[ newMessages.length - 1 ];
         if (lastMessage.role === 'assistant') {
           lastMessage.content = 'Sorry, something went wrong. Please try again.';
         }

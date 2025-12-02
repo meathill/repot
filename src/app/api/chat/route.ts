@@ -1,10 +1,11 @@
 import { GoogleGenAI } from '@google/genai';
-
-const ai = new GoogleGenAI({
-  apiKey: process.env.GOOGLE_GENAI_API_KEY,
-});
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
+  const { env } = getCloudflareContext();
+  const ai = new GoogleGenAI({
+    apiKey: env.GOOGLE_GENAI_API_KEY,
+  });
   const {
     messages,
     model = 'gemini-2.5-flash',

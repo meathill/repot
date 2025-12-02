@@ -1,7 +1,9 @@
 import { getUserMeLoader } from '@/services/user-me-loader';
 import { fetchFromStrapi } from '@/services';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
+  const { env } = getCloudflareContext();
   const user = await getUserMeLoader();
   if (!user.ok) {
     return new Response(
@@ -10,14 +12,14 @@ export async function POST(req: Request) {
     )
   }
 
-  const token = process.env.STRAPI_STAR_TOKEN;
+  const token = env.STRAPI_STAR_TOKEN;
   const { name, github, description } = (await req.json()) as {
     name: string;
     github: string;
     description: string;
   };
 
-  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user-repots`);
+  const url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/user-repots`);
   try {
     const data = await fetchFromStrapi(url, 'POST', {
       data: {

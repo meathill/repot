@@ -1,9 +1,7 @@
 'use client';
 
-import { FocusEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import {
-  Code,
-} from 'lucide-react';
+import { FocusEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { CodeIcon } from 'lucide-react';
 import { InputSearch } from '@/components/ui/input';
 import ContractsIcon from '@/components/icons/contracts-icon';
 import Image from 'next/image';
@@ -11,7 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { ApiResponse, Contract, Protocol } from '@/types';
 import { clsx } from 'clsx';
 import Link from 'next/link';
-import debounce from 'lodash-es/debounce';
+import { useDebouncedCallback } from 'use-debounce';
 
 type SearchBoxProps = {
   className?: string;
@@ -33,30 +31,27 @@ export default function SearchBox({
 
     setOpen(false);
   }
-  const quickSearch = useCallback( // eslint-disable-line react-hooks/exhaustive-deps
-    debounce(async function (query: string) {
-      query = query.trim();
-      if (!query) return;
+  const quickSearch = useDebouncedCallback(async function (query: string) {
+    query = query.trim();
+    if (!query) return;
 
-      setIsLoading(true);
+    setIsLoading(true);
 
-      const url = new URL('/api/quick-search', window.location.origin);
-      url.searchParams.set('query', query);
-      const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const { data } = (await response.json()) as ApiResponse<{
-        protocols: Protocol[];
-        contracts: Contract[];
-      }>;
-      setProtocolResult(data.protocols);
-      setContractResult(data.contracts);
-      setIsLoading(false);
-    }, 1000),
-    [],
-  );
+    const url = new URL('/api/quick-search', window.location.origin);
+    url.searchParams.set('query', query);
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const { data } = (await response.json()) as ApiResponse<{
+      protocols: Protocol[];
+      contracts: Contract[];
+    }>;
+    setProtocolResult(data.protocols);
+    setContractResult(data.contracts);
+    setIsLoading(false);
+  }, 1000);
 
   useEffect(() => {
     quickSearch(query);
@@ -94,7 +89,7 @@ export default function SearchBox({
         className="flex cursor-pointer gap-2 select-none items-center rounded-sm p-3 text-sm outline-none pointer-events-none opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
         href={`/search-code?q=${query}`}
       >
-        <Code className="w-4 h-4" />
+        <CodeIcon className="w-4 h-4" />
         <span className="font-bold text-sm">
           Search for code snippets
         </span>

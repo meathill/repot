@@ -1,13 +1,18 @@
 import { cookies } from 'next/headers';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
+type User = {
+  id: string;
+  error?: string;
+}
 export async function getAuthToken() {
   const cookieObj = await cookies();
   return cookieObj.get('jwt')?.value;
 }
 
-export async function getUserMeLoader() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:1337';
+export async function getUserMeLoader(): Promise<{ ok: true, data: User, error: null } | { ok: false, data: null, error: string | unknown | null }> {
+  const { env } = getCloudflareContext();
+  const baseUrl = env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:1337';
   const path = '/api/users/me';
 
   const url = new URL(path, baseUrl);
@@ -24,9 +29,12 @@ export async function getUserMeLoader() {
       },
       cache: 'no-cache',
     });
-    const data = await response.json();
+    const data = (await response.json()) as {
+      id: string;
+      error?: string;
+    };
     if (data.error) return { ok: false, data: null, error: data.error };
-    return { ok: true, data: data, error: null };
+    return { ok: true, data, error: null };
   } catch (error) {
     console.log(error);
     return { ok: false, data: null, error: error };

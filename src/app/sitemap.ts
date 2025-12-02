@@ -1,12 +1,15 @@
 import { MetadataRoute } from 'next'
 import { getChains, getProtocols, getContracts } from '@/services';
 import slugify from 'slugify';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 const lastModified = new Date();
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://repot.dev';
-const buildUrl = (path: string) => `${BASE_URL}${path}`;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { env } = await getCloudflareContext({ async: true });
+  const BASE_URL = env.NEXT_PUBLIC_SITE_URL || 'https://repot.dev';
+  const buildUrl = (path: string) => `${BASE_URL}${path}`;
+
   const staticPages = [
     {
       url: BASE_URL,
