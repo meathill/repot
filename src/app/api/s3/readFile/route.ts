@@ -2,10 +2,6 @@ import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { streamToString } from 'next/dist/server/stream-utils/node-web-streams-helper';
 import s3Client from '@/lib/s3';
 
-export const config = {
-  runtime: 'edge',
-};
-
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const key = url.searchParams.get('key') || '';

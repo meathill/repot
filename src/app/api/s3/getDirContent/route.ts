@@ -1,10 +1,6 @@
 import { headers } from 'next/headers';
 import { getAllContentFromDir } from '@/services/s3';
 
-export const config = {
-  runtime: 'edge',
-};
-
 export async function GET(request: Request) {
   const headersList = await headers();
   if (headersList.get('authorization') !== `Bearer ${process.env.CRON_TOKEN}`) {

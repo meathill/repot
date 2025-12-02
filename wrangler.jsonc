@@ -26,9 +26,10 @@
   ],
   "vars": {
     "NEXT_PUBLIC_SITE_URL": "https://storypot.roudan.io",
-    "NEXT_PUBLIC_AWS_BUCKET_NAME": "repot",
+    "NEXT_PUBLIC_AWS_BUCKET_NAME": "roudan-io",
     "NEXT_PUBLIC_BACKEND_URL": "https://storypot-cms.roudan.io",
     "NEXT_PUBLIC_GA_ID": "G-HNL5EGV2TJ",
+    "AWS_REGION": "auto",
     "HOST": "repot.dev",
     "FIXED_CHAIN": "story",
     "CRON_TOKEN": "hackquest",

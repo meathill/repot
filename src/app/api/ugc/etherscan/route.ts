@@ -3,10 +3,6 @@ import { EtherscanData } from '@/types';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import s3Client from '@/lib/s3';
 
-export const config = {
-  runtime: 'edge',
-};
-
 export async function POST(req: Request) {
   const token = process.env.STRAPI_DOCUMENT_TOKEN;
   const { address } = (await req.json()) as {

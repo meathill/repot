@@ -1,10 +1,6 @@
 import { getUserMeLoader } from '@/services/user-me-loader';
 import { fetchFromStrapi } from '@/services';
 
-export const config = {
-  runtime: 'edge',
-};
-
 export async function POST(req: Request) {
   const user = await getUserMeLoader();
   const token = process.env.STRAPI_STAR_TOKEN;

@@ -1,10 +1,6 @@
 import { ListObjectsV2Command } from '@aws-sdk/client-s3';
 import s3Client from '@/lib/s3';
 
-export const config = {
-  runtime: 'edge',
-};
-
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const key = url.searchParams.get('key') || '';
