@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowUpIcon, CircleUserIcon, XIcon } from 'lucide-react';
 import Ask from '@/assets/images/ask.svg';
 import Logo from '@/assets/images/logo.svg';
@@ -10,22 +10,25 @@ import { Button } from '@/components/ui/button';
 import { sleep } from '@/utils';
 import { clsx } from 'clsx';
 import { marked } from 'marked';
-import { useChat } from '@ai-sdk/react';
 import { hasMetaKey } from '@/lib/utils';
 import { Spinner } from '@/components/ui/spinner';
 import useUiStore from '@/store/ui';
 
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 export default function AiChatbot() {
-  const { messages, input, handleInputChange, handleSubmit, setInput, setMessages } = useChat({
-    initialMessages: [
-      {
-        id: '',
-        role: 'assistant',
-        content: 'Hi, there, welcome to REPOT AI.',
-      },
-    ],
-    onFinish: () => setIsChatting(false),
-  });
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '0',
+      role: 'assistant',
+      content: 'Hi, there, welcome to REPOT AI.',
+    },
+  ]);
+  const [input, setInput] = useState('');
   const currentFile = useUiStore(state => state.currentFile);
   const selectedCodes = useUiStore(state => state.selectedCodes);
   const clearSelectedCodes = useUiStore(state => state.clearSelectedCodes);
@@ -34,6 +37,10 @@ export default function AiChatbot() {
   const [isChatting, setIsChatting] = useState(false);
   const [isInclude, setIsInclude] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value);
+  }, []);
 
   async function doChat(event?: FormEvent<HTMLFormElement>) {
     if (event) {
@@ -44,33 +51,111 @@ export default function AiChatbot() {
     if (!input.trim()) return;
 
     setIsChatting(true);
+    const userInput = input;
     setInput('');
-    if (selectedCodes.length || currentFile) {
-      const lastItem = messages[ messages.length - 1 ];
-      const lastContent = lastItem.content;
-      if (currentFile && isInclude) {
-        lastItem.content = `Reference: ${currentFile.file}
+
+    // Build message content with references
+    let messageContent = userInput;
+    if (currentFile && isInclude) {
+      messageContent = `Reference: ${currentFile.file}
         
 \`\`\`
 ${currentFile.code}
 \`\`\`
         
-${lastItem.content}`;
-      }
-      lastItem.content = selectedCodes.reduce((acc, item) => {
-        return `Reference: ${item.file} Line ${item.startLine}~${item.endLine}
+${messageContent}`;
+    }
+    messageContent = selectedCodes.reduce((acc, item) => {
+      return `Reference: ${item.file} Line ${item.startLine}~${item.endLine}
 
 \`\`\`
 ${item.code}
 \`\`\`
 
 ${acc}`;
-      }, lastContent);
-      setMessages(messages);
-      clearSelectedCodes();
+    }, messageContent);
+
+    clearSelectedCodes();
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: messageContent,
+    };
+
+    const assistantMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      role: 'assistant',
+      content: '',
+    };
+
+    setMessages(prev => [...prev, userMessage, assistantMessage]);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...messages, userMessage].map(m => ({
+            role: m.role,
+            content: m.content,
+          })),
+        }),
+      });
+
+      if (!response.ok) throw new Error('Chat request failed');
+
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error('No reader available');
+
+      const decoder = new TextDecoder();
+      let accumulatedContent = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n').filter(line => line.trim());
+
+        for (const line of lines) {
+          // Parse the SSE format: 0:{"type":"text-delta","textDelta":"..."}
+          const match = line.match(/^0:(.+)$/);
+          if (match) {
+            try {
+              const data = JSON.parse(match[1]);
+              if (data.textDelta) {
+                accumulatedContent += data.textDelta;
+                setMessages(prev => {
+                  const newMessages = [...prev];
+                  const lastMessage = newMessages[newMessages.length - 1];
+                  if (lastMessage.role === 'assistant') {
+                    lastMessage.content = accumulatedContent;
+                  }
+                  return newMessages;
+                });
+              }
+            } catch {
+              // Skip invalid JSON
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Chat error:', error);
+      setMessages(prev => {
+        const newMessages = [...prev];
+        const lastMessage = newMessages[newMessages.length - 1];
+        if (lastMessage.role === 'assistant') {
+          lastMessage.content = 'Sorry, something went wrong. Please try again.';
+        }
+        return newMessages;
+      });
+    } finally {
+      setIsChatting(false);
     }
-    handleSubmit();
   }
+
   function doOpen(isOpen?: boolean) {
     setIsOpen(prev => {
       if (!prev) {

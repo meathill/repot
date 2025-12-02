@@ -1,8 +1,64 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 body {
   font-family: 'Nunito', Arial, Helvetica, sans-serif;
+}
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-800: hsl(var(--primary-800));
+  --color-primary-800-foreground: hsl(var(--primary-800-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-gray: hsl(var(--gray));
+  --color-dark-gray: hsl(var(--dark-gray));
+  --color-lighter-gray: hsl(var(--lighter-gray));
+  --color-light-gray: hsl(var(--light-gray));
+  --color-ivory: hsl(var(--ivory));
+  --color-main-purple: hsl(var(--main-purple));
+  --color-dark-purple: hsl(var(--dark-purple));
+  --color-main-green: hsl(var(--main-green));
+  --color-dark-green: hsl(var(--dark-green));
+  --color-lime-green: hsl(var(--lime-green));
+  --color-light-green: hsl(var(--light-green));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-2_5xl: 20px;
+
+  --shadow-raised: 0 var(--shadow-size) 0 0 #000;
+
+  --font-logo: 'Oleo Script', system-ui;
+  --font-default: Nunito, system-ui, sans-serif;
+  --font-title: NextBookFont, "NEXT Pan Book", system-ui, sans-serif;
+
+  --text-5_5xl: 3.375rem;
 }
 
 @layer base {
@@ -34,18 +90,19 @@ body {
     --radius: 0.5rem;
 
     /* design colors */
-    --primary-800: 0 0 20;
-    --main-purple: 256 100 81;
-    --dark-purple: 256 41 30;
-    --main-green: 95 69 94;
-    --dark-green: 130 71 11;
-    --lime-green: 103 100 85;
-    --light-green: 107 100 71;
-    --gray: 0 0 68;
-    --dark-gray: 0 0 39;
-    --light-gray: 0 0 94.12%;
+    --primary-800: 0 0% 20%;
+    --primary-800-foreground: 0 0% 98%;
+    --main-purple: 256 100% 81%;
+    --dark-purple: 256 41% 30%;
+    --main-green: 95 69% 94%;
+    --dark-green: 130 71% 11%;
+    --lime-green: 103 100% 85%;
+    --light-green: 107 100% 71%;
+    --gray: 0 0% 68%;
+    --dark-gray: 0 0% 39%;
+    --light-gray: 0 0% 94.12%;
     --lighter-gray: 150 9% 96%;
-    --ivory: 0 0 98;
+    --ivory: 0 0% 98%;
   }
   .dark {
     --background: 0 0% 3.9%;
