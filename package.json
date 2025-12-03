@@ -1,6 +1,6 @@
 {
   "name": "repot",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -11,15 +11,11 @@
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
-  "overrides": {
-    "react": "$react",
-    "react-dom": "$react-dom"
-  },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.940.0",
+    "@aws-sdk/client-s3": "^3.943.0",
     "@google/genai": "^1.30.0",
-    "@next/third-parties": "^16.0.6",
-    "@opennextjs/cloudflare": "^1.14.0",
+    "@next/third-parties": "^16.0.7",
+    "@opennextjs/cloudflare": "^1.14.1",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -41,10 +37,10 @@
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.555.0",
     "marked": "^17.0.1",
-    "next": "^16.0.6",
+    "next": "^16.0.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "shiki": "^3.17.1",
+    "shiki": "^3.19.0",
     "slugify": "^1.6.6",
     "use-debounce": "^10.0.6",
     "zustand": "^5.0.9"
@@ -56,7 +52,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.1",
-    "eslint-config-next": "^16.0.6",
+    "eslint-config-next": "^16.0.7",
     "postcss": "^8.5.6",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.17",

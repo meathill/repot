@@ -11,6 +11,14 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
+  },
   "r2_buckets": [
     // Create a R2 binding with the binding name "NEXT_INC_CACHE_R2_BUCKET"
      {
@@ -30,7 +38,7 @@
     "NEXT_PUBLIC_BACKEND_URL": "https://repot-cms.roudan.io",
     "NEXT_PUBLIC_GA_ID": "G-HNL5EGV2TJ",
     "AWS_REGION": "auto",
-    "HOST": "repot-cms.roudan.io",
+    "HOST": "storypot.roudan.io",
     "FIXED_CHAIN": "story",
     "CRON_TOKEN": "hackquest",
     "ETHERSCAN_API_BASE_URL": "https://api.etherscan.io/api"
