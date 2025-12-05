@@ -1,7 +1,4 @@
 import { ApiResponse, S3FolderList } from '@/types';
-import { GetObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
-import getS3Client from '@/lib/s3';
-import { streamToString } from 'next/dist/server/stream-utils/node-web-streams-helper';
 import { getCachedFile, setCachedFile } from './file-cache';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
@@ -29,46 +26,46 @@ export async function readFile(path: string): Promise<string> {
   const response = await fetch(url);
   const result = (await response.json()) as ApiResponse<string>;
 
-  // 设置缓存结
+  // 设置缓存
   setCachedFile(path, result.data);
   return result.data;
 }
 
-export async function getAllContentFromDir(Prefix: string, root: string) {
+export async function getAllContentFromDir(prefix: string, root: string) {
   const { env } = getCloudflareContext();
-  const listCommand = new ListObjectsV2Command({
-    Bucket: env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
-    Delimiter: '/',
-    Prefix: Prefix.replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), ''),
-  });
-  const s3Client = await getS3Client();
-  const response = await s3Client.send(listCommand);
-  const {
-    Contents: files,
-    CommonPrefixes: folders,
-  } = response;
-  const results = await Promise.all((files || []).map(async (file) => {
-    if (!file.Key) return null;
-    if (!/\.(sol|txt|md)$/i.test(file.Key)) {
-      console.log('Unsupported file type:', file.Key);
-      return null;
+  const bucket = env.CONTRACTS_BUCKET;
+
+  const results: { filename: string; content: string }[] = [];
+
+  async function processPrefix(currentPrefix: string) {
+    const listed = await bucket.list({
+      prefix: currentPrefix,
+      delimiter: '/',
+    });
+
+    // 处理文件
+    for (const obj of listed.objects || []) {
+      if (!obj.key) continue;
+      if (!/\.(sol|txt|md)$/i.test(obj.key)) {
+        console.log('Unsupported file type:', obj.key);
+        continue;
+      }
+
+      const content = await bucket.get(obj.key);
+      if (content) {
+        results.push({
+          filename: obj.key.replace(new RegExp(`^${root}`), ''),
+          content: await content.text(),
+        });
+      }
     }
 
-    const response = await s3Client.send(new GetObjectCommand({
-      Bucket: env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
-      Key: file.Key.replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), ''),
-    }));
-    const content = await streamToString(response.Body as ReadableStream);
-    return {
-      filename: file.Key.replace(new RegExp(`^${root}`), ''),
-      content,
-    };
-  }));
-  for (const folder of folders || []) {
-    if (!folder.Prefix) continue;
-
-    const content = await getAllContentFromDir(folder.Prefix, root);
-    results.push(...content);
+    // 递归处理子文件夹
+    for (const folder of listed.delimitedPrefixes || []) {
+      await processPrefix(folder);
+    }
   }
+
+  await processPrefix(prefix.replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), ''));
   return results.filter(Boolean);
 }

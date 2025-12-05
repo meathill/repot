@@ -1,24 +1,39 @@
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { streamToString } from 'next/dist/server/stream-utils/node-web-streams-helper';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
-import getS3Client from '@/lib/s3';
 
 export async function GET(request: Request) {
   const { env } = getCloudflareContext();
   const url = new URL(request.url);
   const key = url.searchParams.get('key') || '';
-  const fileKey = key.replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), '');
 
-  const listCommand = new GetObjectCommand({
-    Bucket: env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
-    Key: fileKey,
-  });
-  const s3Client = await getS3Client();
-  const response = await s3Client.send(listCommand);
-  const fileContent = await streamToString(response.Body as ReadableStream);
+  // 移除 s3:// 前缀（如果有的话，保持向后兼容）
+  const fileKey = key
+    .replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), '')
+    .replace(/^r2:\/\/[^/]+\//, '');
 
-  return Response.json({
-    code: 0,
-    data: fileContent,
-  });
+  try {
+    const bucket = env.CONTRACTS_BUCKET;
+    const object = await bucket.get(fileKey);
+
+    if (!object) {
+      return Response.json({
+        code: 404,
+        data: null,
+        message: 'File not found',
+      }, { status: 404 });
+    }
+
+    const fileContent = await object.text();
+
+    return Response.json({
+      code: 0,
+      data: fileContent,
+    });
+  } catch (error) {
+    console.error('Error reading file from R2:', error);
+    return Response.json({
+      code: 500,
+      data: null,
+      message: 'Failed to read file',
+    }, { status: 500 });
+  }
 }

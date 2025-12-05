@@ -20,11 +20,14 @@
     }
   },
   "r2_buckets": [
-    // Create a R2 binding with the binding name "NEXT_INC_CACHE_R2_BUCKET"
-     {
-       "binding": "NEXT_INC_CACHE_R2_BUCKET",
-       "bucket_name": "pvp-games"
-     }
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "pvp-games"
+    },
+    {
+      "binding": "CONTRACTS_BUCKET",
+      "bucket_name": "repot-contracts"
+    }
   ],
   "services": [
     {

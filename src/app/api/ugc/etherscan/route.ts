@@ -1,7 +1,5 @@
 import { fetchFromStrapi } from '@/services';
 import { EtherscanData } from '@/types';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-import getS3Client from '@/lib/s3';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
@@ -45,24 +43,30 @@ export async function POST(req: Request) {
     });
   }
 
-  // upload contract to s3
+  // upload contract to R2
   const prefix = `contracts/${address}/`;
   const key = `${prefix}entry.sol`;
-  const command = new PutObjectCommand({
-    Bucket: env.NEXT_PUBLIC_AWS_BUCKET_NAME,
-    Key: key,
-    Body: result.SourceCode,
-  });
-  const s3Client = await getS3Client();
-  const response = await s3Client.send(command);
-  console.log('xxx', response);
+
+  try {
+    const bucket = env.CONTRACTS_BUCKET;
+    await bucket.put(key, result.SourceCode);
+    console.log('Uploaded contract to R2:', key);
+  } catch (error) {
+    console.error('Error uploading to R2:', error);
+    return new Response(JSON.stringify({
+      code: 4,
+      message: 'Failed to upload contract to storage',
+    }), {
+      status: 500,
+    });
+  }
 
   // save to cms
   const url = new URL(`${env.NEXT_PUBLIC_BACKEND_URL}/api/contracts`);
   const data = await fetchFromStrapi(url, 'POST', {
     data: {
       name: result.ContractName,
-      document_links: `s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/${prefix}`,
+      document_links: prefix,
       overview: `Compiler version: ${result.CompilerVersion}
 EVM Version: ${result.EVMVersion}
 License Type: ${result.LicenseType}`,

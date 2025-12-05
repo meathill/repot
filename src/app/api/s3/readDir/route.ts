@@ -1,26 +1,45 @@
-import { ListObjectsV2Command } from '@aws-sdk/client-s3';
-import getS3Client from '@/lib/s3';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function GET(request: Request) {
   const { env } = getCloudflareContext();
   const url = new URL(request.url);
   const key = url.searchParams.get('key') || '';
-  const Prefix = key.replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), '');
 
-  const listCommand = new ListObjectsV2Command({
-    Bucket: env.NEXT_PUBLIC_AWS_BUCKET_NAME || '',
-    Delimiter: '/',
-    Prefix,
-  });
-  const s3Client = await getS3Client();
-  const response = await s3Client.send(listCommand);
+  // 移除 s3:// 前缀（保持向后兼容）
+  const prefix = key
+    .replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), '')
+    .replace(/^r2:\/\/[^/]+\//, '');
 
-  return Response.json({
-    code: 0,
-    data: {
-      files: response.Contents,
-      folders: response.CommonPrefixes,
-    },
-  });
+  try {
+    const bucket = env.CONTRACTS_BUCKET;
+    const listed = await bucket.list({
+      prefix,
+      delimiter: '/',
+    });
+
+    const files = (listed.objects || []).map(obj => ({
+      Key: obj.key,
+      Size: obj.size,
+      LastModified: obj.uploaded,
+    }));
+
+    const folders = (listed.delimitedPrefixes || []).map(prefix => ({
+      Prefix: prefix,
+    }));
+
+    return Response.json({
+      code: 0,
+      data: {
+        files,
+        folders,
+      },
+    });
+  } catch (error) {
+    console.error('Error listing R2 objects:', error);
+    return Response.json({
+      code: 500,
+      data: { files: [], folders: [] },
+      message: 'Failed to list directory',
+    }, { status: 500 });
+  }
 }
