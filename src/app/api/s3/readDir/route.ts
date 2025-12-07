@@ -1,10 +1,10 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function GET(request: Request) {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const url = new URL(request.url);
   const key = url.searchParams.get('key') || '';
-
+  
   // 移除 s3:// 前缀（保持向后兼容）
   const prefix = key
     .replace(new RegExp(`^s3://${env.NEXT_PUBLIC_AWS_BUCKET_NAME}/`), '')

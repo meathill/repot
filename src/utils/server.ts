@@ -1,12 +1,15 @@
-import { S3FolderList } from '@/types';
+import { S3FolderList, S3File } from '@/types';
 import { readDir } from '@/services/s3';
 
-export async function findFirstFileFrom(sources: S3FolderList) {
+export async function findFirstFileFrom(sources: S3FolderList): Promise<S3File | null> {
   const { folders, files } = sources;
   if (files.length > 0) {
-    return files[ 0 ];
+    return files[0];
   }
-  const [ folder ] = folders;
+  if (folders.length === 0) {
+    return null;
+  }
+  const [folder] = folders;
   const content = await readDir(folder.Prefix);
   return await findFirstFileFrom(content);
 }

@@ -26,9 +26,16 @@ export default async function Contracts({
   const { id } = await params;
   const protocolId = id.match(/^\w+/)?.[ 0 ];
   const protocolData = await getProtocolDetail(protocolId as string);
-  const sources = protocolData.document_link
+  
+  // 只有当 document_link 不是 URL 时才读取 R2
+  const isR2Path = protocolData.document_link && 
+    !protocolData.document_link.startsWith('http://') && 
+    !protocolData.document_link.startsWith('https://');
+  
+  const sources = isR2Path
     ? await readDir(protocolData.document_link)
     : { folders: [], files: [] };
+    
   let { info, description } = protocolData;
   if (/^s3:\/\//.test(info)) {
     info = await readFile(info);
@@ -45,7 +52,7 @@ export default async function Contracts({
         description,
         info,
       }}
-      defaultFile={currentFile.Key}
+      defaultFile={currentFile?.Key}
       sources={sources}
     />
   );

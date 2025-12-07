@@ -1,14 +1,14 @@
 #!/bin/bash
 # R2 上传脚本
 # 运行此脚本将本地合约文件上传到 Cloudflare R2
-# 
+#
 # 使用前请确保:
 # 1. 已安装 wrangler: npm install -g wrangler
 # 2. 已登录 Cloudflare: wrangler login
 # 3. R2 bucket 已创建: wrangler r2 bucket create repot-contracts
 
 BUCKET_NAME="repot-contracts"
-DATA_DIR="./data/contracts"
+DATA_DIR="../data/contracts"
 
 echo "=========================================="
 echo "R2 合约文件上传脚本"
@@ -45,10 +45,11 @@ FAILED=0
 find "$DATA_DIR" -type f \( -name "*.sol" -o -name "*.json" \) | while read file; do
     # 计算相对路径作为 R2 key
     key=${file#$DATA_DIR/}
-    
+
     echo "上传: $key"
-    
-    if npx wrangler r2 object put "$BUCKET_NAME/$key" --file="$file" --quiet 2>/dev/null; then
+    echo "File: $file"
+
+    if npx wrangler r2 object put "$BUCKET_NAME/$key" --file="$file" 2>/dev/null; then
         ((UPLOADED++))
     else
         echo "  ✗ 失败"

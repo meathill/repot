@@ -1,14 +1,17 @@
 import { ApiResponse, S3FolderList } from '@/types';
 import { getCachedFile, setCachedFile } from './file-cache';
-import { getCloudflareContext } from '@opennextjs/cloudflare';
+
+// 检测是否在客户端环境
+const isClient = typeof window !== 'undefined';
 
 export async function readDir(path: string): Promise<S3FolderList> {
-  const { env } = getCloudflareContext();
-  const url = new URL(`${env.NEXT_PUBLIC_SITE_URL}/api/s3/readDir`);
+  // 客户端使用相对路径
+  const baseUrl = isClient ? '' : (process.env.NEXT_PUBLIC_SITE_URL || '');
+  const url = new URL(`${baseUrl}/api/s3/readDir`, isClient ? window.location.origin : undefined);
   url.searchParams.set('key', path);
   const response = await fetch(url);
   const result = (await response.json()) as ApiResponse<S3FolderList>;
-  const { files = [], folders = [] } = result.data;
+  const { files = [], folders = [] } = result.data || { files: [], folders: [] };
   return {
     files: files.filter(file => !file.Key.endsWith('/')),
     folders,
@@ -16,23 +19,28 @@ export async function readDir(path: string): Promise<S3FolderList> {
 }
 
 export async function readFile(path: string): Promise<string> {
-  const { env } = getCloudflareContext();
   // 检查缓存
   const cached = getCachedFile(path);
   if (cached) return cached;
 
-  const url = new URL(`${env.NEXT_PUBLIC_SITE_URL}/api/s3/readFile`);
+  // 客户端使用相对路径
+  const baseUrl = isClient ? '' : (process.env.NEXT_PUBLIC_SITE_URL || '');
+  const url = new URL(`${baseUrl}/api/s3/readFile`, isClient ? window.location.origin : undefined);
   url.searchParams.set('key', path);
   const response = await fetch(url);
   const result = (await response.json()) as ApiResponse<string>;
 
   // 设置缓存
-  setCachedFile(path, result.data);
-  return result.data;
+  if (result.data) {
+    setCachedFile(path, result.data);
+  }
+  return result.data || '';
 }
 
 export async function getAllContentFromDir(prefix: string, root: string) {
-  const { env } = getCloudflareContext();
+  // 这个函数只在服务端使用，需要动态导入 getCloudflareContext
+  const { getCloudflareContext } = await import('@opennextjs/cloudflare');
+  const { env } = await getCloudflareContext({ async: true });
   const bucket = env.CONTRACTS_BUCKET;
 
   const results: { filename: string; content: string }[] = [];
