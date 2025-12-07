@@ -34,6 +34,7 @@ export default function AiChatbot() {
   const clearSelectedCodes = useUiStore(state => state.clearSelectedCodes);
   const removeSelectedCode = useUiStore(state => state.removeSelectedCode);
   const textarea = useRef<HTMLTextAreaElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isChatting, setIsChatting] = useState(false);
   const [isInclude, setIsInclude] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -181,6 +182,11 @@ ${acc}`;
     if (selectedCodes?.length) doOpen(true);
   }, [selectedCodes]);
 
+  // 自动滚动到底部
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
   return (
     <div className="fixed right-4 bottom-20 z-50 hidden md:flex flex-col gap-5 items-end">
       {isOpen && (
@@ -229,6 +235,7 @@ ${acc}`;
                 </div>}
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
           <form
             className="border-t border-black p-4"
