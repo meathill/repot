@@ -3,7 +3,7 @@ import { fetchFromStrapi } from '@/services';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const user = await getUserMeLoader();
   const token = env.STRAPI_STAR_TOKEN;
   const { message } = (await req.json()) as {

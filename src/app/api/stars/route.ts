@@ -23,7 +23,7 @@ function keyByDocumentId(items: BaseStrapiRecord[], key: ItemType) {
 }
 
 export async function GET() {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const user = await getUserMeLoader();
   if (!user.ok) {
     return new Response(
@@ -68,7 +68,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const user = await getUserMeLoader();
   if (!user.ok) {
     return new Response(

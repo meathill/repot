@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function GET() {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const cookieObj = await cookies();
   cookieObj.set('jwt', '', {
     maxAge: 0,

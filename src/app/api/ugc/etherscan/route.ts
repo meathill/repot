@@ -3,7 +3,7 @@ import { EtherscanData } from '@/types';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const token = env.STRAPI_DOCUMENT_TOKEN;
   const { address } = (await req.json()) as {
     address: string,

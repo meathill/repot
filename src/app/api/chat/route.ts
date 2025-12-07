@@ -2,7 +2,7 @@ import { GoogleGenAI } from '@google/genai';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const ai = new GoogleGenAI({
     apiKey: env.GOOGLE_GENAI_API_KEY,
   });

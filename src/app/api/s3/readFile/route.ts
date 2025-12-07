@@ -1,7 +1,7 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function GET(request: Request) {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const url = new URL(request.url);
   const key = url.searchParams.get('key') || '';
 

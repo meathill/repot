@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function GET(request: Request) {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const headersList = await headers();
   if (headersList.get('authorization') !== `Bearer ${env.CRON_TOKEN}`) {
     return new Response('Unauthorized', { status: 401 });

@@ -222,9 +222,9 @@ ${acc}`;
                     />
                   </div> : <CircleUserIcon size={32} strokeWidth={2} />}
                 {item.role === 'assistant' ? <div
-                  className="text-primary-800 p-4 rounded-lg rounded-tl-none bg-ivory"
+                  className="text-primary-800 p-4 rounded-lg rounded-tl-none bg-ivory max-w-full text-sm prose-sm"
                   dangerouslySetInnerHTML={{ __html: toHtml(item.content) }}
-                /> : <div className="text-primary-800 p-4 rounded-lg rounded-tr-none bg-main-green whitespace-pre-wrap">
+                /> : <div className="text-primary-800 text-xs p-4 rounded-lg rounded-tr-none bg-main-green whitespace-pre-wrap overflow-hidden break-all">
                   {item.content as string}
                 </div>}
               </div>

@@ -3,7 +3,7 @@ import { getUserMeLoader } from '@/services/user-me-loader';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
 export async function POST(req: Request) {
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   const user = await getUserMeLoader();
   if (!user.ok) {
     return new Response(
