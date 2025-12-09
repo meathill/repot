@@ -5,7 +5,7 @@ export function sleep(ms: number) {
 }
 
 export function removeS3Prefix(str: string): string {
-  return str.replace(/^s3:\/\/repot\//, '');
+  return str?.replace(/^s3:\/\/repot\//, '') || '';
 }
 
 export function trimPrefix(str: string, prefix: string): string {

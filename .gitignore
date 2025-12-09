@@ -45,3 +45,4 @@ next-env.d.ts
 
 # data files
 /data
+export_r2_data
